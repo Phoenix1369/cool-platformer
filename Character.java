@@ -13,9 +13,9 @@ class Character {
 	protected Vector vel;
 
 	Character() {
-		Vector acc = new Vector();
-		Vector pos = new Vector();
-		Vector vec = new Vector();
+		this.acc = new Vector();
+		this.pos = new Vector();
+		this.vel = new Vector();
 	}	// end constructor()
 
 	public void advance() {
@@ -23,4 +23,8 @@ class Character {
 
 	public void draw(Graphics g) {
 	}	// end method draw
+
+	public void setAcc(Vector acc) {
+		this.acc = acc;
+	}	// end method setAcc
 }	// end class Character
