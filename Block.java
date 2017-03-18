@@ -13,10 +13,10 @@ class Block {
 	private Rectangle rect;
 
 	Block(int x, int y, int field, int block) {
-		this.rect.setBounds(x, y, SIZE, SIZE);
-		type = new int[2];
-		type[0] = field;
-		type[1] = block;
+		this.rect = new Rectangle(x, y, SIZE, SIZE);
+		this.type = new int[2];
+		this.type[0] = field;
+		this.type[1] = block;
 	}	// end constructor()
 
 	public static int getSize() {
@@ -25,5 +25,5 @@ class Block {
 
 	public void setBlock(int block) {
 		this.type[1] = block;
-	}
-}
+	}	// end method setBlock
+}	// end class Block
