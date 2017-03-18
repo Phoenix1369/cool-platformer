@@ -22,15 +22,20 @@ class Vector {
 	public Vector add(final Vector R) {
 		this.X += R.X;
 		this.Y += R.Y; // Vector Addition: Tip-to-Tail
-		this.theta  = Math.atan2(this.Y, this.X);
+		this.theta = Math.atan2(this.Y, this.X);
 		return this;
 	}	// end method add
 
-	public int getIntX() {
-		return (int)Math.round(X);
-	}	// end method getIntX
+	public double getX() {
+		return this.X;
+	}	// end method getX
 
-	public int getIntY() {
-		return (int)Math.round(Y);
-	}	// end method getIntY
+	public double getY() {
+		return this.Y;
+	}	// end method getY
+
+	public void setY(double Y) {
+		this.Y = Y;
+		this.theta = Math.atan2(this.Y, this.X);
+	}	// end method setY
 }	// end class Vector
