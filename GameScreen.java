@@ -4,7 +4,7 @@
 * code: ICS4U1
 * note: Main Game Screen
 *******/
-import java.awt.*;
+import java.awt.Dimension;
 import java.awt.event.*;
 
 import javax.swing.*;
@@ -17,8 +17,8 @@ class GameScreen extends JPanel implements ActionListener, Runnable {
 	private static Thread gameScreen;
 	private static Timer timer;
 
-	GameScreen() {
-		blocks = new Block[getHeight() / Block.getSize()][getWidth() / Block.getSize()];
+	GameScreen(Dimension dim) {
+		blocks = new Block[dim.height / Block.getSize()][dim.width / Block.getSize()];
 		for(int i = 0; i < blocks.length; ++i)
 			for(int j = 0; j < blocks[i].length; ++j) // Default Tiling
 				blocks[i][j] = new Block(j * Block.getSize(), i * Block.getSize(), 0, 0);
@@ -27,6 +27,13 @@ class GameScreen extends JPanel implements ActionListener, Runnable {
 
 	public void init() {
 		gameScreen = new Thread(this);
+
+		// Hardcode for Demo
+		for(int j = 20; j < blocks[18].length; ++j)
+			blocks[18][j].setBlock(1);
+		for(int j = 0; j < blocks[29].length; ++j)
+			blocks[29][j].setBlock(1);
+
 		gameScreen.start();
 	}	// end method init
 
@@ -39,4 +46,4 @@ class GameScreen extends JPanel implements ActionListener, Runnable {
 	public void run() {
 		timer.start();
 	}	// end method run
-}
+}	// end class GameScreen
