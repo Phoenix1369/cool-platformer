@@ -8,6 +8,9 @@ import java.awt.*;
 
 class Character {
 	protected static Graphics2D g2D;
+	protected static int[] posInt = new int[2];
+
+	protected Rectangle area;
 	protected Vector acc;
 	protected Vector pos;
 	protected Vector vel;
@@ -16,6 +19,7 @@ class Character {
 		this.acc = new Vector();
 		this.pos = new Vector();
 		this.vel = new Vector();
+		this.area= new Rectangle((int)Math.round(pos.getX()), (int)Math.round(pos.getY()), Block.getSize(), Block.getSize());
 	}	// end constructor()
 
 	public void advance() {
