@@ -10,10 +10,16 @@ import java.awt.event.*;
 import javax.swing.*;
 
 class GameScreen extends JPanel implements ActionListener, Runnable {
-	private static final int FPS = 30;
-	private static final int delay = 1000 / FPS;
+	public static final int FPS = 30;
+	public static final int delay = 1000 / FPS;
+	private static final int WIFW = JComponent.WHEN_IN_FOCUSED_WINDOW;
+
+	private static final String JUMP = "p.jump";
+	private static final String MOVE_LEFT = "p.m_left";
+	private static final String MOVE_RIGHT = "p.m_right";
 
 	private static Block[][] blocks;
+	private static Player mainChar;
 	private static Thread gameScreen;
 	private static Timer timer;
 
@@ -22,25 +28,42 @@ class GameScreen extends JPanel implements ActionListener, Runnable {
 		for(int i = 0; i < blocks.length; ++i)
 			for(int j = 0; j < blocks[i].length; ++j) // Default Tiling
 				blocks[i][j] = new Block(j * Block.getSize(), i * Block.getSize(), 0, 0);
+		mainChar = new Player();
+
+		// Key Bindings
+		this.getInputMap(WIFW).put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0, false), JUMP);
+		this.getActionMap().put(JUMP, new AccelerateAction(0.0, -120.0 / FPS, true));
+		this.getInputMap(WIFW).put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0, false), MOVE_LEFT);
+		this.getActionMap().put(MOVE_LEFT, new AccelerateAction(-60.0 / FPS, 0.0));
+		this.getInputMap(WIFW).put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0, false), MOVE_RIGHT);
+		this.getActionMap().put(MOVE_RIGHT, new AccelerateAction(+60.0 / FPS, 0.0));
+
 		timer = new Timer(delay, this);
 	}	// end constructor()
 
 	public void init() {
 		gameScreen = new Thread(this);
 
-		// Hardcode for Demo
-		for(int j = 20; j < blocks[18].length; ++j)
+		// Hardcode for Demo [should Load Level here]
+		for(int j = 15; j >= 0; --j)
 			blocks[18][j].setBlock(1);
 		for(int j = 0; j < blocks[29].length; ++j)
 			blocks[29][j].setBlock(1);
+		// Hardcode Default Acceleration
+		mainChar.setAcc(new Vector(0.0, 9.8 / FPS));
 
 		gameScreen.start();
 	}	// end method init
 
 	@Override // Interface: ActionListener
 	public void actionPerformed(ActionEvent ae) {
+		mainChar.advance();
 		this.repaint();
 	}	// end method actionPerformed
+
+	public static Block getBlocks(int y, int x) {
+		return blocks[y][x];
+	}	// end method getBlocks
 
 	@Override // Superclass: JPanel
 	public void paintComponent(Graphics g) {
@@ -53,10 +76,37 @@ class GameScreen extends JPanel implements ActionListener, Runnable {
 		for(int i = 0; i < blocks.length; ++i)
 			for(int j = 0; j < blocks[i].length; ++j)
 				blocks[i][j].draw(g);
+
+		// Draws Main Character
+		mainChar.draw(g);
 	}	// end method paintComponent
 
 	@Override // Interface: Runnable
 	public void run() {
 		timer.start();
 	}	// end method run
+
+	class AccelerateAction extends AbstractAction {
+		private Vector val;
+		private boolean velocity;
+
+		AccelerateAction(double X, double Y) {
+			this(X, Y, false);
+		}	// end constructor(double, double)
+
+		AccelerateAction(double X, double Y, boolean velocity) {
+			this.val = new Vector(X, Y);
+			this.velocity = velocity;
+		}	// end constructor(double, double, boolean)
+
+		@Override // Superclass: AbstractAction
+		public void actionPerformed(ActionEvent ae) {
+			if(velocity) {
+				if(Math.abs(mainChar.getVel().getY()) < 1E-6)
+					mainChar.accl(this.val);
+			}
+			else
+				mainChar.move(this.val);
+		}	// end method ActionPerformed
+	}	// end class AccelerateAction
 }	// end class GameScreen
