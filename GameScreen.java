@@ -4,7 +4,7 @@
 * code: ICS4U1
 * note: Main Game Screen
 *******/
-import java.awt.Dimension;
+import java.awt.*;
 import java.awt.event.*;
 
 import javax.swing.*;
@@ -41,6 +41,19 @@ class GameScreen extends JPanel implements ActionListener, Runnable {
 	public void actionPerformed(ActionEvent ae) {
 		this.repaint();
 	}	// end method actionPerformed
+
+	@Override // Superclass: JPanel
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+
+		// Clears JPanel
+		g.clearRect(0, 0, getWidth(), getHeight());
+
+		// Draws Blocks
+		for(int i = 0; i < blocks.length; ++i)
+			for(int j = 0; j < blocks[i].length; ++j)
+				blocks[i][j].draw(g);
+	}	// end method paintComponent
 
 	@Override // Interface: Runnable
 	public void run() {
