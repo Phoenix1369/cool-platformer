@@ -21,7 +21,7 @@ class Player extends Character {
 			posInt[0] = (int)Math.round(pos.getX() + Block.getSize() / 2) / Block.getSize();
 			posInt[1] = (int)Math.round(pos.getY() + Block.getSize() / 2) / Block.getSize() + 1;
 			if(GameScreen.getBlocks(posInt[1], posInt[0]).getBlock() == 1)
-				this.vel.zeroY(); // Block below is Solid Earth
+				this.vel.setY(0.0); // Block below is Solid Earth
 		}	// end if
 		this.pos.add(this.vel);
 	}	// end method advance
