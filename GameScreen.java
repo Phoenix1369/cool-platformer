@@ -117,4 +117,20 @@ class GameScreen extends JPanel implements ActionListener, Runnable {
 				mainChar.move(this.val);
 		}	// end method ActionPerformed
 	}	// end class AccelerateAction
+	
+	class SetKeyAction extends AbstractAction {
+		private int indexToSet;
+		private boolean pressedDown;
+		
+		SetKeyAction(int indexToSet, boolean pressedDown)
+		{
+			this.indexToSet = indexToSet;
+			this.pressedDown = pressedDown;
+		}	// end constructor(int, double)
+		
+		@Override // Superclass: AbstractAction
+		public void actionPerformed(ActionEvent ae) {
+			mainChar.setKey(indexToSet, pressedDown);
+		}	// end method ActionPerformed
+	}	// end class SetKeyAction
 }	// end class GameScreen

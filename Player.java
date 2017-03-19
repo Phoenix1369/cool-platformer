@@ -9,6 +9,8 @@ import java.awt.event.*;
 
 class Player extends Character {
 
+	private boolean[] keysPressed = new boolean[4]; //whether directional keys are pressed or not: [up][down][left][right]
+
 	Player() {
 		super();
 	}	// end constructor()
@@ -45,4 +47,9 @@ class Player extends Character {
 	public void move(final Vector disp) {
 		this.pos.add(disp);
 	}	// end method move
+	
+	public void setKey(int indexToSet, boolean pressedDown)
+	{
+		keysPressed[indexToSet] = pressedDown;
+	}	// end method setKey
 }	// end class
