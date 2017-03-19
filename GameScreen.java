@@ -34,17 +34,31 @@ class GameScreen extends JPanel implements ActionListener, Runnable {
 		mainChar = new Player();
 
 		// Key Bindings
+		/*
 		this.getInputMap(WIFW).put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0, false), JUMP);
 		this.getActionMap().put(JUMP, new AccelerateAction(0.0, -120.0 / FPS, true));
 		this.getInputMap(WIFW).put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0, false), MOVE_LEFT);
 		this.getActionMap().put(MOVE_LEFT, new AccelerateAction(-60.0 / FPS, 0.0));
 		this.getInputMap(WIFW).put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0, false), MOVE_RIGHT);
-		this.getActionMap().put(MOVE_RIGHT, new AccelerateAction(+60.0 / FPS, 0.0));
+		this.getActionMap().put(MOVE_RIGHT, new AccelerateAction(+60.0 / FPS, 0.0)); 
+		*/
 		
-		//Key Bindings (on release)
+		// Key Bindings ver.2 (on release)
+		this.getInputMap(WIFW).put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0, false), JUMP);
+		this.getActionMap().put(JUMP, new SetKeyAction(0, true));
 		this.getInputMap(WIFW).put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0, true), JUMP_R);
+		this.getActionMap().put(JUMP_R, new SetKeyAction(0, false));
+		
+		this.getInputMap(WIFW).put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0, false), MOVE_LEFT);
+		this.getActionMap().put(MOVE_LEFT, new SetKeyAction(2, true));
 		this.getInputMap(WIFW).put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0, true), MOVE_LEFT_R);
+		this.getActionMap().put(MOVE_LEFT_R, new SetKeyAction(2, false));
+		
+		this.getInputMap(WIFW).put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0, false), MOVE_RIGHT);
+		this.getActionMap().put(MOVE_RIGHT, new SetKeyAction(3, true));
 		this.getInputMap(WIFW).put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0, true), MOVE_RIGHT_R);
+		this.getActionMap().put(MOVE_RIGHT_R, new SetKeyAction(3, false));
+
 
 		timer = new Timer(delay, this);
 	}	// end constructor()
