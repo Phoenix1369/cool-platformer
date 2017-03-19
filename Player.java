@@ -8,17 +8,18 @@ import java.awt.*;
 import java.awt.event.*;
 
 class Player extends Character {
-
 	private boolean[] keysPressed = new boolean[4]; //whether directional keys are pressed or not: [up][down][left][right]
-
+	private final double J_SPD = 120.0 / GameScreen.FPS;
+	private final double M_SPD = 60.0 / GameScreen.FPS;
+	
 	Player() {
 		super();
 	}	// end constructor()
 
 	@Override // Superclass: Character
 	public void advance() {
+		updateVectors();
 		this.vel.add(this.acc);
-
 		if(vel.getY() > 0.0) { // Only Checks "Below" the Player for Solid Earth
 			posInt[0] = (int)Math.round(pos.getX() + Block.getSize() / 2) / Block.getSize();
 			posInt[1] = (int)Math.round(pos.getY() + Block.getSize() / 2) / Block.getSize() + 1;
@@ -52,4 +53,16 @@ class Player extends Character {
 	{
 		keysPressed[indexToSet] = pressedDown;
 	}	// end method setKey
+	
+	public void updateVectors() //move based on the keys currently being pressed
+	{
+		if(keysPressed[0])
+			if(Math.abs(vel.getY()) < 1E-6)
+				accl(new Vector(0.0, -1 * J_SPD));
+		//currently no actions for pressing down (this method will have to take into account fields later)
+		if(keysPressed[2])
+			move(new Vector(-1 * M_SPD, 0.0));
+		if(keysPressed[3])
+			move(new Vector(+1 * M_SPD, 0.0));
+	}	// end method updateVectors
 }	// end class

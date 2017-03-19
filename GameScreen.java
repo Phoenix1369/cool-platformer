@@ -108,7 +108,7 @@ class GameScreen extends JPanel implements ActionListener, Runnable {
 		timer.start();
 	}	// end method run
 
-	class AccelerateAction extends AbstractAction {
+	/*class AccelerateAction extends AbstractAction {
 		private Vector val;
 		private boolean velocity;
 
@@ -131,6 +131,7 @@ class GameScreen extends JPanel implements ActionListener, Runnable {
 				mainChar.move(this.val);
 		}	// end method ActionPerformed
 	}	// end class AccelerateAction
+	*/
 	
 	class SetKeyAction extends AbstractAction {
 		private int indexToSet;
