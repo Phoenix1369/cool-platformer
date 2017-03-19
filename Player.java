@@ -9,8 +9,8 @@ import java.awt.event.*;
 
 class Player extends Character {
 	private boolean[] keysPressed = new boolean[4]; //whether directional keys are pressed or not: [up][down][left][right]
-	private final double J_SPD = 120.0 / GameScreen.FPS;
-	private final double M_SPD = 60.0 / GameScreen.FPS;
+	private final double J_SPD = 240.0 / GameScreen.FPS;
+	private final double M_SPD = 120.0 / GameScreen.FPS;
 	
 	Player() {
 		super();
