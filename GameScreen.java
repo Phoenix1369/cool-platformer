@@ -17,6 +17,9 @@ class GameScreen extends JPanel implements ActionListener, Runnable {
 	private static final String JUMP = "p.jump";
 	private static final String MOVE_LEFT = "p.m_left";
 	private static final String MOVE_RIGHT = "p.m_right";
+	private static final String JUMP_R = "r.jump";
+	private static final String MOVE_LEFT_R = "r.m_left";
+	private static final String MOVE_RIGHT_R = "r.m_right";
 
 	private static Block[][] blocks;
 	private static Player mainChar;
@@ -37,6 +40,11 @@ class GameScreen extends JPanel implements ActionListener, Runnable {
 		this.getActionMap().put(MOVE_LEFT, new AccelerateAction(-60.0 / FPS, 0.0));
 		this.getInputMap(WIFW).put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0, false), MOVE_RIGHT);
 		this.getActionMap().put(MOVE_RIGHT, new AccelerateAction(+60.0 / FPS, 0.0));
+		
+		//Key Bindings (on release)
+		this.getInputMap(WIFW).put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0, true), JUMP_R);
+		this.getInputMap(WIFW).put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0, true), MOVE_LEFT_R);
+		this.getInputMap(WIFW).put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0, true), MOVE_RIGHT_R);
 
 		timer = new Timer(delay, this);
 	}	// end constructor()
