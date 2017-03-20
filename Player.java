@@ -8,15 +8,19 @@ import java.awt.*;
 import java.awt.event.*;
 
 class Player extends Character {
-
+	private boolean[] keysPressed = new boolean[4]; //whether directional keys are pressed or not: [up][down][left][right]
+	private final double J_SPD = 240.0 / GameScreen.FPS;
+	private final double J_SPD_MIN = 120.0 / GameScreen.FPS;
+	private final double M_SPD = 120.0 / GameScreen.FPS;
+	
 	Player() {
 		super();
 	}	// end constructor()
 
 	@Override // Superclass: Character
 	public void advance() {
+		updateVectors();
 		this.vel.add(this.acc);
-
 		if(vel.getY() > 0.0) { // Only Checks "Below" the Player for Solid Earth
 			posInt[0] = (int)Math.round(pos.getX() + Block.getSize() / 2) / Block.getSize();
 			posInt[1] = (int)Math.round(pos.getY() + Block.getSize() / 2) / Block.getSize() + 1;
@@ -45,4 +49,28 @@ class Player extends Character {
 	public void move(final Vector disp) {
 		this.pos.add(disp);
 	}	// end method move
+	
+	public void setKey(int indexToSet, boolean pressedDown)
+	{
+		keysPressed[indexToSet] = pressedDown;
+	}	// end method setKey
+	
+	public void updateVectors() //move based on the keys currently being pressed
+	{
+		if(keysPressed[0])
+		{
+			if(Math.abs(vel.getY()) < 1E-6) //if the player is on the ground
+				accl(new Vector(0.0, -1 * J_SPD));
+		}
+		else if(!keysPressed[0]) //"cut" the jump if the button is released early
+		{
+			if(vel.getY() < -1 * J_SPD_MIN)
+				vel.setY(-1 * J_SPD_MIN);
+		}
+		//currently no actions for pressing down (this method will have to take into account fields later)
+		if(keysPressed[2])
+			move(new Vector(-1 * M_SPD, 0.0));
+		if(keysPressed[3])
+			move(new Vector(+1 * M_SPD, 0.0));
+	}	// end method updateVectors
 }	// end class
