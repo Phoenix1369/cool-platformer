@@ -9,8 +9,9 @@ import java.awt.event.*;
 
 class Player extends Entity {
 	private boolean[] keysPressed = new boolean[4]; //whether directional keys are pressed or not: [up][down][left][right]
-	private final double J_SPD = 240.0 / GameScreen.FPS;
-	private final double J_SPD_MIN = 120.0 / GameScreen.FPS;
+	private final double GRAVITY = 30.0 / GameScreen.FPS;
+	private final double J_SPD = 480.0 / GameScreen.FPS;
+	private final double J_SPD_MIN = 240.0 / GameScreen.FPS;
 	private final double M_SPD = 120.0 / GameScreen.FPS;
 	private final int bSize = Block.getSize();
 	private Vector2 tl = new Vector2();
@@ -19,6 +20,7 @@ class Player extends Entity {
 	
 	Player() {
 		super();
+		this.acc = new Vector2(0.0, GRAVITY);
 	}	// end constructor()
 
 	@Override // Superclass: Entity
