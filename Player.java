@@ -15,6 +15,7 @@ class Player extends Entity {
 	private final int bSize = Block.getSize();
 	private Vector2 tl = new Vector2();
 	private Vector2 br = new Vector2();
+	private boolean[] boundsFlags = new boolean[4]; //whether ground is detected in a direction [up][down][left][right]
 	
 	Player() {
 		super();
@@ -69,10 +70,40 @@ class Player extends Entity {
 	
 	public void updateBounds()
 	{
+		for(int i = 0; i < boundsFlags.length; i++)
+			boundsFlags[i] = false;
 		tl.X = bSize * Math.floor(pos.X / bSize);
 		tl.Y = bSize * Math.floor(pos.Y / bSize);
 		br.X = bSize * Math.ceil((pos.X + bSize) / bSize);
 		br.Y = bSize * Math.ceil((pos.Y + bSize) / bSize);
+		for(int i = (int)(tl.X/bSize); i < (int)(br.X/bSize); i++)
+		{
+			if(i >= 0 && i <= 39 && (int)tl.Y/bSize >= 1 && (int)br.Y/bSize <= 29) // bounds hard coded
+			{
+				if(GameScreen.getBlocks((int)tl.Y/bSize-1, i).getBlock() == 1)
+					boundsFlags[0] = true;
+				if(GameScreen.getBlocks((int)br.Y/bSize, i).getBlock() == 1)
+					boundsFlags[1] = true;
+			}
+		}
+		for(int i = (int)(tl.Y/bSize); i < (int)(br.Y/bSize); i++)
+		{
+			if(i >= 0 && i <= 29 && (int)tl.X/bSize >= 1 && (int)br.X/bSize <= 39) // bounds hard coded
+			{
+				if(GameScreen.getBlocks(i, (int)tl.X/bSize-1).getBlock() == 1)
+					boundsFlags[2] = true;
+				if(GameScreen.getBlocks(i, (int)br.X/bSize).getBlock() == 1)
+					boundsFlags[3] = true;
+			}
+		}
+		if(!boundsFlags[0])
+			tl.Y = tl.Y - bSize;
+		if(!boundsFlags[1])
+			br.Y = br.Y + bSize;
+		if(!boundsFlags[2])
+			tl.X = tl.X - bSize;
+		if(!boundsFlags[3])
+			br.X = br.X + bSize;
 	}
 	
 	public void updateVectors() //move based on the keys currently being pressed
