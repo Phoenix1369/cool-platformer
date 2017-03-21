@@ -6,8 +6,8 @@
 *******/
 class Vector2 {
 	private double theta;
-	private double X;
-	private double Y;
+	public double X;
+	public double Y;
 
 	Vector2() {
 		this(0, 0);
@@ -26,16 +26,8 @@ class Vector2 {
 		return this;
 	}	// end method add
 
-	public double getX() {
-		return this.X;
-	}	// end method getX
-
-	public double getY() {
-		return this.Y;
-	}	// end method getY
-
-	public void setY(double Y) {
-		this.Y = Y;
+	public double getTheta() {
 		this.theta = Math.atan2(this.Y, this.X);
-	}	// end method setY
+		return this.theta;
+	}	// end method getTheta
 }	// end class Vector

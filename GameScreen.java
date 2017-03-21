@@ -124,7 +124,7 @@ class GameScreen extends JPanel implements ActionListener, Runnable {
 		@Override // Superclass: AbstractAction
 		public void actionPerformed(ActionEvent ae) {
 			if(velocity) {
-				if(Math.abs(mainChar.getVel().getY()) < 1E-6)
+				if(Math.abs(mainChar.getVel().Y) < 1E-6)
 					mainChar.accl(this.val);
 			}
 			else

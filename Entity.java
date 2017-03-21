@@ -19,7 +19,7 @@ class Entity {
 		this.acc = new Vector2();
 		this.pos = new Vector2();
 		this.vel = new Vector2();
-		this.area= new Rectangle((int)Math.round(pos.getX()), (int)Math.round(pos.getY()), Block.getSize(), Block.getSize());
+		this.area= new Rectangle((int)Math.round(pos.X), (int)Math.round(pos.Y), Block.getSize(), Block.getSize());
 	}	// end constructor()
 
 	public void advance() {
