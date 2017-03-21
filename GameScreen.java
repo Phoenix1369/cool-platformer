@@ -32,18 +32,8 @@ class GameScreen extends JPanel implements ActionListener, Runnable {
 			for(int j = 0; j < blocks[i].length; ++j) // Default Tiling
 				blocks[i][j] = new Block(j * Block.getSize(), i * Block.getSize(), 0, 0);
 		mainChar = new Player();
-
-		// Key Bindings
-		/*
-		this.getInputMap(WIFW).put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0, false), JUMP);
-		this.getActionMap().put(JUMP, new AccelerateAction(0.0, -120.0 / FPS, true));
-		this.getInputMap(WIFW).put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0, false), MOVE_LEFT);
-		this.getActionMap().put(MOVE_LEFT, new AccelerateAction(-60.0 / FPS, 0.0));
-		this.getInputMap(WIFW).put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0, false), MOVE_RIGHT);
-		this.getActionMap().put(MOVE_RIGHT, new AccelerateAction(+60.0 / FPS, 0.0)); 
-		*/
 		
-		// Key Bindings ver.2 (on release)
+		// Key Bindings on release
 		this.getInputMap(WIFW).put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0, false), JUMP);
 		this.getActionMap().put(JUMP, new SetKeyAction(0, true));
 		this.getInputMap(WIFW).put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0, true), JUMP_R);
@@ -109,31 +99,6 @@ class GameScreen extends JPanel implements ActionListener, Runnable {
 	public void run() {
 		timer.start();
 	}	// end method run
-
-	/*class AccelerateAction extends AbstractAction {
-		private Vector val;
-		private boolean velocity;
-
-		AccelerateAction(double X, double Y) {
-			this(X, Y, false);
-		}	// end constructor(double, double)
-
-		AccelerateAction(double X, double Y, boolean velocity) {
-			this.val = new Vector(X, Y);
-			this.velocity = velocity;
-		}	// end constructor(double, double, boolean)
-
-		@Override // Superclass: AbstractAction
-		public void actionPerformed(ActionEvent ae) {
-			if(velocity) {
-				if(Math.abs(mainChar.getVel().Y) < 1E-6)
-					mainChar.accl(this.val);
-			}
-			else
-				mainChar.move(this.val);
-		}	// end method ActionPerformed
-	}	// end class AccelerateAction
-	*/
 	
 	class SetKeyAction extends AbstractAction {
 		private int indexToSet;
