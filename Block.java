@@ -6,16 +6,14 @@
 *******/
 import java.awt.*;
 
-class Block {
-	private static final int SIZE = 20;
+class Block extends Rectangle {
+	private static final int LEN = 20;
 	private static Graphics2D g2D;
 
 	private int[] type; // Field / Block type
 
-	private Rectangle area;
-
 	Block(int x, int y, int field, int block) {
-		this.area = new Rectangle(x, y, SIZE, SIZE);
+		super(x, y, LEN, LEN);
 		this.type = new int[2];
 		this.type[0] = field;
 		this.type[1] = block;
@@ -25,15 +23,15 @@ class Block {
 		g2D = (Graphics2D)g;
 		g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		// Blits image of Block type at the Rectangle Area
-		g2D.drawImage(Images.demo[ this.type[1] ], this.area.x, this.area.y, SIZE, SIZE, null);
+		g2D.drawImage(Images.demo[ this.type[1] ], this.x, this.y, this.width, this.height, null);
 	}	// end method draw
 
 	public int getBlock() {
 		return this.type[1];
 	}	// end method getBlock
 
-	public static int getSize() {
-		return SIZE;
+	public static int getLen() {
+		return LEN;
 	}	// end method getSize
 
 	public void setBlock(int block) {
