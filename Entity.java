@@ -20,11 +20,14 @@ class Entity {
 	protected Vector2 pos;
 	protected Vector2 vel;
 
+	protected int posAX, posAY;
+
 	Entity() {
 		this.acc = new Vector2();
 		this.pos = new Vector2();
 		this.vel = new Vector2();
-		this.area= new Rectangle((int)Math.round(pos.X), (int)Math.round(pos.Y), Block.getSize(), Block.getSize());
+		this.area= new Rectangle((int)Math.round(pos.X), (int)Math.round(pos.Y), Block.getLen(), Block.getLen());
+		this.posAX = this.posAY = 0;
 	}	// end constructor()
 
 	public void advance() {
