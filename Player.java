@@ -44,6 +44,7 @@ class Player extends Entity {
 	public void draw(Graphics g) {
 		// Hardcode image for Demo
 		g2D = (Graphics2D)g;
+		g2D.fillRect((int)tl.X, (int)tl.Y, (int)(br.X - tl.X), (int)(br.Y - tl.Y));
 		g2D.drawImage(Images.demo[2], (int)Math.round(pos.X), (int)Math.round(pos.Y), Block.getSize(), Block.getSize(), null);
 	}	// end method draw
 
