@@ -4,22 +4,22 @@
 * code: ICS4U1
 * note: Class to handle Vector manipulation
 *******/
-class Vector {
+class Vector2 {
 	private double theta;
 	private double X;
 	private double Y;
 
-	Vector() {
+	Vector2() {
 		this(0, 0);
 	}	// end constructor()
 
-	Vector(double X, double Y) {
+	Vector2(double X, double Y) {
 		this.X = X;
 		this.Y = Y;
 		this.theta = Math.atan2(this.Y, this.X);
 	}	// end constructor(double, double)
 
-	public Vector add(final Vector R) {
+	public Vector2 add(final Vector2 R) {
 		this.X += R.X;
 		this.Y += R.Y; // Vector Addition: Tip-to-Tail
 		this.theta = Math.atan2(this.Y, this.X);

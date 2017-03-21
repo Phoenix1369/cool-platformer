@@ -72,7 +72,7 @@ class GameScreen extends JPanel implements ActionListener, Runnable {
 		for(int j = 0; j < blocks[29].length; ++j)
 			blocks[29][j].setBlock(1);
 		// Hardcode Default Acceleration
-		mainChar.setAcc(new Vector(0.0, 9.8 / FPS));
+		mainChar.setAcc(new Vector2(0.0, 9.8 / FPS));
 
 		gameScreen.start();
 	}	// end method init

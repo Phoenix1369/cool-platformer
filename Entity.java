@@ -11,14 +11,14 @@ class Entity {
 	protected static int[] posInt = new int[2];
 
 	protected Rectangle area;
-	protected Vector acc;
-	protected Vector pos;
-	protected Vector vel;
+	protected Vector2 acc;
+	protected Vector2 pos;
+	protected Vector2 vel;
 
 	Entity() {
-		this.acc = new Vector();
-		this.pos = new Vector();
-		this.vel = new Vector();
+		this.acc = new Vector2();
+		this.pos = new Vector2();
+		this.vel = new Vector2();
 		this.area= new Rectangle((int)Math.round(pos.getX()), (int)Math.round(pos.getY()), Block.getSize(), Block.getSize());
 	}	// end constructor()
 
@@ -28,7 +28,7 @@ class Entity {
 	public void draw(Graphics g) {
 	}	// end method draw
 
-	public void setAcc(Vector acc) {
+	public void setAcc(Vector2 acc) {
 		this.acc = acc;
 	}	// end method setAcc
 }	// end class Entity

@@ -31,7 +31,7 @@ class Player extends Entity {
 		this.pos.add(this.vel);
 	}	// end method advance
 
-	public void accl(final Vector velo) {
+	public void accl(final Vector2 velo) {
 		this.vel.add(velo);
 	}	// end method accl
 
@@ -42,11 +42,11 @@ class Player extends Entity {
 		g2D.drawImage(Images.demo[2], (int)Math.round(pos.getX()), (int)Math.round(pos.getY()), Block.getSize(), Block.getSize(), null);
 	}	// end method draw
 
-	public final Vector getVel() {
+	public final Vector2 getVel() {
 		return this.vel;
 	}	// end method getVel
 
-	public void move(final Vector disp) {
+	public void move(final Vector2 disp) {
 		this.pos.add(disp);
 	}	// end method move
 	
@@ -60,7 +60,7 @@ class Player extends Entity {
 		if(keysPressed[0])
 		{
 			if(Math.abs(vel.getY()) < 1E-6) //if the player is on the ground
-				accl(new Vector(0.0, -1 * J_SPD));
+				accl(new Vector2(0.0, -1 * J_SPD));
 		}
 		else if(!keysPressed[0]) //"cut" the jump if the button is released early
 		{
@@ -69,8 +69,8 @@ class Player extends Entity {
 		}
 		//currently no actions for pressing down (this method will have to take into account fields later)
 		if(keysPressed[2])
-			move(new Vector(-1 * M_SPD, 0.0));
+			move(new Vector2(-1 * M_SPD, 0.0));
 		if(keysPressed[3])
-			move(new Vector(+1 * M_SPD, 0.0));
+			move(new Vector2(+1 * M_SPD, 0.0));
 	}	// end method updateVectors
 }	// end class
