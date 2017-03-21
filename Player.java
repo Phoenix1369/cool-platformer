@@ -19,7 +19,7 @@ class Player extends Entity {
 	private Vector2 br = new Vector2();
 
 	private boolean[] boundsFlags = new boolean[4]; //whether ground is detected in a direction
-	private boolean[] keysPressed = new boolean[4]; //whether directional keys are pressed
+ 	private boolean[] keysPressed = new boolean[4]; //whether directional keys are pressed
 	
 	Player() {
 		super();
@@ -31,21 +31,20 @@ class Player extends Entity {
 	public void advance() {
 		updateVectors();
 		this.vel.add(this.acc);
-		updateBounds();
 		move(this.vel);
 	}	// end method advance
 
 	public void accl(final Vector2 velo) {
-		this.vel.add(velo);
+		this.vel = velo;
 	}	// end method accl
 
 	public boolean checkBlock(int dir) {
 		switch(dir) {
 		case DOWN:
 			return
-				(GameScreen.getBlocks(getArrDx(pos.Y) + 1, getArrDx(pos.X)).getBlock() == 1) ||
-				(getArrDx(pos.X) != getArrDx(pos.X + Block.getLen() - EPS)) && // Player spans two Blocks
-				(GameScreen.getBlocks(getArrDx(pos.Y) + 1, getArrDx(pos.X) + 1).getBlock() == 1);
+  				(GameScreen.getBlocks(getArrDx(pos.Y) + 1, getArrDx(pos.X)).getBlock() == 1) ||
+ 				(getArrDx(pos.X) != getArrDx(pos.X + Block.getLen() - EPS)) && // Player spans two Blocks
+  				(GameScreen.getBlocks(getArrDx(pos.Y) + 1, getArrDx(pos.X) + 1).getBlock() == 1);
 		}
 		return false;
 	}	// end method checkBlock
@@ -59,7 +58,7 @@ class Player extends Entity {
 	}	// end method draw
 
 	public int getArrDx(double val) { // Index of Block containing pixel (val) of Player in Array
-		return (int)(val / Block.getLen());
+ 		return (int)(val / Block.getLen());
 	}	// end method getArrDx
 
 	public final Vector2 getVel() {
@@ -67,6 +66,7 @@ class Player extends Entity {
 	}	// end method getVel
 
 	public void move(final Vector2 disp) {
+		updateBounds();
 		if(disp.X > 0)
 			disp.X = Math.min(disp.X, br.X - (pos.X + bLen));
 		else
@@ -119,7 +119,7 @@ class Player extends Entity {
 	{
 		if(keysPressed[UP])
 		{	// Jump Query
-			if(checkBlock(DOWN))
+ 			if(checkBlock(DOWN))
 				accl(new Vector2(0.0, -1 * J_SPD));
 		}
 		else if(!keysPressed[0]) //"cut" the jump if the button is released early
