@@ -24,7 +24,7 @@ class Images {
 		temImg = ImageIO.read(new File("include/demo/demotiles.png"));
 		for(int j = 0; j < demo.length; ++j) {
 			// Subimage of Spritesheet (x,y,w,h)
-			temImg2 = temImg.getSubimage(j * Block.getSize(), 0, Block.getSize(), Block.getSize());
+			temImg2 = temImg.getSubimage(j * Block.getLen(), 0, Block.getLen(), Block.getLen());
 			// New Blank Buffered Image
 			demo[j] = new BufferedImage(temImg2.getWidth(), temImg2.getHeight(), BufferedImage.TYPE_INT_ARGB);
 			g2D = demo[j].createGraphics();
