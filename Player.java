@@ -18,8 +18,8 @@ class Player extends Entity {
 	private Vector2 tl = new Vector2();
 	private Vector2 br = new Vector2();
 
-	private boolean[] boundsFlags = new boolean[4]; //whether ground is detected in a direction [up][down][left][right]
-	private boolean[] keysPressed = new boolean[4]; //whether directional keys are pressed or not: [up][down][left][right]
+	private boolean[] boundsFlags = new boolean[4]; //whether ground is detected in a direction
+	private boolean[] keysPressed = new boolean[4]; //whether directional keys are pressed
 	
 	Player() {
 		super();
@@ -39,12 +39,12 @@ class Player extends Entity {
 		this.vel.add(velo);
 	}	// end method accl
 
-	public boolean checkBlock(int dir, boolean next) {
+	public boolean checkBlock(int dir) {
 		switch(dir) {
 		case DOWN:
 			return
-				(GameScreen.getBlocks(getArrDx(pos.Y, next) + 1, getArrDx(pos.X, false)).getBlock() == 1) ||
-				(GameScreen.getBlocks(getArrDx(pos.Y, next) + 1, getArrDx(pos.X,  true)).getBlock() == 1);
+				(GameScreen.getBlocks(getArrDx(pos.Y) + 1, getArrDx(pos.X)).getBlock() == 1) ||
+				(GameScreen.getBlocks(getArrDx(pos.Y) + 1, getArrDx(pos.X) + 1).getBlock() == 1);
 		}
 		return false;
 	}	// end method checkBlock
@@ -57,8 +57,8 @@ class Player extends Entity {
 		g2D.drawImage(Images.demo[2], (int)Math.round(pos.X), (int)Math.round(pos.Y), Block.getLen(), Block.getLen(), null);
 	}	// end method draw
 
-	public int getArrDx(double val, boolean end) { // Returns the Index of the Block within Array
-		return (int)( (val + ((end) ? Block.getLen() : 0)) / Block.getLen() );
+	public int getArrDx(double val) { // Index of Block containing pixel (val) of Player in Array
+		return (int)(val / Block.getLen());
 	}	// end method getArrDx
 
 	public final Vector2 getVel() {
@@ -117,8 +117,8 @@ class Player extends Entity {
 	public void updateVectors() //move based on the keys currently being pressed
 	{
 		if(keysPressed[UP])
-		{	// Player Jumps
-			if(checkBlock(DOWN, false)) // 
+		{	// Jump Query
+			if(checkBlock(DOWN))
 				accl(new Vector2(0.0, -1 * J_SPD));
 		}
 		else if(!keysPressed[0]) //"cut" the jump if the button is released early
