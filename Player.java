@@ -13,6 +13,8 @@ class Player extends Entity {
 	private final double J_SPD_MIN = 120.0 / GameScreen.FPS;
 	private final double M_SPD = 120.0 / GameScreen.FPS;
 	private final int bSize = Block.getSize();
+	private Vector2 tl = new Vector2();
+	private Vector2 br = new Vector2();
 	
 	Player() {
 		super();
@@ -22,6 +24,7 @@ class Player extends Entity {
 	public void advance() {
 		updateVectors();
 		this.vel.add(this.acc);
+		updateBounds();
 		if(vel.Y > 0.0) { // Only Checks "Below" the Player for Solid Earth
 			posInt[0] = (int)Math.round(pos.X + Block.getSize() / 2) / Block.getSize();
 			posInt[1] = (int)Math.round(pos.Y + Block.getSize() / 2) / Block.getSize() + 1;
@@ -55,6 +58,14 @@ class Player extends Entity {
 	{
 		keysPressed[indexToSet] = pressedDown;
 	}	// end method setKey
+	
+	public void updateBounds()
+	{
+		tl.X = bSize * Math.floor(pos.X / bSize);
+		tl.Y = bSize * Math.floor(pos.Y / bSize);
+		br.X = bSize * Math.ceil((pos.X + bSize) / bSize);
+		br.Y = bSize * Math.ceil((pos.Y + bSize) / bSize);
+	}
 	
 	public void updateVectors() //move based on the keys currently being pressed
 	{
