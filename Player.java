@@ -25,6 +25,7 @@ class Player extends Entity {
 		super();
 		this.pos.X = this.pos.Y = bLen*2;
 		this.acc = new Vector2(0.0, GRAVITY);
+		updateAXY();
 	}	// end constructor()
 
 	@Override // Superclass: Entity
@@ -42,9 +43,9 @@ class Player extends Entity {
 		switch(dir) {
 		case DOWN:
 			return
-  				(GameScreen.getBlocks(getArrDx(pos.Y) + 1, getArrDx(pos.X)).getBlock() == 1) ||
- 				(getArrDx(pos.X) != getArrDx(pos.X + Block.getLen() - EPS)) && // Player spans two Blocks
-  				(GameScreen.getBlocks(getArrDx(pos.Y) + 1, getArrDx(pos.X) + 1).getBlock() == 1);
+				(GameScreen.getBlocks(posAY + 1, posAX).getBlock() == 1) ||
+				(posAX != (int)((pos.X + Block.getLen() - EPS) / Block.getLen()) ) && // Player spans two Blocks
+				(GameScreen.getBlocks(posAY + 1, posAX + 1).getBlock() == 1);
 		}
 		return false;
 	}	// end method checkBlock
@@ -56,10 +57,6 @@ class Player extends Entity {
 		g2D.fillRect((int)tl.X, (int)tl.Y, (int)(br.X - tl.X), (int)(br.Y - tl.Y));
 		g2D.drawImage(Images.demo[2], (int)Math.round(pos.X), (int)Math.round(pos.Y), Block.getLen(), Block.getLen(), null);
 	}	// end method draw
-
-	public int getArrDx(double val) { // Index of Block containing pixel (val) of Player in Array
- 		return (int)(val / Block.getLen());
-	}	// end method getArrDx
 
 	public final Vector2 getVel() {
 		return this.vel;
@@ -76,6 +73,7 @@ class Player extends Entity {
 		else
 			disp.Y = Math.max(disp.Y, tl.Y - pos.Y);
 		this.pos.add(disp);
+		updateAXY();
 	}	// end method move
 	
 	public void setKey(int indexToSet, boolean pressedDown)
@@ -113,6 +111,11 @@ class Player extends Entity {
 			tl.X = tl.X - bLen;
 		if(!boundsFlags[3])
 			br.X = br.X + bLen;
+	}	// end method updateBounds
+
+	public void updateAXY() {
+		this.posAX = (int)(pos.X / Block.getLen());
+		this.posAY = (int)(pos.Y / Block.getLen());
 	}
 	
 	public void updateVectors() //move based on the keys currently being pressed
