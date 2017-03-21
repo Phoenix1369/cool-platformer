@@ -43,6 +43,16 @@ class Player extends Entity {
 		this.vel.add(velo);
 	}	// end method accl
 
+	public boolean checkBlock(int dir) {
+		if(dir & 1) {	// Horizontal
+		}
+		else {
+			return
+				(GameScreen.getBlocks(getArrDx(pos.Y, true) + 1, getArrDx(pos.X, false)).getBlock() == 1) ||
+				(GameScreen.getBlocks(getArrDx(pos.Y, true) + 1, getArrDx(pos.X,  true)).getBlock() == 1);
+		}	// end if
+	}	// end method checkBlock
+
 	@Override // Superclass: Entity
 	public void draw(Graphics g) {
 		// Hardcode image for Demo
@@ -50,6 +60,10 @@ class Player extends Entity {
 		g2D.fillRect((int)tl.X, (int)tl.Y, (int)(br.X - tl.X), (int)(br.Y - tl.Y));
 		g2D.drawImage(Images.demo[2], (int)Math.round(pos.X), (int)Math.round(pos.Y), Block.getSize(), Block.getSize(), null);
 	}	// end method draw
+
+	public int getArrDx(int val, boolean end) {
+		return (val + ((end) ? Block.getSize() : 0)) / Block.getSize();
+	}	// end method getArrDx
 
 	public final Vector2 getVel() {
 		return this.vel;
