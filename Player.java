@@ -114,9 +114,9 @@ class Player extends Entity {
 	}	// end method updateBounds
 
 	public void updateAXY() {
-		this.posAX = (int)(pos.X / Block.getLen());
-		this.posAY = (int)(pos.Y / Block.getLen());
-	}
+		this.posAX = (int)(pos.X / bLen);
+		this.posAY = (int)(pos.Y / bLen);
+	}	// end method updateAXY
 	
 	public void updateVectors() //move based on the keys currently being pressed
 	{
