@@ -2,11 +2,11 @@
 * name: Patrick Au, James Long
 * date: March 2017
 * code: ICS4U1
-* note: Generic character class
+* note: Generic entity class
 *******/
 import java.awt.*;
 
-class Character {
+class Entity {
 	protected static Graphics2D g2D;
 	protected static int[] posInt = new int[2];
 
@@ -15,7 +15,7 @@ class Character {
 	protected Vector pos;
 	protected Vector vel;
 
-	Character() {
+	Entity() {
 		this.acc = new Vector();
 		this.pos = new Vector();
 		this.vel = new Vector();
@@ -31,4 +31,4 @@ class Character {
 	public void setAcc(Vector acc) {
 		this.acc = acc;
 	}	// end method setAcc
-}	// end class Character
+}	// end class Entity

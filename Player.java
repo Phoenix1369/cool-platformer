@@ -2,12 +2,12 @@
 * name: Patrick Au, James Long
 * date: March 2017
 * code: ICS4U1
-* note: Playable Character class
+* note: Playable Entity class
 *******/
 import java.awt.*;
 import java.awt.event.*;
 
-class Player extends Character {
+class Player extends Entity {
 	private boolean[] keysPressed = new boolean[4]; //whether directional keys are pressed or not: [up][down][left][right]
 	private final double J_SPD = 240.0 / GameScreen.FPS;
 	private final double J_SPD_MIN = 120.0 / GameScreen.FPS;
@@ -17,7 +17,7 @@ class Player extends Character {
 		super();
 	}	// end constructor()
 
-	@Override // Superclass: Character
+	@Override // Superclass: Entity
 	public void advance() {
 		updateVectors();
 		this.vel.add(this.acc);
@@ -35,7 +35,7 @@ class Player extends Character {
 		this.vel.add(velo);
 	}	// end method accl
 
-	@Override // Superclass: Character
+	@Override // Superclass: Entity
 	public void draw(Graphics g) {
 		// Hardcode image for Demo
 		g2D = (Graphics2D)g;
