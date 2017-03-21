@@ -29,13 +29,8 @@ class Player extends Entity {
 		updateVectors();
 		this.vel.add(this.acc);
 		updateBounds();
-		if(vel.Y > 0.0) { // Only Checks "Below" the Player for Solid Earth
-			posInt[0] = (int)Math.round(pos.X + Block.getSize() / 2) / Block.getSize();
-			posInt[1] = (int)Math.round(pos.Y + Block.getSize() / 2) / Block.getSize() + 1;
-			if(GameScreen.getBlocks(posInt[1], posInt[0]).getBlock() == 1)
-				// Reduce Velocity to Size of Gap between Player and Block to avoid going through the ground
-				this.vel.Y = Math.min(posInt[1] * Block.getSize() - pos.Y - Block.getSize(), vel.Y);
-		}	// end if
+		if(checkBlock(DOWN, true) && (this.vel.Y > 0.0)) // Next Block Down [+1]
+			this.vel.Y = Math.min( (getArrDx(pos.Y, true) + 1) * Block.getSize() - pos.Y - Block.getSize(), vel.Y);
 		move(this.vel);
 	}	// end method advance
 
@@ -122,7 +117,7 @@ class Player extends Entity {
 	{
 		if(keysPressed[0])
 		{
-			if(Math.abs(vel.Y) < 1E-6) //if the player is on the ground
+			if(Math.abs(vel.Y) < 1E-6 && checkBlock(DOWN, false)) //if the player is on the ground
 				accl(new Vector2(0.0, -1 * J_SPD));
 		}
 		else if(!keysPressed[0]) //"cut" the jump if the button is released early
