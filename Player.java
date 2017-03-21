@@ -38,13 +38,13 @@ class Player extends Entity {
 		this.vel.add(velo);
 	}	// end method accl
 
-	public boolean checkBlock(int dir) {
+	public boolean checkBlock(int dir, boolean next) {
 		if(dir & 1) {	// Horizontal
 		}
 		else {
 			return
-				(GameScreen.getBlocks(getArrDx(pos.Y, true) + 1, getArrDx(pos.X, false)).getBlock() == 1) ||
-				(GameScreen.getBlocks(getArrDx(pos.Y, true) + 1, getArrDx(pos.X,  true)).getBlock() == 1);
+				(GameScreen.getBlocks(getArrDx(pos.Y, next) + 1, getArrDx(pos.X, false)).getBlock() == 1) ||
+				(GameScreen.getBlocks(getArrDx(pos.Y, next) + 1, getArrDx(pos.X,  true)).getBlock() == 1);
 		}	// end if
 	}	// end method checkBlock
 
