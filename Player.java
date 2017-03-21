@@ -12,6 +12,7 @@ class Player extends Entity {
 	private final double J_SPD = 240.0 / GameScreen.FPS;
 	private final double J_SPD_MIN = 120.0 / GameScreen.FPS;
 	private final double M_SPD = 120.0 / GameScreen.FPS;
+	private final int bSize = Block.getSize();
 	
 	Player() {
 		super();
