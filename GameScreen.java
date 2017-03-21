@@ -27,10 +27,10 @@ class GameScreen extends JPanel implements ActionListener, Runnable {
 	private static Timer timer;
 
 	GameScreen(Dimension dim) {
-		blocks = new Block[dim.height / Block.getSize()][dim.width / Block.getSize()];
+		blocks = new Block[dim.height / Block.getLen()][dim.width / Block.getLen()];
 		for(int i = 0; i < blocks.length; ++i)
 			for(int j = 0; j < blocks[i].length; ++j) // Default Tiling
-				blocks[i][j] = new Block(j * Block.getSize(), i * Block.getSize(), 0, 0);
+				blocks[i][j] = new Block(j * Block.getLen(), i * Block.getLen(), 0, 0);
 		mainChar = new Player();
 		
 		// Key Bindings on release
