@@ -9,8 +9,8 @@ import java.awt.*;
 class Entity {
 	protected static final int UP = 0;
 	protected static final int RIGHT = 1;
-	protected static final int DOWN  = 2;
-	protected static final int RIGHT = 3;
+	protected static final int DOWN = 2;
+	protected static final int LEFT = 3;
 
 	protected static Graphics2D g2D;
 	protected static int[] posInt = new int[2];
