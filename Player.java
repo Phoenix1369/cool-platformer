@@ -12,7 +12,7 @@ class Player extends Entity {
 	private final double GRAVITY = 30.0 / GameScreen.FPS;
 	private final double J_SPD = 480.0 / GameScreen.FPS;
 	private final double J_SPD_MIN = 240.0 / GameScreen.FPS;
-	private final double M_SPD = 120.0 / GameScreen.FPS;
+	private final double M_SPD = 200.0 / GameScreen.FPS; // Normal: 120.0
 	private final int bLen = Block.getLen();
 
 	private Vector2 tl = new Vector2();
@@ -44,6 +44,7 @@ class Player extends Entity {
 		case DOWN:
 			return
 				(GameScreen.getBlocks(getArrDx(pos.Y) + 1, getArrDx(pos.X)).getBlock() == 1) ||
+				(getArrDx(pos.X) != getArrDx(pos.X + Block.getLen() - EPS)) && // Player spans two Blocks
 				(GameScreen.getBlocks(getArrDx(pos.Y) + 1, getArrDx(pos.X) + 1).getBlock() == 1);
 		}
 		return false;
