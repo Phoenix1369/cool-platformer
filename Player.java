@@ -18,12 +18,12 @@ class Player extends Entity {
 	private Vector2 tl = new Vector2();
 	private Vector2 br = new Vector2();
 
-	private boolean[] boundsFlags = new boolean[4]; //whether ground is detected in a direction
-	private boolean[] keysPressed = new boolean[4]; //whether directional keys are pressed
+	private boolean[] boundsFlags = new boolean[4]; //whether ground is detected in a direction [up][down][left][right]
+	private boolean[] keysPressed = new boolean[4]; //whether directional keys are pressed or not: [up][down][left][right]
 	
 	Player() {
 		super();
-		this.pos.X = this.pos.Y = bLen;
+		this.pos.X = this.pos.Y = bLen*2;
 		this.acc = new Vector2(0.0, GRAVITY);
 	}	// end constructor()
 
@@ -32,8 +32,6 @@ class Player extends Entity {
 		updateVectors();
 		this.vel.add(this.acc);
 		updateBounds();
-		if(checkBlock(DOWN, false) && (this.vel.Y > 0.0)) // Next Block Down [+1]
-			this.vel.Y = Math.min( getArrDx(pos.Y, true) * Block.getLen() - pos.Y, vel.Y);
 		move(this.vel);
 	}	// end method advance
 
@@ -129,9 +127,9 @@ class Player extends Entity {
 				vel.Y = (-1 * J_SPD_MIN);
 		}
 		//currently no actions for pressing down (this method will have to take into account fields later)
-		if(keysPressed[LEFT])
+		if(keysPressed[2])
 			move(new Vector2(-1 * M_SPD, 0.0));
-		if(keysPressed[RIGHT])
+		if(keysPressed[3])
 			move(new Vector2(+1 * M_SPD, 0.0));
 	}	// end method updateVectors
 }	// end class
