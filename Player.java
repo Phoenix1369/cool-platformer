@@ -82,17 +82,17 @@ class Player extends Entity {
 		br.Y = bSize * Math.ceil((pos.Y + bSize) / bSize);
 		for(int i = (int)(tl.X/bSize); i < (int)(br.X/bSize); i++)
 		{
-				if(GameScreen.getBlocks((int)tl.Y/bSize-1, i).getBlock() == 1)
-					boundsFlags[0] = true;
-				if(GameScreen.getBlocks((int)br.Y/bSize, i).getBlock() == 1)
-					boundsFlags[1] = true;
+			if(GameScreen.getBlocks((int)tl.Y/bSize-1, i).getBlock() == 1)
+				boundsFlags[0] = true;
+			if(GameScreen.getBlocks((int)br.Y/bSize, i).getBlock() == 1)
+				boundsFlags[1] = true;
 		}
 		for(int i = (int)(tl.Y/bSize); i < (int)(br.Y/bSize); i++)
 		{
-				if(GameScreen.getBlocks(i, (int)tl.X/bSize-1).getBlock() == 1)
-					boundsFlags[2] = true;
-				if(GameScreen.getBlocks(i, (int)br.X/bSize).getBlock() == 1)
-					boundsFlags[3] = true;
+			if(GameScreen.getBlocks(i, (int)tl.X/bSize-1).getBlock() == 1)
+				boundsFlags[2] = true;
+			if(GameScreen.getBlocks(i, (int)br.X/bSize).getBlock() == 1)
+				boundsFlags[3] = true;
 		}
 		if(!boundsFlags[0])
 			tl.Y = tl.Y - bSize;
