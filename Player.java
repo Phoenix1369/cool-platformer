@@ -32,7 +32,7 @@ class Player extends Entity {
 				// Reduce Velocity to Size of Gap between Player and Block to avoid going through the ground
 				this.vel.Y = Math.min(posInt[1] * Block.getSize() - pos.Y - Block.getSize(), vel.Y);
 		}	// end if
-		this.pos.add(this.vel);
+		move(this.vel);
 	}	// end method advance
 
 	public void accl(final Vector2 velo) {
@@ -51,6 +51,14 @@ class Player extends Entity {
 	}	// end method getVel
 
 	public void move(final Vector2 disp) {
+		if(disp.X > 0)
+			disp.X = Math.min(disp.X, br.X - (pos.X + bSize));
+		else
+			disp.X = Math.max(disp.X, tl.X - pos.X);
+		if(disp.Y > 0)
+			disp.Y = Math.min(disp.Y, br.Y - (pos.Y + bSize));
+		else
+			disp.Y = Math.max(disp.Y, tl.Y - pos.Y);
 		this.pos.add(disp);
 	}	// end method move
 	
