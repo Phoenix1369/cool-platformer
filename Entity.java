@@ -6,7 +6,8 @@
 *******/
 import java.awt.*;
 
-class Entity {
+class Entity 
+{
 	protected static final int UP = 0;
 	protected static final int RIGHT = 1;
 	protected static final int DOWN = 2;
@@ -22,7 +23,8 @@ class Entity {
 
 	protected int posAX, posAY;
 
-	Entity() {
+	Entity() 
+	{
 		this.acc = new Vector2();
 		this.pos = new Vector2();
 		this.vel = new Vector2();
@@ -30,13 +32,16 @@ class Entity {
 		this.posAX = this.posAY = 0;
 	}	// end constructor()
 
-	public void advance() {
+	public void advance() 
+	{
 	}	// end method advance
 
-	public void draw(Graphics g) {
+	public void draw(Graphics g) 
+	{
 	}	// end method draw
 
-	public void setAcc(Vector2 acc) {
+	public void setAcc(Vector2 acc) 
+	{
 		this.acc = acc;
 	}	// end method setAcc
 }	// end class Entity

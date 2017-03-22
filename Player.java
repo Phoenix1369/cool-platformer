@@ -7,7 +7,8 @@
 import java.awt.*;
 import java.awt.event.*;
 
-class Player extends Entity {
+class Player extends Entity 
+{
 	private static final double EPS = 1E-9;
 	private final double GRAVITY = 30.0 / GameScreen.FPS;
 	private final double J_SPD = 480.0 / GameScreen.FPS;
@@ -21,7 +22,8 @@ class Player extends Entity {
 	private boolean[] boundsFlags = new boolean[4]; //whether ground is detected in a direction
  	private boolean[] keysPressed = new boolean[4]; //whether directional keys are pressed
 	
-	Player() {
+	Player() 
+	{
 		super();
 		this.pos.X = this.pos.Y = bLen*2;
 		this.acc = new Vector2(0.0, GRAVITY);
@@ -29,17 +31,20 @@ class Player extends Entity {
 	}	// end constructor()
 
 	@Override // Superclass: Entity
-	public void advance() {
+	public void advance() 
+	{
 		updateVectors();
 		this.vel.add(this.acc);
 		move(this.vel);
 	}	// end method advance
 
-	public void accl(final Vector2 velo) {
+	public void accl(final Vector2 velo) 
+	{
 		this.vel = velo;
 	}	// end method accl
 
-	public boolean checkBlock(int dir) {
+	public boolean checkBlock(int dir) 
+	{
 		switch(dir) {
 		case DOWN:
 			return
@@ -51,18 +56,21 @@ class Player extends Entity {
 	}	// end method checkBlock
 
 	@Override // Superclass: Entity
-	public void draw(Graphics g) {
+	public void draw(Graphics g) 
+	{
 		// Hardcode image for Demo
 		g2D = (Graphics2D)g;
 		g2D.fillRect((int)tl.X, (int)tl.Y, (int)(br.X - tl.X), (int)(br.Y - tl.Y));
 		g2D.drawImage(Images.demo[2], (int)Math.round(pos.X), (int)Math.round(pos.Y), Block.getLen(), Block.getLen(), null);
 	}	// end method draw
 
-	public final Vector2 getVel() {
+	public final Vector2 getVel() 
+	{
 		return this.vel;
 	}	// end method getVel
 
-	public void move(final Vector2 disp) {
+	public void move(final Vector2 disp) 
+	{
 		updateBounds();
 		if(disp.X > 0)
 			disp.X = Math.min(disp.X, br.X - (pos.X + bLen));
@@ -113,7 +121,8 @@ class Player extends Entity {
 			br.X = br.X + bLen;
 	}	// end method updateBounds
 
-	public void updateAXY() {
+	public void updateAXY() 
+	{
 		this.posAX = (int)(pos.X / bLen);
 		this.posAY = (int)(pos.Y / bLen);
 	}	// end method updateAXY

@@ -12,17 +12,20 @@ import java.io.File;
 
 import javax.imageio.*;
 
-class Images {
+class Images 
+{
 	public static BufferedImage[] demo;
 	// Temporary Variables
 	private static BufferedImage temImg, temImg2;
 	private static Graphics2D g2D;
 
-	public static void loadAll() throws IOException {
+	public static void loadAll() throws IOException 
+	{
 		// Loads Demo Images
 		demo = new BufferedImage[3];
 		temImg = ImageIO.read(new File("include/demo/demotiles.png"));
-		for(int j = 0; j < demo.length; ++j) {
+		for(int j = 0; j < demo.length; ++j)
+		{
 			// Subimage of Spritesheet (x,y,w,h)
 			temImg2 = temImg.getSubimage(j * Block.getLen(), 0, Block.getLen(), Block.getLen());
 			// New Blank Buffered Image

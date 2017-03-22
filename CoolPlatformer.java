@@ -8,7 +8,8 @@ import java.awt.*;
 
 import javax.swing.*;
 
-public class CoolPlatformer {
+public class CoolPlatformer 
+{
 	// Offset so JF Dimensions = JP
 	private static final int offX = 6;
 	private static final int offY = 29;
@@ -18,17 +19,20 @@ public class CoolPlatformer {
 	public static JFrame JF;
 	public static JPanel[] menu;
 
-	public CoolPlatformer() {
+	public CoolPlatformer() 
+	{
 		JF = new JFrame("Cool Platformer");
 		JF.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		JF.setLayout(new BorderLayout());
 		JF.setPreferredSize(sizeJF);
 		JF.setResizable(false);
 
-		try {
+		try 
+		{
 			Images.loadAll();
 		}
-		catch(Exception e) {
+		catch(Exception e) 
+		{
 			e.printStackTrace();
 		}	// end catch
 
@@ -43,7 +47,8 @@ public class CoolPlatformer {
 		((GameScreen)menu[0]).init();
 	}	// end constructor()
 
-	public static void main(String[] args) {
+	public static void main(String[] args) 
+	{
 		new CoolPlatformer();
 	}	// end method main
 }	// end class CoolPlatformer
