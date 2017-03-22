@@ -85,25 +85,25 @@ class Player extends Entity {
 	{
 		for(int i = 0; i < boundsFlags.length; i++)
 			boundsFlags[i] = false;
-		tl.X = bLen * Math.floor(pos.X / bLen);
+		tl.X = bLen * Math.floor(pos.X / bLen); //Top Left coordinates of the smallest bounding box for the Player
 		tl.Y = bLen * Math.floor(pos.Y / bLen);
-		br.X = bLen * Math.ceil((pos.X + bLen) / bLen);
+		br.X = bLen * Math.ceil((pos.X + bLen) / bLen); //Bottom Right coordinates of the smallest bounding box for the Player
 		br.Y = bLen * Math.ceil((pos.Y + bLen) / bLen);
-		for(int i = (int)(tl.X/bLen); i < (int)(br.X/bLen); i++)
+		for(int i = (int)(tl.X/bLen); i < (int)(br.X/bLen); i++) //check along the X-axis
 		{
 			if(GameScreen.getBlocks((int)tl.Y/bLen-1, i).getBlock() == 1)
-				boundsFlags[0] = true;
+				boundsFlags[0] = true; //if a collision exists above the bounding box
 			if(GameScreen.getBlocks((int)br.Y/bLen, i).getBlock() == 1)
-				boundsFlags[1] = true;
+				boundsFlags[1] = true; //if a collision exists below the bounding box
 		}
-		for(int i = (int)(tl.Y/bLen); i < (int)(br.Y/bLen); i++)
+		for(int i = (int)(tl.Y/bLen); i < (int)(br.Y/bLen); i++) //check along the Y-axis
 		{
 			if(GameScreen.getBlocks(i, (int)tl.X/bLen-1).getBlock() == 1)
-				boundsFlags[2] = true;
+				boundsFlags[2] = true; //if a collision exists to the left of the bounding box
 			if(GameScreen.getBlocks(i, (int)br.X/bLen).getBlock() == 1)
-				boundsFlags[3] = true;
+				boundsFlags[3] = true; //if a collision exists to the right of the bounding box
 		}
-		if(!boundsFlags[0])
+		if(!boundsFlags[0]) //Expand bounding box out one block if there is no collision detected in that direction
 			tl.Y = tl.Y - bLen;
 		if(!boundsFlags[1])
 			br.Y = br.Y + bLen;
