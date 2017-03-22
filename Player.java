@@ -81,6 +81,8 @@ class Player extends Entity
 		else
 			disp.Y = Math.max(disp.Y, tl.Y - pos.Y);
 		this.pos.add(disp);
+		pos.X = (Math.abs(Math.round(pos.X) - pos.X) < EPS) ? Math.round(pos.X) : pos.X; //Round to avoid floating point calculation errors
+		pos.Y = (Math.abs(Math.round(pos.Y) - pos.Y) < EPS) ? Math.round(pos.Y) : pos.Y;
 		updateAXY();
 	}	// end method move
 	
