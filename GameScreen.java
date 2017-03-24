@@ -120,7 +120,8 @@ class GameScreen extends JPanel implements ActionListener, Runnable
 		}	// end constructor(int, double)
 		
 		@Override // Superclass: AbstractAction
-		public void actionPerformed(ActionEvent ae) {
+		public void actionPerformed(ActionEvent ae)
+		{
 			mainChar.setKey(indexToSet, pressedDown);
 		}	// end method ActionPerformed
 	}	// end class SetKeyAction
