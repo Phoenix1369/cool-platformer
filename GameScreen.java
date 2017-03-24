@@ -9,7 +9,8 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
-class GameScreen extends JPanel implements ActionListener, Runnable {
+class GameScreen extends JPanel implements ActionListener, Runnable
+{
 	public static final int FPS = 30;
 	public static final int delay = 1000 / FPS;
 	private static final int edW = 1; // Edge Width around Screen
@@ -27,7 +28,8 @@ class GameScreen extends JPanel implements ActionListener, Runnable {
 	private static Thread gameScreen;
 	private static Timer timer;
 
-	GameScreen(Dimension dim) {
+	GameScreen(Dimension dim)
+	{
 		blocks = new Block[dim.height / Block.getLen() + edW*2][dim.width / Block.getLen() + edW*2];
 		for(int i = 0; i < blocks.length; ++i)
 			for(int j = 0; j < blocks[i].length; ++j) // Default Tiling
@@ -54,7 +56,8 @@ class GameScreen extends JPanel implements ActionListener, Runnable {
 		timer = new Timer(delay, this);
 	}	// end constructor()
 
-	public void init() {
+	public void init()
+	{
 		gameScreen = new Thread(this);
 
 		// Hardcode for Demo [should Load Level here]
@@ -71,17 +74,20 @@ class GameScreen extends JPanel implements ActionListener, Runnable {
 	}	// end method init
 
 	@Override // Interface: ActionListener
-	public void actionPerformed(ActionEvent ae) {
+	public void actionPerformed(ActionEvent ae)
+	{
 		mainChar.advance();
 		this.repaint();
 	}	// end method actionPerformed
 
-	public static Block getBlocks(int y, int x) {
+	public static Block getBlocks(int y, int x)
+	{
 		return blocks[y][x];
 	}	// end method getBlocks
 
 	@Override // Superclass: JPanel
-	public void paintComponent(Graphics g) {
+	public void paintComponent(Graphics g)
+	{
 		super.paintComponent(g);
 
 		// Clears JPanel
@@ -97,11 +103,13 @@ class GameScreen extends JPanel implements ActionListener, Runnable {
 	}	// end method paintComponent
 
 	@Override // Interface: Runnable
-	public void run() {
+	public void run()
+	{
 		timer.start();
 	}	// end method run
 	
-	class SetKeyAction extends AbstractAction {
+	class SetKeyAction extends AbstractAction
+	{
 		private int indexToSet;
 		private boolean pressedDown;
 		
