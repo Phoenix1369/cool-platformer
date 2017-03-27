@@ -61,14 +61,13 @@ class GameScreen extends JPanel implements ActionListener, Runnable
 		gameScreen = new Thread(this);
 
 		// Hardcode for Demo [should Load Level here]
+		for(int i = 0; i < blocks.length; ++i)
+			blocks[i][0].setBlock(1),
+			blocks[i][blocks[0].length-1].setBlock(1);
 		for(int j = 15; j >= 0; --j)
 			blocks[18][j].setBlock(1);
 		for(int j = 0; j < blocks[29].length; ++j)
 			blocks[29][j].setBlock(1);
-		blocks[27][10].setBlock(1);
-		blocks[27][11].setBlock(1);
-		blocks[26][10].setBlock(1);
-		blocks[25][12].setBlock(1);
 		
 		gameScreen.start();
 	}	// end method init
@@ -82,7 +81,7 @@ class GameScreen extends JPanel implements ActionListener, Runnable
 
 	public static Block getBlocks(int y, int x)
 	{
-		return blocks[y][x];
+		return blocks[y+edW][x+edW];
 	}	// end method getBlocks
 
 	@Override // Superclass: JPanel
