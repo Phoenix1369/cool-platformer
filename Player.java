@@ -48,10 +48,11 @@ class Player extends Entity
 		switch(dir)
 		{
 		case DOWN:
-			return
-				(GameScreen.getBlocks(posAY + 1, posAX).getBlock() == 1) ||
-				(posAX != (int)((pos.X + Block.getLen() - EPS) / Block.getLen()) ) && // Player spans two Blocks
-				(GameScreen.getBlocks(posAY + 1, posAX + 1).getBlock() == 1);
+			return	(GameScreen.getBlocks((int)Math.floor(pos.Y / bLen) + 1, (int)Math.floor(pos.X / bLen)).getBlock() == 1) ||
+				(GameScreen.getBlocks((int)Math.floor(pos.Y / bLen) + 1, (int)Math.ceil (pos.X / bLen + 1.0)).getBlock() == 1);
+		case UP:
+			return	(GameScreen.getBlocks((int)Math.floor(pos.Y / bLen) - 1, (int)Math.floor(pos.X / bLen)).getBlock() == 1) ||
+				(GameScreen.getBlocks((int)Math.floor(pos.Y / bLen) - 1, (int)Math.ceil (pos.X / bLen + 1.0)).getBlock() == 1);
 		}
 		return false;
 	}	// end method checkBlock
@@ -64,6 +65,11 @@ class Player extends Entity
 		g2D.fillRect((int)tl.X, (int)tl.Y, (int)(br.X - tl.X), (int)(br.Y - tl.Y));
 		g2D.drawImage(Images.demo[2], (int)Math.round(pos.X), (int)Math.round(pos.Y), Block.getLen(), Block.getLen(), null);
 	}	// end method draw
+
+	public int getField()
+	{	// Returns the current Field of the Player
+		return GameScreen.getBlocks((int)Math.floor(pos.Y / bLen + 0.5), (int)Math.floor(pos.X / bLen + 0.5)).getField();
+	}	// end method getField
 
 	public final Vector2 getVel() 
 	{
@@ -132,7 +138,7 @@ class Player extends Entity
 
 	public void updateField()
 	{	// For now, only Fields influence Acceleration, so hardcode
-		switch(GameScreen.getBlocks((int)Math.floor(pos.Y / bLen + 0.5), (int)Math.floor(pos.X / bLen + 0.5)).getField())
+		switch(this.getField())
 		{
 		case DOWN: this.acc.X = 0; this.acc.Y = +GRAVITY; break;
 		case   UP: this.acc.X = 0; this.acc.Y = -GRAVITY; break;
@@ -143,18 +149,24 @@ class Player extends Entity
 	{
 		if(keysPressed[UP])
 		{	// Jump Query
- 			if(checkBlock(DOWN))
-				accl(new Vector2(0.0, -1 * J_SPD));
+			if(checkBlock(getField()))
+			{	// Block exists in Field Direction
+				switch(getField())
+				{
+				case DOWN: accl(new Vector2(0.0, -J_SPD)); break;
+				case   UP: accl(new Vector2(0.0, +J_SPD)); break;
+				}
+			}
 		}
-		else if(!keysPressed[0]) //"cut" the jump if the button is released early
+		else if(!keysPressed[UP]) //"cut" the jump if the button is released early
 		{
 			if(vel.Y < -1 * J_SPD_MIN)
 				vel.Y = (-1 * J_SPD_MIN);
 		}
 		//currently no actions for pressing down (this method will have to take into account fields later)
-		if(keysPressed[2])
+		if(keysPressed[LEFT])
 			move(new Vector2(-1 * M_SPD, 0.0));
-		if(keysPressed[3])
+		if(keysPressed[RIGHT])
 			move(new Vector2(+1 * M_SPD, 0.0));
 	}	// end method updateVectors
 }	// end class
