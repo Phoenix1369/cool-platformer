@@ -61,13 +61,14 @@ class GameScreen extends JPanel implements ActionListener, Runnable
 		gameScreen = new Thread(this);
 
 		// Hardcode for Demo [should Load Level here]
-		for(int i = 0; i < blocks.length; ++i)
-			blocks[i][0].setBlock(1),
-			blocks[i][blocks[0].length-1].setBlock(1);
+		for(int i = 0; i < blocks.length; ++i) {
+			blocks[i][0].setBlock(1);
+			blocks[i][blocks[0].length-1].setBlock(1);			
+		}	// Offscreen Left / Right Walls
 		for(int j = 15; j >= 0; --j)
 			blocks[18][j].setBlock(1);
 		for(int j = 0; j < blocks[29].length; ++j)
-			blocks[29][j].setBlock(1);
+			blocks[blocks.length-edW-1][j].setBlock(1);
 		
 		gameScreen.start();
 	}	// end method init
