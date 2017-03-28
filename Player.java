@@ -7,10 +7,10 @@
 import java.awt.*;
 import java.awt.event.*;
 
-class Player extends Entity 
+class Player extends Entity
 {
 	private static final double EPS = 1E-9;
-	private final double GRAVITY = 30.0 / GameScreen.FPS;
+	private final double GRAVITY = 50.0 / GameScreen.FPS; // Before (Floaty): 30
 	private final double J_SPD = 480.0 / GameScreen.FPS;
 	private final double J_SPD_MIN = 240.0 / GameScreen.FPS;
 	private final double M_SPD = 200.0 / GameScreen.FPS; // Normal: 120.0
@@ -26,26 +26,27 @@ class Player extends Entity
 	{
 		super();
 		this.pos.X = this.pos.Y = bLen*2;
-		this.acc = new Vector2(0.0, GRAVITY);
 		updateAXY();
 	}	// end constructor()
 
 	@Override // Superclass: Entity
 	public void advance() 
 	{
+		updateField();
 		updateVectors();
 		this.vel.add(this.acc);
 		move(this.vel);
 	}	// end method advance
 
-	public void accl(final Vector2 velo) 
+	public void accl(final Vector2 vel) 
 	{
-		this.vel = velo;
+		this.vel = vel;
 	}	// end method accl
 
 	public boolean checkBlock(int dir) 
 	{
-		switch(dir) {
+		switch(dir)
+		{
 		case DOWN:
 			return
 				(GameScreen.getBlocks(posAY + 1, posAX).getBlock() == 1) ||
@@ -90,6 +91,12 @@ class Player extends Entity
 	{
 		keysPressed[indexToSet] = pressedDown;
 	}	// end method setKey
+
+	public void updateAXY() 
+	{
+		this.posAX = (int)(pos.X / bLen);
+		this.posAY = (int)(pos.Y / bLen);
+	}	// end method updateAXY
 	
 	public void updateBounds()
 	{
@@ -123,11 +130,14 @@ class Player extends Entity
 			br.X = br.X + bLen;
 	}	// end method updateBounds
 
-	public void updateAXY() 
-	{
-		this.posAX = (int)(pos.X / bLen);
-		this.posAY = (int)(pos.Y / bLen);
-	}	// end method updateAXY
+	public void updateField()
+	{	// For now, only Fields influence Acceleration, so hardcode
+		switch(GameScreen.getBlocks((int)Math.floor(pos.Y / bLen + 0.5), (int)Math.floor(pos.X / bLen + 0.5)).getField())
+		{
+		case DOWN: this.acc.X = 0; this.acc.Y = +GRAVITY; break;
+		case   UP: this.acc.X = 0; this.acc.Y = -GRAVITY; break;
+		}
+	}	// end method updateField
 	
 	public void updateVectors() //move based on the keys currently being pressed
 	{
