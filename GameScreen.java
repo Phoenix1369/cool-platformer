@@ -98,7 +98,9 @@ class GameScreen extends JPanel implements ActionListener, Runnable
 		for(int i = 16; i <= 23; ++i)
 			for(int j = 16; j <= 24; ++j)
 				blocks[i][j].setField(Entity.UP);
-		
+		for(int i = 23; i <= 26; ++i)
+			for(int j = 21; j <= 24; ++j)
+				blocks[i][j].setField(Entity.UP);
 		gameScreen.start();
 	}	// end method init
 
