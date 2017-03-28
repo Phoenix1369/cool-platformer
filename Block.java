@@ -6,7 +6,7 @@
 *******/
 import java.awt.*;
 
-class Block extends Rectangle 
+class Block extends Rectangle
 {
 	private static final int LEN = 20;
 	private static Graphics2D g2D;
@@ -26,13 +26,21 @@ class Block extends Rectangle
 		g2D = (Graphics2D)g;
 		g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		// Blits image of Block type at the Rectangle Area
-		g2D.drawImage(Images.demo[ this.type[1] ], this.x, this.y, this.width, this.height, null);
+		if(type[0] == Entity.DOWN)
+			g2D.drawImage(Images.demo[ this.type[1] ], this.x, this.y, this.width, this.height, null);
+		else if(type[0] == Entity.UP)
+			g2D.drawImage(Images.tint[this.type[0]],this.x, this.y, this.width, this.height, null);
 	}	// end method draw
 
 	public int getBlock() 
 	{
 		return this.type[1];
 	}	// end method getBlock
+
+	public int getField()
+	{
+		return this.type[0];
+	}	// end method getField
 
 	public static int getLen() 
 	{
@@ -43,4 +51,9 @@ class Block extends Rectangle
 	{
 		this.type[1] = block;
 	}	// end method setBlock
+
+	public void setField(int field)
+	{
+		this.type[0] = field;
+	}	// end method setField
 }	// end class Block
