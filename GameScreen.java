@@ -65,10 +65,25 @@ class GameScreen extends JPanel implements ActionListener, Runnable
 			blocks[i][0].setBlock(1);
 			blocks[i][blocks[0].length-1].setBlock(1);			
 		}	// Offscreen Left / Right Walls
+		// Custom Blocks Arranged in Ascending Y-Axis
+		// "L"
+		for(int i = 6; i <= 8; ++i)
+			blocks[i][27].setBlock(1);
+		blocks[9][26].setBlock(1);
+		// Upper RP
+		blocks[11][28].setBlock(1);
+		blocks[12][28].setBlock(1);
+		for(int j = 28; j < blocks[0].length; ++j)
+			blocks[13][j].setBlock(1);		
+		// First LP
 		for(int j = 0; j <= 15; ++j)
 			blocks[18][j].setBlock(1);
+		// Lower RP
 		for(int j = 25; j < blocks[0].length; ++j)
 			blocks[25][j].setBlock(1);
+		// Lone Pair [e-]
+		blocks[27][10].setBlock(1);
+		blocks[27][11].setBlock(1);
 		// Stairs
 		for(int i=22, j=34; j >= 25; --j)
 		{
