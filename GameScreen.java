@@ -33,7 +33,7 @@ class GameScreen extends JPanel implements ActionListener, Runnable
 		blocks = new Block[dim.height / Block.getLen() + edW*2][dim.width / Block.getLen() + edW*2];
 		for(int i = 0; i < blocks.length; ++i)
 			for(int j = 0; j < blocks[i].length; ++j) // Default Tiling
-				blocks[i][j] = new Block((j-edW) * Block.getLen(), (i-edW) * Block.getLen(), 0, 0);
+				blocks[i][j] = new Block((j-edW) * Block.getLen(), (i-edW) * Block.getLen(), Entity.DOWN, 0);
 		mainChar = new Player();
 		
 		// Key Bindings on release
@@ -65,10 +65,24 @@ class GameScreen extends JPanel implements ActionListener, Runnable
 			blocks[i][0].setBlock(1);
 			blocks[i][blocks[0].length-1].setBlock(1);			
 		}	// Offscreen Left / Right Walls
-		for(int j = 15; j >= 0; --j)
+		for(int j = 0; j <= 15; ++j)
 			blocks[18][j].setBlock(1);
-		for(int j = 0; j < blocks[29].length; ++j)
+		for(int j = 25; j < blocks[0].length; ++j)
+			blocks[25][j].setBlock(1);
+		// Stairs
+		for(int i=22, j=34; j >= 25; --j)
+		{
+			blocks[i][j].setBlock(1);
+			if((j & 1) == 1) --i;
+		}
+		// Floor
+		for(int j = 0; j < blocks[0].length; ++j)
 			blocks[blocks.length-edW-1][j].setBlock(1);
+
+		// Field Rectangles
+		for(int i = 16; i <= 23; ++i)
+			for(int j = 16; j <= 24; ++j)
+				blocks[i][j].setField(Entity.UP);
 		
 		gameScreen.start();
 	}	// end method init
