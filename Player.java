@@ -26,7 +26,6 @@ class Player extends Entity
 	{
 		super();
 		this.pos.X = this.pos.Y = bLen*2;
-		updateAXY();
 	}	// end constructor()
 
 	@Override // Superclass: Entity
@@ -44,15 +43,15 @@ class Player extends Entity
 	}	// end method accl
 
 	public boolean checkBlock(int dir) 
-	{
+	{	// Determines if 
 		switch(dir)
 		{
 		case DOWN:
-			return	(GameScreen.getBlocks((int)Math.floor(pos.Y / bLen) + 1, (int)Math.floor(pos.X / bLen)).getBlock() == 1) ||
-				(GameScreen.getBlocks((int)Math.floor(pos.Y / bLen) + 1, (int)Math.ceil (pos.X / bLen + 1.0)).getBlock() == 1);
-		case UP:
-			return	(GameScreen.getBlocks((int)Math.floor(pos.Y / bLen) - 1, (int)Math.floor(pos.X / bLen)).getBlock() == 1) ||
-				(GameScreen.getBlocks((int)Math.floor(pos.Y / bLen) - 1, (int)Math.ceil (pos.X / bLen + 1.0)).getBlock() == 1);
+		return	(GameScreen.getBlocks((int)Math.floor(pos.Y / bLen) + 1, (int)Math.floor(pos.X / bLen)).getBlock() == 1) ||
+			(GameScreen.getBlocks((int)Math.floor(pos.Y / bLen) + 1, (int)Math.ceil (pos.X / bLen)).getBlock() == 1);
+		case   UP:
+		return	(GameScreen.getBlocks((int)Math.ceil (pos.Y / bLen) - 1, (int)Math.floor(pos.X / bLen)).getBlock() == 1) ||
+			(GameScreen.getBlocks((int)Math.ceil (pos.Y / bLen) - 1, (int)Math.ceil (pos.X / bLen)).getBlock() == 1);
 		}
 		return false;
 	}	// end method checkBlock
@@ -90,19 +89,12 @@ class Player extends Entity
 		this.pos.add(disp);
 		pos.X = (Math.abs(Math.round(pos.X) - pos.X) < EPS) ? Math.round(pos.X) : pos.X; //Round to avoid floating point calculation errors
 		pos.Y = (Math.abs(Math.round(pos.Y) - pos.Y) < EPS) ? Math.round(pos.Y) : pos.Y;
-		updateAXY();
 	}	// end method move
 	
 	public void setKey(int indexToSet, boolean pressedDown)
 	{
 		keysPressed[indexToSet] = pressedDown;
 	}	// end method setKey
-
-	public void updateAXY() 
-	{
-		this.posAX = (int)(pos.X / bLen);
-		this.posAY = (int)(pos.Y / bLen);
-	}	// end method updateAXY
 	
 	public void updateBounds()
 	{
