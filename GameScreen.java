@@ -19,9 +19,11 @@ class GameScreen extends JPanel implements ActionListener, Runnable
 	private static final String JUMP = "p.jump";
 	private static final String MOVE_LEFT = "p.m_left";
 	private static final String MOVE_RIGHT = "p.m_right";
+	private static final String DOWN = "p.m_down";
 	private static final String JUMP_R = "r.jump";
 	private static final String MOVE_LEFT_R = "r.m_left";
 	private static final String MOVE_RIGHT_R = "r.m_right";
+	private static final String DOWN_R = "r.m_down";
 
 	private static Block[][] blocks;
 	private static Player mainChar;
@@ -41,6 +43,11 @@ class GameScreen extends JPanel implements ActionListener, Runnable
 		this.getActionMap().put(JUMP, new SetKeyAction(Entity.UP, true));
 		this.getInputMap(WIFW).put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0, true), JUMP_R);
 		this.getActionMap().put(JUMP_R, new SetKeyAction(Entity.UP, false));
+		
+		this.getInputMap(WIFW).put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0, false), DOWN);
+		this.getActionMap().put(DOWN, new SetKeyAction(Entity.DOWN, true));
+		this.getInputMap(WIFW).put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0, true), DOWN_R);
+		this.getActionMap().put(DOWN_R, new SetKeyAction(Entity.DOWN, false));
 		
 		this.getInputMap(WIFW).put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0, false), MOVE_LEFT);
 		this.getActionMap().put(MOVE_LEFT, new SetKeyAction(Entity.LEFT, true));
