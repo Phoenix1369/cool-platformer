@@ -93,7 +93,19 @@ class Player extends Entity
 	
 	public void setKey(int indexToSet, boolean pressedDown)
 	{
-		keysPressed[indexToSet] = pressedDown;
+		if(this.getField() == UP) //Code specifically needed for up-fields: could be shorter, maybe!
+		{
+			if(indexToSet == UP)
+				keysPressed[2] = pressedDown;
+			else if(indexToSet == DOWN)
+				keysPressed[0] = pressedDown;
+			else
+				keysPressed[indexToSet] = pressedDown;
+		}
+		else
+		{
+			keysPressed[(indexToSet + getField() + 2) % 4] = pressedDown; //Shift key input depending on the field
+		}
 	}	// end method setKey
 	
 	public void updateBounds()
