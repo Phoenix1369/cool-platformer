@@ -47,12 +47,18 @@ class Player extends Entity
 	{	// Determines if 
 		switch(dir)
 		{
-		case DOWN:
-		return	(GameScreen.getBlocks((int)Math.floor(pos.Y / bLen) + 1, (int)Math.floor(pos.X / bLen)).getBlock() == 1) ||
-			(GameScreen.getBlocks((int)Math.floor(pos.Y / bLen) + 1, (int)Math.ceil (pos.X / bLen)).getBlock() == 1);
-		case   UP:
-		return	(GameScreen.getBlocks((int)Math.ceil (pos.Y / bLen) - 1, (int)Math.floor(pos.X / bLen)).getBlock() == 1) ||
-			(GameScreen.getBlocks((int)Math.ceil (pos.Y / bLen) - 1, (int)Math.ceil (pos.X / bLen)).getBlock() == 1);
+			case  DOWN:
+			return	(GameScreen.getBlocks((int)Math.floor(pos.Y / bLen) + 1, (int)Math.floor(pos.X / bLen)).getBlock() == 1) ||
+				(GameScreen.getBlocks((int)Math.floor(pos.Y / bLen) + 1, (int)Math.ceil (pos.X / bLen)).getBlock() == 1);
+			case    UP:
+			return	(GameScreen.getBlocks((int)Math.ceil (pos.Y / bLen) - 1, (int)Math.floor(pos.X / bLen)).getBlock() == 1) ||
+				(GameScreen.getBlocks((int)Math.ceil (pos.Y / bLen) - 1, (int)Math.ceil (pos.X / bLen)).getBlock() == 1);
+			case RIGHT:
+			return	(GameScreen.getBlocks((int)Math.floor(pos.Y / bLen), (int)Math.floor(pos.X / bLen) + 1).getBlock() == 1) ||
+				(GameScreen.getBlocks((int)Math.floor(pos.Y / bLen), (int)Math.ceil (pos.X / bLen) + 1).getBlock() == 1);
+			case  LEFT:
+			return	(GameScreen.getBlocks((int)Math.ceil (pos.Y / bLen), (int)Math.floor(pos.X / bLen) - 1).getBlock() == 1) ||
+				(GameScreen.getBlocks((int)Math.ceil (pos.Y / bLen), (int)Math.ceil (pos.X / bLen) - 1).getBlock() == 1);
 		}
 		return false;
 	}	// end method checkBlock
@@ -95,7 +101,8 @@ class Player extends Entity
 	public void setKey(int indexToSet, boolean pressedDown)
 	{
 		keysPressedABS[indexToSet] = pressedDown;
-		if(this.getField() == UP) //Code specifically needed for up-fields: could be shorter, maybe!
+		keysPressed[indexToSet] = pressedDown;
+		/*if(this.getField() == UP) //Code specifically needed for up-fields: could be shorter, maybe!
 		{
 			if(indexToSet == UP)
 				keysPressed[2] = pressedDown;
@@ -107,7 +114,7 @@ class Player extends Entity
 		else
 		{
 			keysPressed[(indexToSet + getField() + 2) % 4] = pressedDown; //Shift key input depending on the field
-		}
+		}*/
 	}	// end method setKey
 	
 	public void updateBounds()
@@ -146,8 +153,10 @@ class Player extends Entity
 	{	// For now, only Fields influence Acceleration, so hardcode
 		switch(this.getField())
 		{
-		case DOWN: this.acc.X = 0; this.acc.Y = +GRAVITY; break;
-		case   UP: this.acc.X = 0; this.acc.Y = -GRAVITY; break;
+			case  DOWN: this.acc.X = 0.0; this.acc.Y = +GRAVITY; break;
+			case    UP: this.acc.X = 0.0; this.acc.Y = -GRAVITY; break;
+			case RIGHT: this.acc.X = +GRAVITY; this.acc.Y = 0.0; break;
+			case  LEFT: this.acc.X = -GRAVITY; this.acc.Y = 0.0; break;
 		}
 	}	// end method updateField
 	
@@ -159,8 +168,10 @@ class Player extends Entity
 			{	// Block exists in Field Direction
 				switch(getField())
 				{
-				case DOWN: accl(new Vector2(0.0, -J_SPD)); break;
-				case   UP: accl(new Vector2(0.0, +J_SPD)); break;
+					case  DOWN: accl(new Vector2(0.0, -J_SPD)); break;
+					case    UP: accl(new Vector2(0.0, +J_SPD)); break;
+					case RIGHT: accl(new Vector2(-J_SPD, 0.0)); break;
+					case  LEFT: accl(new Vector2(+J_SPD, 0.0)); break;
 				}
 			}
 		}
@@ -171,8 +182,25 @@ class Player extends Entity
 		}
 		//currently no actions for pressing down (this method will have to take into account fields later)
 		if(keysPressed[LEFT])
-			move(new Vector2(-1 * M_SPD, 0.0));
+		{
+			switch(getField())
+			{
+				case  DOWN:
+				case    UP: move(new Vector2(-1 * M_SPD, 0.0)); break;
+				case RIGHT: move(new Vector2(0.0, 1 * M_SPD)); break;
+				case  LEFT: move(new Vector2(0.0, -1 * M_SPD)); break;
+			}
+		}
 		if(keysPressed[RIGHT])
-			move(new Vector2(+1 * M_SPD, 0.0));
+		{
+			switch(getField())
+			{
+				case  DOWN:
+				case    UP: move(new Vector2(+1 * M_SPD, 0.0)); break;
+				case RIGHT: move(new Vector2(0.0, -1 * M_SPD)); break;
+				case  LEFT: move(new Vector2(0.0, 1 * M_SPD)); break;
+			}
+		}
+			
 	}	// end method updateVectors
 }	// end class
