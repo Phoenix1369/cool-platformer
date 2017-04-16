@@ -33,6 +33,14 @@ class Player extends Entity
 	public void advance() 
 	{
 		updateField();
+		if(acc.X != 0) //decelerate in the vertical direction if there is horizontal gravity
+		{
+			vel.Y = Math.signum(vel.Y) * Math.max(Math.abs(vel.Y) - GRAVITY, 0.0);
+		}
+		else if(acc.Y != 0) //decelerate in the horizontal direction if there is vertical gravity
+		{
+			vel.X = Math.signum(vel.X) * Math.max(Math.abs(vel.X) - GRAVITY, 0.0);
+		}
 		updateVectors();
 		this.vel.add(this.acc);
 		move(this.vel);
