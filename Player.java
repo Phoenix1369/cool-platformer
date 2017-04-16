@@ -20,6 +20,7 @@ class Player extends Entity
 	private Vector2 br = new Vector2();
 
 	private boolean[] boundsFlags = new boolean[4]; //whether ground is detected in a direction
+	private boolean[] keysPressedABS = new boolean[4]; //absolute keypress values
  	private boolean[] keysPressed = new boolean[4]; //whether directional keys are pressed
 	
 	Player() 
@@ -93,6 +94,7 @@ class Player extends Entity
 	
 	public void setKey(int indexToSet, boolean pressedDown)
 	{
+		keysPressedABS[indexToSet] = pressedDown;
 		if(this.getField() == UP) //Code specifically needed for up-fields: could be shorter, maybe!
 		{
 			if(indexToSet == UP)
