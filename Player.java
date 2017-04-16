@@ -38,7 +38,6 @@ class Player extends Entity
 		updateVectors();
 		this.vel.add(this.acc);
 		move(this.vel);
-		updateField();
 	}	// end method advance
 
 	public void accl(final Vector2 vel) 
