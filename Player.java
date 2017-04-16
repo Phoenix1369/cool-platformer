@@ -23,6 +23,8 @@ class Player extends Entity
 	private boolean[] keysPressedABS = new boolean[4]; //absolute keypress values
  	private boolean[] keysPressed = new boolean[4]; //whether directional keys are pressed
 	
+	private int prevField = DOWN; //previous field the player was in
+	
 	Player() 
 	{
 		super();
@@ -36,6 +38,7 @@ class Player extends Entity
 		updateVectors();
 		this.vel.add(this.acc);
 		move(this.vel);
+		updateField();
 	}	// end method advance
 
 	public void accl(final Vector2 vel) 
@@ -162,6 +165,21 @@ class Player extends Entity
 
 	public void updateField()
 	{	// For now, only Fields influence Acceleration, so hardcode
+		if(this.getField() != prevField) //Map keys based on absolute keypresses on field switch
+		{
+			switch(this.getField())
+			{
+				case  DOWN: keysPressed[0] = keysPressedABS[0]; keysPressed[1] = keysPressedABS[1];
+							keysPressed[2] = keysPressedABS[2]; keysPressed[3] = keysPressedABS[3]; break;
+				case    UP: keysPressed[0] = keysPressedABS[2]; keysPressed[1] = keysPressedABS[1];
+							keysPressed[2] = keysPressedABS[0]; keysPressed[3] = keysPressedABS[3]; break;
+				case RIGHT: keysPressed[0] = keysPressedABS[3]; keysPressed[1] = keysPressedABS[0];
+							keysPressed[2] = keysPressedABS[1]; keysPressed[3] = keysPressedABS[2]; break;
+				case  LEFT: keysPressed[0] = keysPressedABS[1]; keysPressed[1] = keysPressedABS[2];
+							keysPressed[2] = keysPressedABS[3]; keysPressed[3] = keysPressedABS[0]; break;
+			}
+			prevField = this.getField();
+		}
 		switch(this.getField())
 		{
 			case  DOWN: this.acc.X = 0.0; this.acc.Y = +GRAVITY; break;
