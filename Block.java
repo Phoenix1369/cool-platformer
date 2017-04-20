@@ -26,10 +26,7 @@ class Block extends Rectangle
 		g2D = (Graphics2D)g;
 		g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		// Blits image of Block type at the Rectangle Area
-		if(type[0] == Entity.DOWN)
-			g2D.drawImage(Images.demo[ this.type[1] ], this.x, this.y, this.width, this.height, null);
-		else if(type[0] == Entity.UP)
-			g2D.drawImage(Images.tint[this.type[0]],this.x, this.y, this.width, this.height, null);
+		g2D.drawImage(Images.tint[ this.type[1] ][ this.type[0] ], this.x, this.y, this.width, this.height, null);
 	}	// end method draw
 
 	public int getBlock() 
