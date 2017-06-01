@@ -8,6 +8,8 @@ import java.awt.*;
 
 class Entity
 {
+	protected final double GRAVITY = 50.0 / GameScreen.FPS;
+
 	protected static final int UP = 0;
 	protected static final int RIGHT = 1;
 	protected static final int DOWN = 2;
@@ -21,7 +23,7 @@ class Entity
 	protected Vector2 pos;
 	protected Vector2 vel;
 
-	Entity() 
+	Entity()
 	{
 		this.acc = new Vector2();
 		this.pos = new Vector2();
@@ -29,16 +31,26 @@ class Entity
 		this.area= new Rectangle((int)Math.round(pos.X), (int)Math.round(pos.Y), Block.getLen(), Block.getLen());
 	}	// end constructor()
 
-	public void advance() 
+	public void advance()
 	{
 	}	// end method advance
 
-	public void draw(Graphics g) 
+	public void draw(Graphics g)
 	{
 	}	// end method draw
 
-	public void setAcc(Vector2 acc) 
+	public final Vector2 getVel()
+	{
+		return this.vel;
+	}	// end method getVel
+
+	public void setAcc(final Vector2 acc)
 	{
 		this.acc = acc;
 	}	// end method setAcc
+
+	public void setVel(final Vector2 vel)
+	{
+		this.vel = vel;
+	}	// end method setVel
 }	// end class Entity
