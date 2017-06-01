@@ -10,7 +10,6 @@ import java.awt.event.*;
 class Player extends Entity
 {
 	private static final double EPS = 1E-9;
-	private final double GRAVITY = 50.0 / GameScreen.FPS; // Before (Floaty): 30
 	private final double J_SPD = 480.0 / GameScreen.FPS;
 	private final double J_SPD_MIN = 240.0 / GameScreen.FPS;
 	private final double M_SPD = 200.0 / GameScreen.FPS; // Normal: 120.0
@@ -40,35 +39,29 @@ class Player extends Entity
 		move(this.vel);
 	}	// end method advance
 
-	public void accl(final Vector2 vel) 
-	{
-		this.vel = vel;
-	}	// end method accl
-
 	public boolean checkBlock(int dir) 
-	{	// Determines if 
+	{	// Determines if the player is standing on a Block
 		switch(dir)
 		{
 			case  DOWN:
 			return	(GameScreen.getBlocks((int)Math.floor(pos.Y / bLen) + 1, (int)Math.floor(pos.X / bLen)).getBlock() == 1) ||
-				(GameScreen.getBlocks((int)Math.floor(pos.Y / bLen) + 1, (int)Math.ceil (pos.X / bLen)).getBlock() == 1);
+					(GameScreen.getBlocks((int)Math.floor(pos.Y / bLen) + 1, (int)Math.ceil (pos.X / bLen)).getBlock() == 1);
 			case    UP:
-			return	(GameScreen.getBlocks((int)Math.ceil (pos.Y / bLen) - 1, (int)Math.floor(pos.X / bLen)).getBlock() == 1) ||
-				(GameScreen.getBlocks((int)Math.ceil (pos.Y / bLen) - 1, (int)Math.ceil (pos.X / bLen)).getBlock() == 1);
+			return	(GameScreen.getBlocks((int)Math.floor(pos.Y / bLen) - 1, (int)Math.floor(pos.X / bLen)).getBlock() == 1) ||
+					(GameScreen.getBlocks((int)Math.floor(pos.Y / bLen) - 1, (int)Math.ceil (pos.X / bLen)).getBlock() == 1);
 			case RIGHT:
 			return	(GameScreen.getBlocks((int)Math.floor(pos.Y / bLen), (int)Math.floor(pos.X / bLen) + 1).getBlock() == 1) ||
-				(GameScreen.getBlocks((int)Math.floor(pos.Y / bLen), (int)Math.ceil (pos.X / bLen) + 1).getBlock() == 1);
+					(GameScreen.getBlocks((int)Math.ceil (pos.Y / bLen), (int)Math.floor(pos.X / bLen) + 1).getBlock() == 1);
 			case  LEFT:
-			return	(GameScreen.getBlocks((int)Math.ceil (pos.Y / bLen), (int)Math.floor(pos.X / bLen) - 1).getBlock() == 1) ||
-				(GameScreen.getBlocks((int)Math.ceil (pos.Y / bLen), (int)Math.ceil (pos.X / bLen) - 1).getBlock() == 1);
+			return	(GameScreen.getBlocks((int)Math.floor(pos.Y / bLen), (int)Math.floor(pos.X / bLen) - 1).getBlock() == 1) ||
+					(GameScreen.getBlocks((int)Math.ceil (pos.Y / bLen), (int)Math.floor(pos.X / bLen) - 1).getBlock() == 1);
 		}
 		return false;
 	}	// end method checkBlock
 
 	@Override // Superclass: Entity
 	public void draw(Graphics g) 
-	{
-		// Hardcode image for Demo
+	{	// Hardcode image for Demo
 		g2D = (Graphics2D)g;
 		g2D.fillRect((int)tl.X, (int)tl.Y, (int)(br.X - tl.X), (int)(br.Y - tl.Y));
 		g2D.drawImage(Images.demo[2], (int)Math.round(pos.X), (int)Math.round(pos.Y), Block.getLen(), Block.getLen(), null);
@@ -78,11 +71,6 @@ class Player extends Entity
 	{	// Returns the current Field of the Player
 		return GameScreen.getBlocks((int)Math.floor(pos.Y / bLen + 0.5), (int)Math.floor(pos.X / bLen + 0.5)).getField();
 	}	// end method getField
-
-	public final Vector2 getVel() 
-	{
-		return this.vel;
-	}	// end method getVel
 
 	public void move(final Vector2 disp) 
 	{
@@ -190,25 +178,24 @@ class Player extends Entity
 	
 	public void updateVectors() //move based on the keys currently being pressed
 	{
-		if(keysPressed[UP])
-		{	// Jump Query
-			if(checkBlock(getField()))
-			{	// Block exists in Field Direction
-				switch(getField())
-				{
-					case  DOWN: accl(new Vector2(0.0, -J_SPD)); break;
-					case    UP: accl(new Vector2(0.0, +J_SPD)); break;
-					case RIGHT: accl(new Vector2(-J_SPD, 0.0)); break;
-					case  LEFT: accl(new Vector2(+J_SPD, 0.0)); break;
-				}
+		// 'keysPressed[UP]' doesn't work
+		if(keysPressedABS[(getField()+2) % 4] && checkBlock(getField()))
+		{	// Jump Query - Block exists in Field Direction
+			switch(getField())
+			{
+				case  DOWN: setVel(new Vector2(0.0, -J_SPD)); break;
+				case    UP: setVel(new Vector2(0.0, +J_SPD)); break;
+				case RIGHT: setVel(new Vector2(-J_SPD, 0.0)); break;
+				case  LEFT: setVel(new Vector2(+J_SPD, 0.0)); break;
 			}
 		}
+		/* 
 		else if(!keysPressed[UP]) //"cut" the jump if the button is released early
 		{
 			if(vel.Y < -1 * J_SPD_MIN)
 				vel.Y = (-1 * J_SPD_MIN);
-		}
-		//currently no actions for pressing down (this method will have to take into account fields later)
+		} */
+
 		if(keysPressed[LEFT])
 		{
 			switch(getField())
@@ -229,6 +216,5 @@ class Player extends Entity
 				case  LEFT: move(new Vector2(0.0, 1 * M_SPD)); break;
 			}
 		}
-			
 	}	// end method updateVectors
 }	// end class
