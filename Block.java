@@ -13,7 +13,7 @@ class Block extends Rectangle
 
 	private int[] type; // Field / Block type
 
-	Block(int x, int y, int field, int block) 
+	Block(int x, int y, int field, int block)
 	{
 		super(x, y, LEN, LEN);
 		this.type = new int[2];
@@ -21,7 +21,7 @@ class Block extends Rectangle
 		this.type[1] = block;
 	}	// end constructor()
 
-	public void draw(Graphics g) 
+	public void draw(Graphics g)
 	{
 		g2D = (Graphics2D)g;
 		g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -29,7 +29,7 @@ class Block extends Rectangle
 		g2D.drawImage(Images.tint[ this.type[1] ][ this.type[0] ], this.x, this.y, this.width, this.height, null);
 	}	// end method draw
 
-	public int getBlock() 
+	public int getBlock()
 	{
 		return this.type[1];
 	}	// end method getBlock
@@ -39,12 +39,12 @@ class Block extends Rectangle
 		return this.type[0];
 	}	// end method getField
 
-	public static int getLen() 
+	public static int getLen()
 	{
 		return LEN;
 	}	// end method getSize
 
-	public void setBlock(int block) 
+	public void setBlock(int block)
 	{
 		this.type[1] = block;
 	}	// end method setBlock
