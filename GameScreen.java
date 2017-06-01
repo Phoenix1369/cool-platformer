@@ -9,6 +9,8 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
+import java.util.ArrayList;
+
 class GameScreen extends JPanel implements ActionListener, Runnable
 {
 	public static final int FPS = 30;
@@ -26,9 +28,12 @@ class GameScreen extends JPanel implements ActionListener, Runnable
 	private static final String DOWN_R = "r.m_down";
 
 	private static Block[][] blocks;
-	private static Player mainChar;
 	private static Thread gameScreen;
 	private static Timer timer;
+
+	// Entity Objects
+	private static Player mainChar;
+	private static ArrayList<Enemy> enemies;
 
 	GameScreen(Dimension dim)
 	{
@@ -37,7 +42,8 @@ class GameScreen extends JPanel implements ActionListener, Runnable
 			for(int j = 0; j < blocks[i].length; ++j) // Default Tiling
 				blocks[i][j] = new Block((j-edW) * Block.getLen(), (i-edW) * Block.getLen(), Entity.DOWN, 0);
 		mainChar = new Player();
-		
+		enemies = new ArrayList<Enemy>();
+
 		// Key Bindings on release
 		this.getInputMap(WIFW).put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0, false), JUMP);
 		this.getActionMap().put(JUMP, new SetKeyAction(Entity.UP, true));
@@ -59,7 +65,6 @@ class GameScreen extends JPanel implements ActionListener, Runnable
 		this.getInputMap(WIFW).put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0, true), MOVE_RIGHT_R);
 		this.getActionMap().put(MOVE_RIGHT_R, new SetKeyAction(Entity.RIGHT, false));
 
-
 		timer = new Timer(delay, this);
 	}	// end constructor()
 
@@ -67,55 +72,43 @@ class GameScreen extends JPanel implements ActionListener, Runnable
 	{
 		gameScreen = new Thread(this);
 
-		// Hardcode for Demo [should Load Level here]
+		// Demo [should Load Level here]
+		// Hardcode Level blocks
 		for(int i = 0; i < blocks.length; ++i) {
 			blocks[i][0].setBlock(1);
 			blocks[i][blocks[0].length-1].setBlock(1);			
-		}	// Offscreen Left / Right Walls
-		// Custom Blocks Arranged in Ascending Y-Axis
-		// "L"
-		for(int i = 6; i <= 8; ++i)
-			blocks[i][27].setBlock(1);
-		blocks[9][26].setBlock(1);
-		// Upper RP
-		blocks[11][28].setBlock(1);
-		blocks[12][28].setBlock(1);
-		for(int j = 28; j < blocks[0].length; ++j)
-			blocks[13][j].setBlock(1);		
-		// First LP
-		for(int j = 0; j <= 15; ++j)
-			blocks[18][j].setBlock(1);
-		// Lower RP
-		for(int j = 25; j < blocks[0].length; ++j)
-			blocks[25][j].setBlock(1);
-		// Lone Pair [e-]
-		blocks[27][10].setBlock(1);
-		blocks[27][11].setBlock(1);
-		// Stairs
-		for(int i=22, j=34; j >= 25; --j)
-		{
-			blocks[i][j].setBlock(1);
-			if((j & 1) == 1) --i;
-		}
-		// Floor
+		}	// Left / Right Off-Screen Walls
 		for(int j = 0; j < blocks[0].length; ++j)
-			blocks[blocks.length-edW-1][j].setBlock(1);
+			blocks[0][j].setBlock(1); // Off-Screen Walls Above
+		// Custom Blocks Arranged in Ascending Y-Axis
 
-		// Field Rectangles
-		for(int i = 16; i <= 23; ++i)
-			for(int j = 16; j <= 24; ++j)
-				blocks[i][j].setField(Entity.UP);
-		for(int i = 23; i <= 26; ++i)
-			for(int j = 21; j <= 24; ++j)
-				blocks[i][j].setField(Entity.UP);
-		
-		for(int i = 11; i <= 15; ++i)
-			for(int j = 16; j <= 27; ++j)
+		// First Left Region
+		// Left-Field Test
+		for(int i = 2; i <= 8; ++i)
+			for(int j = 5; j <= 13; ++j)
 				blocks[i][j].setField(Entity.LEFT);
-			
-		for(int i = 16; i <= 17; ++i)
-			for(int j = 5; j <= 15; ++j)
+		blocks[2][4].setBlock(1);
+		for(int i = 4; i <= 8; ++i) // Upper-Left Wall
+			blocks[i][4].setBlock(1);
+		for(int j = 5; j <= 13; ++j) // Platform Below 
+			blocks[11][j].setBlock(1);
+		// Right-Field Test
+		for(int i = 2; i <= 8; ++i)
+			for(int j = 15; j <= 22; ++j)
 				blocks[i][j].setField(Entity.RIGHT);
+		blocks[2][23].setBlock(1);
+		for(int i = 4; i <= 8; ++i) // Upper-Right Wall
+			blocks[i][23].setBlock(1);
+		// Up-Field Test
+		for(int i = 12; i <= 19; ++i)
+			for(int j = 15; j <= 22; ++j)
+				blocks[i][j].setField(Entity.UP);
+		blocks[11][15].setBlock(1);
+		for(int j = 17; j <= 22; ++j) // Upper-Right Wall
+			blocks[11][j].setBlock(1);
+		for(int j = 0; j <= 22; ++j) // Platform Below 
+			blocks[22][j].setBlock(1);
+
 		gameScreen.start();
 	}	// end method init
 
@@ -158,7 +151,7 @@ class GameScreen extends JPanel implements ActionListener, Runnable
 	{
 		private int indexToSet;
 		private boolean pressedDown;
-		
+
 		SetKeyAction(int indexToSet, boolean pressedDown)
 		{
 			this.indexToSet = indexToSet;
