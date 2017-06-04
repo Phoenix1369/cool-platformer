@@ -67,6 +67,12 @@ class GameScreen extends JPanel implements ActionListener, Runnable
 		timer = new Timer(delay, this);
 	}	// end constructor()
 
+	public void freeze(boolean yesOrNo)
+	{
+		//Placeholder: all relevant game states should be frozen here
+		mainChar.freeze(yesOrNo);
+	}
+	
 	public void init()
 	{
 		gameScreen = new Thread(this);
