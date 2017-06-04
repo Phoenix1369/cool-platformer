@@ -16,4 +16,14 @@ class StageManager
 	static BufferedWriter out;
 	static StringTokenizer st;
 	
+	public static String gets() throws IOException 
+	{
+		while(st==null || !st.hasMoreTokens())
+		{
+			String ss = in.readLine().trim();
+			st = new StringTokenizer(ss);
+		}
+		return st.nextToken();
+	}
+	
 }	// end class StageManager
