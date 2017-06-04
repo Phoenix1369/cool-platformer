@@ -5,6 +5,7 @@
 * note: Cool Platformer
 *******/
 import java.awt.*;
+import java.awt.event.*;
 import javax.swing.*;
 
 public class CoolPlatformer 
@@ -15,8 +16,13 @@ public class CoolPlatformer
 
 	public static final Dimension size = new Dimension(800, 600);
 	public static final Dimension sizeJF = new Dimension(size.width+offX, size.height+offY);
+	public static final Dimension sizeSidebar = new Dimension((size.width+offX) / 10, size.height+offY);
 	public static JFrame JF;
+	public static JFrame sidebar;
+	public static SidebarPanel SP;
+	public static JPanel JP;
 	public static JPanel[] menu;
+	public static int state;
 
 	public CoolPlatformer() 
 	{
