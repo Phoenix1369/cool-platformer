@@ -26,4 +26,17 @@ class StageManager
 		return st.nextToken();
 	}
 	
+	public static void loadMap(Block[][] blockArr) throws IOException 
+	{
+		// Load level
+		in = new BufferedReader(new FileReader(new File("Map.txt")));
+		for(int i = 0; i < blockArr.length; i++)
+			for(int j = 0; j < blockArr[i].length; j++)
+				blockArr[i][j].setBlock(Integer.parseInt(gets()));
+		for(int i = 0; i < blockArr.length; i++)
+			for(int j = 0; j < blockArr[i].length; j++)
+				blockArr[i][j].setField(Integer.parseInt(gets()));
+		in.close();
+	}	// end method loadMap
+	
 }	// end class StageManager
