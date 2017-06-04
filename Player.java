@@ -70,6 +70,18 @@ class Player extends Entity
 		g2D.drawImage(Images.demo[2], (int)Math.round(pos.X), (int)Math.round(pos.Y), Block.getLen(), Block.getLen(), null);
 	}	// end method draw
 
+	public void freeze(boolean yesOrNo)
+	{
+		frozen = yesOrNo;
+		if(frozen)
+		{
+			for(int i = 0; i < keysPressedABS.length; i++)
+			{
+				setKey(i, false);
+			}
+		}
+	}
+	
 	public int getField()
 	{	// Returns the current Field of the Player
 		return GameScreen.getBlocks((int)Math.floor(pos.Y / bLen + 0.5), (int)Math.floor(pos.X / bLen + 0.5)).getField();
