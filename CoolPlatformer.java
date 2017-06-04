@@ -75,15 +75,21 @@ public class CoolPlatformer
 			e.printStackTrace();
 		}	// end catch
 
-		menu = new JPanel[1]; // Number of Menu Screens
-		menu[0] = new GameScreen(size);
-		JF.add(menu[0], BorderLayout.CENTER);
+		menu = new JPanel[2]; // Number of Menu Screens
+		menu[0] = new EditorScreen(size, SP);
+		SP.registerEditor((EditorScreen)menu[0]); //give the sidebar a reference to the editor screen
+		menu[1] = new GameScreen(size);
+		JP.add(menu[1], "GameScreen");
+		JP.add(menu[0], "EditorScreen");
+		
+		JF.add(JP, BorderLayout.CENTER);
 
+		((GameScreen)menu[1]).init();
+		
 		JF.pack();
 		JF.setLocationRelativeTo(null); // Puts JF at Centre of Screen
+		sidebar.pack();
 		JF.setVisible(true);
-
-		((GameScreen)menu[0]).init();
 	}	// end constructor()
 
 	public static void main(String[] args) 
