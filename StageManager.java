@@ -39,4 +39,28 @@ class StageManager
 		in.close();
 	}	// end method loadMap
 	
+	public static void saveMap(Block[][] blockArr) throws IOException 
+	{
+		// Save level
+		out = new BufferedWriter(new FileWriter(new File("Map.txt")));
+		for(int i = 0; i < blockArr.length; i++)
+		{
+			for(int j = 0; j < blockArr[i].length; j++)
+			{
+				out.write(blockArr[i][j].getBlock() + " ");
+			}
+			out.newLine();
+		}
+		out.newLine();
+		for(int i = 0; i < blockArr.length; i++)
+		{
+			for(int j = 0; j < blockArr[i].length; j++)
+			{
+				out.write(blockArr[i][j].getField() + " ");
+			}
+			out.newLine();
+		}
+		out.close();
+		System.out.println("Saved");
+	}	
 }	// end class StageManager
