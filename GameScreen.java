@@ -77,9 +77,12 @@ class GameScreen extends JPanel implements ActionListener, Runnable
 	{
 		gameScreen = new Thread(this);
 
+		// Load level
+		updateMap();
+		
 		// Demo [should Load Level here]
 		// Hardcode Level blocks
-		for(int i = 0; i < blocks.length; ++i) {
+		/*for(int i = 0; i < blocks.length; ++i) {
 			blocks[i][0].setBlock(1);
 			blocks[i][blocks[0].length-1].setBlock(1);			
 		}	// Left / Right Off-Screen Walls
@@ -112,10 +115,22 @@ class GameScreen extends JPanel implements ActionListener, Runnable
 		for(int j = 17; j <= 22; ++j) // Upper-Right Wall
 			blocks[11][j].setBlock(1);
 		for(int j = 0; j <= 22; ++j) // Platform Below 
-			blocks[22][j].setBlock(1);
+			blocks[22][j].setBlock(1);*/
 
 		gameScreen.start();
 	}	// end method init
+	
+	public void updateMap()
+	{
+		try
+		{
+			StageManager.loadMap(blocks);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
 
 	@Override // Interface: ActionListener
 	public void actionPerformed(ActionEvent ae)
