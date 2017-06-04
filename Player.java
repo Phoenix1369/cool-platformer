@@ -22,6 +22,8 @@ class Player extends Entity
 	private boolean[] keysPressedABS = new boolean[4]; //absolute keypress values
  	private boolean[] keysPressed = new boolean[4]; //whether directional keys are pressed
 	
+	private boolean frozen; //false by default
+	
 	private int prevField = DOWN; //previous field the player was in
 	
 	Player() 
