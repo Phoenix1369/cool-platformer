@@ -33,10 +33,13 @@ class Player extends Entity
 	@Override // Superclass: Entity
 	public void advance() 
 	{
-		updateField();
-		updateVectors();
-		this.vel.add(this.acc);
-		move(this.vel);
+		if(!frozen)
+		{
+			updateField();
+			updateVectors();
+			this.vel.add(this.acc);
+			move(this.vel);
+		}
 	}	// end method advance
 
 	public boolean checkBlock(int dir) 
