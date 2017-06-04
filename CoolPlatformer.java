@@ -39,7 +39,33 @@ public class CoolPlatformer
 		JF.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		JF.setPreferredSize(sizeJF);
 		JF.setResizable(false);
-
+		
+		JP = new JPanel();
+		JP.setLayout(new CardLayout());
+		JP.setFocusable(true);
+		JP.requestFocusInWindow();
+		JP.addKeyListener(new KeyAdapter(){
+				public void keyPressed(KeyEvent e){                
+					if(e.getKeyCode() == KeyEvent.VK_P){
+						CardLayout clayoutJP = (CardLayout)JP.getLayout();
+						((GameScreen)menu[1]).freeze(state == 0); //freeze the game screen if its being switched away from (current state is 0)
+						sidebar.setVisible(state == 0); //only let the sidebar be seen if the game is being switched away from
+						if(state == 0)
+						{
+							sidebar.setLocation((int)(JF.getLocation().getX() + JF.getWidth() + offY), (int)(JF.getLocation().getY()));
+							JF.toFront(); //don't give the sidebar focus
+						}
+						if(state == 1)
+						{
+							((GameScreen)menu[1]).updateMap();
+						}
+						clayoutJP.next(JP);
+						state = (state + 1) % 2;
+					}
+				}
+			}
+		);
+		
 		try 
 		{
 			Images.loadAll();
