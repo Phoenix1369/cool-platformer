@@ -6,10 +6,9 @@
 *******/
 import java.awt.*;
 import java.awt.event.*;
-
+import java.io.*;
+import java.util.StringTokenizer;
 import javax.swing.*;
-
-import java.util.ArrayList;
 
 class GameScreen extends JPanel implements ActionListener, Runnable
 {
