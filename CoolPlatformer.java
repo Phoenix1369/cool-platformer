@@ -5,7 +5,6 @@
 * note: Cool Platformer
 *******/
 import java.awt.*;
-
 import javax.swing.*;
 
 public class CoolPlatformer 
