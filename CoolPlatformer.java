@@ -26,6 +26,15 @@ public class CoolPlatformer
 
 	public CoolPlatformer() 
 	{
+		state = 0; //0 = game screen, 1 = editor screen
+		
+		sidebar = new JFrame();
+		sidebar.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); //prevent sidebar from being closed
+		sidebar.setResizable(false);
+		sidebar.setPreferredSize(sizeSidebar);
+		SP = new SidebarPanel(sizeSidebar);
+		sidebar.add(SP);
+		
 		JF = new JFrame("Cool Platformer");
 		JF.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		JF.setLayout(new BorderLayout());
