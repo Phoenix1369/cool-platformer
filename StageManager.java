@@ -12,5 +12,8 @@ import javax.swing.*;
 
 class StageManager 
 {	
+	static BufferedReader in;
+	static BufferedWriter out;
+	static StringTokenizer st;
 	
 }	// end class StageManager
