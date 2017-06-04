@@ -37,7 +37,6 @@ public class CoolPlatformer
 		
 		JF = new JFrame("Cool Platformer");
 		JF.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		JF.setLayout(new BorderLayout());
 		JF.setPreferredSize(sizeJF);
 		JF.setResizable(false);
 
