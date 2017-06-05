@@ -13,14 +13,14 @@ class Player extends Entity
 	
 	private int prevField = DOWN; //previous field the player was in
 	
-	Player() 
+	Player()
 	{
 		super();
 		this.pos.X = this.pos.Y = bLen*2;
 	}	// end constructor()
 
 	@Override // Superclass: Entity
-	public void advance() 
+	public void advance()
 	{
 		if(frozen) return; // Skips Action if Frozen
 		updateField();
@@ -30,7 +30,7 @@ class Player extends Entity
 	}	// end method advance
 
 	@Override // Superclass: Entity
-	public void draw(Graphics g) 
+	public void draw(Graphics g)
 	{	// Hardcode image for Demo
 		g2D = (Graphics2D)g;
 		g2D.fillRect((int)tl.X, (int)tl.Y, (int)(br.X - tl.X), (int)(br.Y - tl.Y));
