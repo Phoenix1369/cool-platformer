@@ -21,12 +21,14 @@ class Block extends Rectangle
 		this.type[1] = block;
 	}	// end constructor()
 
-	public void draw(Graphics g)
+	public void draw(Graphics g, boolean above)
 	{
 		g2D = (Graphics2D)g;
 		g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		// Blits image of Block type at the Rectangle Area
-		g2D.drawImage(Images.tint[ this.type[1] ][ this.type[0] ], this.x, this.y, this.width, this.height, null);
+		// Block Layers
+		g2D.drawImage(Images.tint[ this.type[1] ][0][ this.type[0] ], this.x, this.y, this.width, this.height, null);		
+		if(!above || (this.type[1] != 1)) // Draws grass on topmost earth block
+			g2D.drawImage(Images.tint[ this.type[1] ][1][ this.type[0] ], this.x, this.y, this.width, this.height, null);		
 	}	// end method draw
 
 	public int getBlock()
