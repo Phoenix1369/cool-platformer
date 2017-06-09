@@ -57,7 +57,7 @@ class GameScreen extends JPanel implements ActionListener, Runnable
 		this.getActionMap().put(MOVE_LEFT, new SetKeyAction(Entity.LEFT, true));
 		this.getInputMap(WIFW).put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0, true), MOVE_LEFT_R);
 		this.getActionMap().put(MOVE_LEFT_R, new SetKeyAction(Entity.LEFT, false));
-		
+
 		this.getInputMap(WIFW).put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0, false), MOVE_RIGHT);
 		this.getActionMap().put(MOVE_RIGHT, new SetKeyAction(Entity.RIGHT, true));
 		this.getInputMap(WIFW).put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0, true), MOVE_RIGHT_R);
@@ -70,71 +70,33 @@ class GameScreen extends JPanel implements ActionListener, Runnable
 	{
 		//Placeholder: all relevant game states should be frozen here
 		mainChar.freeze(yesOrNo);
+		for(Enemy ene: enemies)
+			ene.freeze(yesOrNo);
 	}
 	
 	public void init()
 	{
 		gameScreen = new Thread(this);
+		// enemies.add(new NormalEnemy(12 * Block.getLen(), 5 * Block.getLen()));
+		enemies.add(new NormalEnemy(22 * Block.getLen(), 5 * Block.getLen()));
 
 		// Load level
 		updateMap();
-		
-		// Demo [should Load Level here]
-		// Hardcode Level blocks
-		/*for(int i = 0; i < blocks.length; ++i) {
-			blocks[i][0].setBlock(1);
-			blocks[i][blocks[0].length-1].setBlock(1);			
-		}	// Left / Right Off-Screen Walls
-		for(int j = 0; j < blocks[0].length; ++j)
-			blocks[0][j].setBlock(1); // Off-Screen Walls Above
-		// Custom Blocks Arranged in Ascending Y-Axis
-
-		// First Left Region
-		// Left-Field Test
-		for(int i = 2; i <= 8; ++i)
-			for(int j = 5; j <= 13; ++j)
-				blocks[i][j].setField(Entity.LEFT);
-		blocks[2][4].setBlock(1);
-		for(int i = 4; i <= 8; ++i) // Upper-Left Wall
-			blocks[i][4].setBlock(1);
-		for(int j = 5; j <= 13; ++j) // Platform Below 
-			blocks[11][j].setBlock(1);
-		// Right-Field Test
-		for(int i = 2; i <= 8; ++i)
-			for(int j = 15; j <= 22; ++j)
-				blocks[i][j].setField(Entity.RIGHT);
-		blocks[2][23].setBlock(1);
-		for(int i = 4; i <= 8; ++i) // Upper-Right Wall
-			blocks[i][23].setBlock(1);
-		// Up-Field Test
-		for(int i = 12; i <= 19; ++i)
-			for(int j = 15; j <= 22; ++j)
-				blocks[i][j].setField(Entity.UP);
-		blocks[11][15].setBlock(1);
-		for(int j = 17; j <= 22; ++j) // Upper-Right Wall
-			blocks[11][j].setBlock(1);
-		for(int j = 0; j <= 22; ++j) // Platform Below 
-			blocks[22][j].setBlock(1);*/
 
 		gameScreen.start();
 	}	// end method init
 	
 	public void updateMap()
 	{
-		try
-		{
-			StageManager.loadMap(blocks);
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
+		StageManager.loadMap(blocks);
 	}
 
 	@Override // Interface: ActionListener
 	public void actionPerformed(ActionEvent ae)
 	{
 		mainChar.advance();
+		for(Enemy ene: enemies)
+			ene.advance();
 		this.repaint();
 	}	// end method actionPerformed
 
@@ -154,8 +116,11 @@ class GameScreen extends JPanel implements ActionListener, Runnable
 		// Draws Blocks
 		for(int i = edW; i < blocks.length-edW; ++i)
 			for(int j = edW; j < blocks[i].length-edW; ++j)
-				blocks[i][j].draw(g);
+				blocks[i][j].draw(g, blocks[i-1][j].getBlock()==1);
 
+		// Draws Enemies
+		for(Enemy ene: enemies)
+			ene.draw(g);
 		// Draws Main Character
 		mainChar.draw(g);
 	}	// end method paintComponent
