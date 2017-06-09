@@ -17,10 +17,13 @@ public class SidebarPanel extends JPanel implements ActionListener
 	
 	private JButton[] fieldList = new JButton[4];
 	private String[] fieldListNames = {"Up", "Right", "Down", "Left"};
-	private int currField;
-	
+
 	private JButton save;
+	private JButton load;
 	private JButton clear;
+	private JFileChooser jfc;
+
+	private int currField;
 	
 	public SidebarPanel(Dimension sidebarSize)
 	{
@@ -36,13 +39,19 @@ public class SidebarPanel extends JPanel implements ActionListener
 		}
 		tools[0].setEnabled(false);
 		currTool = "Draw";
-				
+		// "Save" Button
 		add(Box.createRigidArea(new Dimension(0, 30)));
 		save = new JButton("Save");
 		save.setAlignmentX(Component.CENTER_ALIGNMENT);
 		save.addActionListener(this);
 		add(save);
-		
+		// "Load" Button
+		add(Box.createRigidArea(new Dimension(0, 10)));
+		load = new JButton("Load");
+		load.setAlignmentX(Component.CENTER_ALIGNMENT);
+		load.addActionListener(this);
+		add(load);
+		// "Clear" Button
 		add(Box.createRigidArea(new Dimension(0, 10)));
 		clear = new JButton("Clear");
 		clear.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -74,7 +83,7 @@ public class SidebarPanel extends JPanel implements ActionListener
 				currTool = ae.getActionCommand();
 			}
 		}
-		
+
 		for(int i = 0; i < fieldListNames.length; i++) //only one field can be active at a time
 		{
 			if(ae.getActionCommand().equals(fieldListNames[i]))
@@ -85,10 +94,30 @@ public class SidebarPanel extends JPanel implements ActionListener
 				currField = i; //cheap trick that will need to be fixed with proper constants
 			}
 		}
-		
+
 		if(ae.getActionCommand().equals("Save"))
-		{
-			ES.saveToManager();
+		{	// Saves to File
+			jfc = new JFileChooser();
+			switch(jfc.showSaveDialog(this))
+			{
+			case JFileChooser.APPROVE_OPTION:
+				ES.saveToManager(jfc.getCurrentDirectory().toString(), jfc.getSelectedFile().getName());
+				break;
+			case JFileChooser.CANCEL_OPTION:
+				break;
+			}
+		}
+		else if(ae.getActionCommand().equals("Load"))
+		{	// Loads from File
+			jfc = new JFileChooser();
+			switch(jfc.showOpenDialog(this))
+			{
+			case JFileChooser.APPROVE_OPTION:
+				ES.loadFromManager(jfc.getCurrentDirectory().toString(), jfc.getSelectedFile().getName());
+				break;
+			case JFileChooser.CANCEL_OPTION:
+				break;
+			}
 		}
 		else if(ae.getActionCommand().equals("Clear"))
 		{
