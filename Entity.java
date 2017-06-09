@@ -157,6 +157,27 @@ class Entity
 		this.pos.add(disp);
 		pos.X = (Math.abs(Math.round(pos.X) - pos.X) < EPS) ? Math.round(pos.X) : pos.X; //Round to avoid floating point calculation errors
 		pos.Y = (Math.abs(Math.round(pos.Y) - pos.Y) < EPS) ? Math.round(pos.Y) : pos.Y;
+		if(acc.X != 0) //round to the nearest vertical block if there is horizontal gravity
+		{
+			if(pos.Y % Block.getLen() != 0)
+			{
+				if(pos.Y % Block.getLen() < M_SPD - EPS)
+					pos.Y = ((int)pos.Y / Block.getLen()) * Block.getLen();
+				if(pos.Y % Block.getLen() > Block.getLen() - M_SPD + EPS)
+					pos.Y = (((int)pos.Y / Block.getLen()) + 1) * Block.getLen();
+			}
+		}
+		
+		else if(acc.Y != 0) //round to the nearest horizontal block if there is vertical gravity
+		{
+			if(pos.X % Block.getLen() != 0)
+			{
+				if(pos.X % Block.getLen() < M_SPD - EPS)
+					pos.X = ((int)pos.X / Block.getLen()) * Block.getLen();
+				if(pos.X % Block.getLen() > Block.getLen() - M_SPD + EPS)
+					pos.X = (((int)pos.X / Block.getLen()) + 1) * Block.getLen();
+			}
+		}
 	}	// end method move
 
 	public void setAcc(final Vector2 acc)
