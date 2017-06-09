@@ -15,7 +15,7 @@ class EditorScreen extends JPanel implements MouseListener, MouseMotionListener
 	private static final int edW = 1; // Edge Width around Screen
 	private static Block[][] blocks;
 	private SidebarPanel SP;
-	
+
 	EditorScreen(Dimension dim, SidebarPanel sidebar)
 	{
 		setFocusable(true);
@@ -25,14 +25,14 @@ class EditorScreen extends JPanel implements MouseListener, MouseMotionListener
 		SP = sidebar; //reference to the sidebar
 		blocks = new Block[dim.height / Block.getLen() + edW*2][dim.width / Block.getLen() + edW*2];
 		initBlocks();
-	}
-	
+	}	// end constructor(Dimension, SidebarPanel)
+
 	public void initBlocks()
 	{
 		for(int i = 0; i < blocks.length; ++i)
 			for(int j = 0; j < blocks[i].length; ++j) // Default Tiling
 				blocks[i][j] = new Block((j-edW) * Block.getLen(), (i-edW) * Block.getLen(), Entity.DOWN, 0);
-		
+
 		//initialize a border of walls around the board
 		for(int i = 0; i < blocks.length; i++) //vertical walls
 		{
@@ -44,7 +44,7 @@ class EditorScreen extends JPanel implements MouseListener, MouseMotionListener
 			blocks[0][i].setBlock(1);
 			blocks[blocks.length - 1][i].setBlock(1);
 		}
-	}
+	}	// end method initBlocks
 	
 	public void paintComponent(Graphics g)
 	{
@@ -56,7 +56,7 @@ class EditorScreen extends JPanel implements MouseListener, MouseMotionListener
 		// Draws Blocks
 		for(int i = edW; i < blocks.length-edW; ++i)
 			for(int j = edW; j < blocks[i].length-edW; ++j)
-				blocks[i][j].draw(g);
+				blocks[i][j].draw(g, blocks[i-1][j].getBlock()==1);
 	}	// end method paintComponent
 	
 	public void floodFill(int y, int x, boolean fillBlock, int type, int typeToReplace)
@@ -81,28 +81,34 @@ class EditorScreen extends JPanel implements MouseListener, MouseMotionListener
 			floodFill(y, x-1, fillBlock, type, typeToReplace);
 			floodFill(y, x+1, fillBlock, type, typeToReplace);
 		}
-	}
-	
-	public void saveToManager()
-	{
+	}	// end method floodFill
+
+	public void loadFromManager(final String dir, final String file)
+	{	// Loads the level
+		StageManager.loadMap(dir, file, blocks);
+		repaint();
+	}	// end method loadFromManager
+
+	public void saveToManager(final String dir, final String file)
+	{	// Saves the Map to the desired file
 		try
 		{
-			StageManager.saveMap(blocks);
+			StageManager.saveMap(dir, file, blocks);
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
 		}
-	}
+	}	// end method saveToManager
 	
 	public void clear()
 	{
 		initBlocks(); //reset the board to the default state
 		repaint();
 	}
-	
+
 	public void mouseMoved(MouseEvent e){   }
-    public void mouseDragged(MouseEvent e) 
+	public void mouseDragged(MouseEvent e) 
 	{
 		if(e.getX() > 0 && e.getX() < (blocks[0].length - edW*2) * Block.getLen()
 			&& e.getY() > 0 && e.getY() < (blocks.length - edW*2) * Block.getLen()) //if the mouse is within the bounds of the screen
@@ -124,7 +130,7 @@ class EditorScreen extends JPanel implements MouseListener, MouseMotionListener
 			}
 			repaint();
 		}
-    }
+	}
 	public void mouseClicked( MouseEvent e )
 	{
 		Block selectedBlock = blocks[e.getY() / Block.getLen() + edW][e.getX() / Block.getLen() + edW];
@@ -148,8 +154,8 @@ class EditorScreen extends JPanel implements MouseListener, MouseMotionListener
 		}
 		repaint();
 	}	
-    public void mousePressed( MouseEvent e ){   }
+	public void mousePressed( MouseEvent e ){   }
 	public void mouseExited( MouseEvent e ){   }
 	public void mouseEntered( MouseEvent e ){   }
-    public void mouseReleased( MouseEvent e ){   }
+	public void mouseReleased( MouseEvent e ){   }
 }	// end class EditorScreen
