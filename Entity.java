@@ -11,6 +11,9 @@ class Entity
 	private static final double EPS = 1E-9;
 	protected final double GRAVITY = 50.0 / GameScreen.FPS;
 
+	protected static final int ADJ = 0; // Adjacent Block: Given [i][j], checks [i][j-1] or [i][j+1]
+	protected static final int LOW = 1; // Lower Block (stable ground): Given [i][j], checks[i+1][j-1] or [i+1][j+1]
+
 	protected static final int UP = 0;
 	protected static final int RIGHT = 1;
 	protected static final int DOWN = 2;
@@ -25,8 +28,11 @@ class Entity
 	protected static int[] posInt = new int[2];
 
 	protected boolean[] boundsFlags = new boolean[4]; //whether ground is detected in a direction
-	protected boolean[] keysPressedABS = new boolean[4]; //absolute keypress values
- 	protected boolean[] keysPressed = new boolean[4]; //whether directional keys are pressed
+	protected boolean[] keysPressedABS; //absolute keypress values
+ 	protected boolean[] keysPressed; //whether directional keys are pressed
+
+	protected boolean frozen; // False by default
+	protected int prevField = DOWN; // previous field the entity was in
 
 	protected Rectangle area;
 	protected Vector2 acc;
@@ -39,11 +45,18 @@ class Entity
 
 	Entity()
 	{
+		this(bLen, bLen);
+	}	// end constructor()
+
+	Entity(double px, double py)
+	{
 		this.acc = new Vector2();
-		this.pos = new Vector2();
+		this.pos = new Vector2(px, py);
 		this.vel = new Vector2();
 		this.area= new Rectangle((int)Math.round(pos.X), (int)Math.round(pos.Y), Block.getLen(), Block.getLen());
-	}	// end constructor()
+		keysPressed    = new boolean[4];
+		keysPressedABS = new boolean[4];
+	}	// end constructor(double,double)
 
 	public void advance()
 	{
@@ -55,28 +68,67 @@ class Entity
 		{
 			case  DOWN:
 			return	(GameScreen.getBlocks((int)Math.floor(pos.Y / bLen) + 1, (int)Math.floor(pos.X / bLen)).getBlock() == 1) ||
-					(GameScreen.getBlocks((int)Math.floor(pos.Y / bLen) + 1, (int)Math.ceil (pos.X / bLen)).getBlock() == 1);
+				(GameScreen.getBlocks((int)Math.floor(pos.Y / bLen) + 1, (int)Math.ceil (pos.X / bLen)).getBlock() == 1);
 			case    UP:
 			return	(GameScreen.getBlocks((int)Math.floor(pos.Y / bLen) - 1, (int)Math.floor(pos.X / bLen)).getBlock() == 1) ||
-					(GameScreen.getBlocks((int)Math.floor(pos.Y / bLen) - 1, (int)Math.ceil (pos.X / bLen)).getBlock() == 1);
+				(GameScreen.getBlocks((int)Math.floor(pos.Y / bLen) - 1, (int)Math.ceil (pos.X / bLen)).getBlock() == 1);
 			case RIGHT:
 			return	(GameScreen.getBlocks((int)Math.floor(pos.Y / bLen), (int)Math.floor(pos.X / bLen) + 1).getBlock() == 1) ||
-					(GameScreen.getBlocks((int)Math.ceil (pos.Y / bLen), (int)Math.floor(pos.X / bLen) + 1).getBlock() == 1);
+				(GameScreen.getBlocks((int)Math.ceil (pos.Y / bLen), (int)Math.floor(pos.X / bLen) + 1).getBlock() == 1);
 			case  LEFT:
 			return	(GameScreen.getBlocks((int)Math.floor(pos.Y / bLen), (int)Math.floor(pos.X / bLen) - 1).getBlock() == 1) ||
-					(GameScreen.getBlocks((int)Math.ceil (pos.Y / bLen), (int)Math.floor(pos.X / bLen) - 1).getBlock() == 1);
+				(GameScreen.getBlocks((int)Math.ceil (pos.Y / bLen), (int)Math.floor(pos.X / bLen) - 1).getBlock() == 1);
 		}
 		return false;
 	}	// end method checkBlock
+
+	public boolean checkBeyondL(int dir, int low)
+	{	// Determines if a block exists to their (RELATIVE) left (beyond)
+		// low=0: Check adjacent block; low=1: Check block below (stable ground)
+		switch(dir)
+		{
+			case    UP: return (GameScreen.getBlocks((int)Math.floor(pos.Y / bLen) - low, (int)Math.ceil (pos.X / bLen) + 1  ).getBlock() == 1);
+			case RIGHT: return (GameScreen.getBlocks((int)Math.ceil (pos.Y / bLen) + 1  , (int)Math.floor(pos.X / bLen) + low).getBlock() == 1);
+			case  DOWN: return (GameScreen.getBlocks((int)Math.floor(pos.Y / bLen) + low, (int)Math.floor(pos.X / bLen) - 1  ).getBlock() == 1);
+			case  LEFT: return (GameScreen.getBlocks((int)Math.floor(pos.Y / bLen) - 1  , (int)Math.floor(pos.X / bLen) - low).getBlock() == 1);
+		}
+		return false;
+	}	// end method checkBlockL
+
+	public boolean checkBeyondR(int dir, int low)
+	{	// Determines if a block exists to their (RELATIVE) right (beyond)
+		switch(dir)
+		{
+			case    UP: return (GameScreen.getBlocks((int)Math.floor(pos.Y / bLen) - low, (int)Math.floor(pos.X / bLen) - 1  ).getBlock() == 1);
+			case RIGHT: return (GameScreen.getBlocks((int)Math.floor(pos.Y / bLen) - 1  , (int)Math.floor(pos.X / bLen) + low).getBlock() == 1);
+			case  DOWN: return (GameScreen.getBlocks((int)Math.floor(pos.Y / bLen) + low, (int)Math.ceil (pos.X / bLen) + 1  ).getBlock() == 1);
+			case  LEFT: return (GameScreen.getBlocks((int)Math.ceil (pos.Y / bLen) + 1  , (int)Math.floor(pos.X / bLen) - low).getBlock() == 1);
+		}
+		return false;
+	}	// end method checkBlockR
 
 	public void draw(Graphics g)
 	{
 	}	// end method draw
 
+	public void freeze(boolean yesOrNo)
+	{
+		frozen = yesOrNo;
+		if(!frozen) return;
+		// Clears movement if frozen
+		for(int i = 0; i < keysPressedABS.length; i++)
+			setKey(i, false);
+	}
+
 	public int getField()
 	{	// Returns the current Field of the Entity
 		return GameScreen.getBlocks((int)Math.floor(pos.Y / bLen + 0.5), (int)Math.floor(pos.X / bLen + 0.5)).getField();
 	}	// end method getField
+
+	public boolean movingRel(int dir)
+	{	// Moving Relatively (Left / Right)
+		return keysPressedABS[dir]; // [(getField() - dir + 4) % 4];
+	}	// end method getKeyRel
 
 	public final Vector2 getVel()
 	{
@@ -111,6 +163,28 @@ class Entity
 	{
 		this.acc = acc;
 	}	// end method setAcc
+
+	public void setKey(int indexToSet, boolean pressedDown)
+	{
+		keysPressedABS[indexToSet] = pressedDown;
+		if(this.getField() == UP) //Code specifically needed for up-fields: could be shorter, maybe!
+		{
+			if(indexToSet == UP)
+				keysPressed[2] = pressedDown;
+			else if(indexToSet == DOWN)
+				keysPressed[0] = pressedDown;
+			else
+				keysPressed[indexToSet] = pressedDown;
+		}
+		if(this.getField() == DOWN) //Code specifically needed for down-fields
+		{
+			keysPressed[indexToSet] = pressedDown;
+		}
+		else
+		{
+			keysPressed[(indexToSet + getField() + 4) % 4] = pressedDown; //Shift key input for left/right fields
+		}
+	}	// end method setKey
 
 	public void setVel(final Vector2 vel)
 	{
@@ -148,6 +222,32 @@ class Entity
 		if(!boundsFlags[3])
 			br.X = br.X + bLen;
 	}	// end method updateBounds
+
+	public void updateField()
+	{	// For now, only Fields influence Acceleration, so hardcode
+		if(this.getField() != prevField) //Map keys based on absolute keypresses on field switch
+		{
+			switch(this.getField())
+			{
+				case  DOWN: keysPressed[0] = keysPressedABS[0]; keysPressed[1] = keysPressedABS[1];
+							keysPressed[2] = keysPressedABS[2]; keysPressed[3] = keysPressedABS[3]; break;
+				case    UP: keysPressed[0] = keysPressedABS[2]; keysPressed[1] = keysPressedABS[1];
+							keysPressed[2] = keysPressedABS[0]; keysPressed[3] = keysPressedABS[3]; break;
+				case RIGHT: keysPressed[0] = keysPressedABS[3]; keysPressed[1] = keysPressedABS[0];
+							keysPressed[2] = keysPressedABS[1]; keysPressed[3] = keysPressedABS[2]; break;
+				case  LEFT: keysPressed[0] = keysPressedABS[1]; keysPressed[1] = keysPressedABS[2];
+							keysPressed[2] = keysPressedABS[3]; keysPressed[3] = keysPressedABS[0]; break;
+			}
+			prevField = this.getField();
+		}
+		switch(this.getField())
+		{
+			case  DOWN: this.acc.X = 0.0; this.acc.Y = +GRAVITY; break;
+			case    UP: this.acc.X = 0.0; this.acc.Y = -GRAVITY; break;
+			case RIGHT: this.acc.X = +GRAVITY; this.acc.Y = 0.0; break;
+			case  LEFT: this.acc.X = -GRAVITY; this.acc.Y = 0.0; break;
+		}
+	}	// end method updateField
 
 	public void updateVectors() //move based on the keys currently being pressed
 	{
