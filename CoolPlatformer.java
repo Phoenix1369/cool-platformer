@@ -64,6 +64,12 @@ public class CoolPlatformer
 		JF.setVisible(true);
 	}	// end constructor()
 
+	public static void changeScreen(String screen)
+	{
+		CardLayout clayoutJP = (CardLayout)JP.getLayout();
+		clayoutJP.show(JP, screen);
+	}
+	
 	public static void main(String[] args) 
 	{
 		new CoolPlatformer();
