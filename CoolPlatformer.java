@@ -29,8 +29,6 @@ public class CoolPlatformer
 		
 		JP = new JPanel();
 		JP.setLayout(new CardLayout());
-		JP.setFocusable(true);
-		JP.requestFocusInWindow();
 		
 		try 
 		{
