@@ -9,7 +9,7 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import javax.swing.*;
 
-class GameScreen extends JPanel implements ActionListener, Runnable
+class GameScreen extends JPanel implements ActionListener, Runnable, ComponentListener
 {
 	public static final int FPS = 30;
 	public static final int delay = 1000 / FPS;
@@ -125,6 +125,17 @@ class GameScreen extends JPanel implements ActionListener, Runnable
 		mainChar.draw(g);
 	}	// end method paintComponent
 
+	public void componentShown(ComponentEvent e)
+	{
+		freeze(false);
+	}
+	public void componentHidden(ComponentEvent e)
+	{
+		freeze(true);
+	}
+	public void componentResized(ComponentEvent e){   }
+	public void componentMoved(ComponentEvent e){   }
+	
 	@Override // Interface: Runnable
 	public void run()
 	{
