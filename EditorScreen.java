@@ -15,7 +15,13 @@ class EditorScreen extends JPanel implements MouseListener, MouseMotionListener
 	private static final int edW = 1; // Edge Width around Screen
 	private static Block[][] blocks;
 	private SidebarPanel SP;
-
+	private JFrame sidebar;
+	
+	private static final int offX = 6;
+	private static final int offY = 29;
+	public static final Dimension size = new Dimension(800, 600);
+	public static final Dimension sizeSidebar = new Dimension((size.width+offX) / 10, size.height+offY);
+	
 	EditorScreen(Dimension dim, SidebarPanel sidebar)
 	{
 		setFocusable(true);
