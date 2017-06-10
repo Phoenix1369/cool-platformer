@@ -26,7 +26,7 @@ public class SidebarPanel extends JPanel implements ActionListener
 
 	private int currField;
 	
-	public SidebarPanel(Dimension sidebarSize)
+	public SidebarPanel()
 	{
 		super();
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
