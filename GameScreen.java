@@ -25,6 +25,8 @@ class GameScreen extends JPanel implements ActionListener, Runnable, ComponentLi
 	private static final String MOVE_RIGHT_R = "r.m_right";
 	private static final String DOWN_R = "r.m_down";
 
+	private static final String P_KEY = "p.p";
+
 	private static Block[][] blocks;
 	private static Thread gameScreen;
 	private static Timer timer;
@@ -35,6 +37,8 @@ class GameScreen extends JPanel implements ActionListener, Runnable, ComponentLi
 
 	GameScreen(Dimension dim)
 	{
+		addComponentListener(this);
+		
 		blocks = new Block[dim.height / Block.getLen() + edW*2][dim.width / Block.getLen() + edW*2];
 		for(int i = 0; i < blocks.length; ++i)
 			for(int j = 0; j < blocks[i].length; ++j) // Default Tiling
@@ -62,6 +66,9 @@ class GameScreen extends JPanel implements ActionListener, Runnable, ComponentLi
 		this.getActionMap().put(MOVE_RIGHT, new SetKeyAction(Entity.RIGHT, true));
 		this.getInputMap(WIFW).put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0, true), MOVE_RIGHT_R);
 		this.getActionMap().put(MOVE_RIGHT_R, new SetKeyAction(Entity.RIGHT, false));
+
+		this.getInputMap(WIFW).put(KeyStroke.getKeyStroke(KeyEvent.VK_P, 0, false), P_KEY);
+		this.getActionMap().put(P_KEY, new ChangeScreenAction());
 
 		timer = new Timer(delay, this);
 	}	// end constructor()
