@@ -19,11 +19,9 @@ public class CoolPlatformer
 	public static JFrame JF;
 	public static JPanel JP;
 	public static JPanel[] menu;
-	public static int state;
 
 	public CoolPlatformer() 
 	{
-		state = 0; //0 = game screen, 1 = editor screen		
 		JF = new JFrame("Cool Platformer");
 		JF.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		JF.setPreferredSize(sizeJF);
