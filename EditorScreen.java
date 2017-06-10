@@ -28,9 +28,18 @@ class EditorScreen extends JPanel implements MouseListener, MouseMotionListener
 		requestFocusInWindow();
 		addMouseListener(this);
 		addMouseMotionListener(this);
-		SP = sidebar; //reference to the sidebar
 		blocks = new Block[dim.height / Block.getLen() + edW*2][dim.width / Block.getLen() + edW*2];
 		initBlocks();
+		
+		sidebar = new JFrame();
+		sidebar.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); //prevent sidebar from being closed
+		sidebar.setResizable(false);
+		sidebar.setPreferredSize(sizeSidebar);
+		SP = new SidebarPanel();
+		sidebar.add(SP);
+		SP.registerEditor(this);
+		
+		sidebar.pack();
 	}	// end constructor(Dimension, SidebarPanel)
 
 	public void initBlocks()
