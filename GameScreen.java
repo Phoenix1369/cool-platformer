@@ -142,6 +142,15 @@ class GameScreen extends JPanel implements ActionListener, Runnable, ComponentLi
 		timer.start();
 	}	// end method run
 	
+	class ChangeScreenAction extends AbstractAction
+	{		
+		@Override // Superclass: AbstractAction
+		public void actionPerformed(ActionEvent ae)
+		{
+			CoolPlatformer.changeScreen("PauseScreen");
+		}	// end method ActionPerformed
+	}	// end class ChangeScreenAction
+	
 	class SetKeyAction extends AbstractAction
 	{
 		private int indexToSet;
