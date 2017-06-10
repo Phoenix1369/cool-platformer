@@ -24,6 +24,8 @@ class EditorScreen extends JPanel implements MouseListener, MouseMotionListener,
 	
 	EditorScreen(Dimension dim, SidebarPanel sidebar)
 	{
+		addComponentListener(this);
+		
 		setFocusable(true);
 		requestFocusInWindow();
 		addMouseListener(this);
