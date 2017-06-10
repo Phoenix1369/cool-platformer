@@ -10,7 +10,7 @@ import java.io.*;
 import java.util.StringTokenizer;
 import javax.swing.*;
 
-class EditorScreen extends JPanel implements MouseListener, MouseMotionListener
+class EditorScreen extends JPanel implements MouseListener, MouseMotionListener, ComponentListener
 {
 	private static final int edW = 1; // Edge Width around Screen
 	private static Block[][] blocks;
@@ -173,4 +173,18 @@ class EditorScreen extends JPanel implements MouseListener, MouseMotionListener
 	public void mouseExited( MouseEvent e ){   }
 	public void mouseEntered( MouseEvent e ){   }
 	public void mouseReleased( MouseEvent e ){   }
+	
+	public void componentShown(ComponentEvent e)
+	{
+		JFrame tempJF = (JFrame)SwingUtilities.getWindowAncestor(this);
+		sidebar.setVisible(true); //let the sidebar be seen
+		sidebar.setLocation((int)(tempJF.getLocation().getX() + tempJF.getWidth() + offY), (int)(tempJF.getLocation().getY()));
+		tempJF.toFront(); //don't give the sidebar focus
+	}
+	public void componentHidden(ComponentEvent e)
+	{
+		sidebar.setVisible(false);
+	}
+	public void componentResized(ComponentEvent e){   }
+	public void componentMoved(ComponentEvent e){   }
 }	// end class EditorScreen
