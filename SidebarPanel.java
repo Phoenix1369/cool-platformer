@@ -130,6 +130,10 @@ public class SidebarPanel extends JPanel implements ActionListener
 		{
 			ES.clear();
 		}
+		else if(ae.getActionCommand().equals("Return"))
+		{
+			CoolPlatformer.changeScreen("TitleScreen");
+		}
 	}	// end method actionPerformed
 	
 	public void registerEditor(EditorScreen es)
