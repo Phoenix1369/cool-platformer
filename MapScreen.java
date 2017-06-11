@@ -12,17 +12,38 @@ import javax.swing.*;
 
 class MapScreen extends JPanel implements ActionListener
 {
-	JButton GO;
+	JButton[] defaultMapsArr = new JButton[8];
+	JButton[] userMapsArr = new JButton[8];
+	
 	MapScreen(Dimension dim)
 	{
-		GO = new JButton("Go");
-		GO.addActionListener(this);
-		add(GO);
+		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		JPanel defaultMaps = new JPanel();
+		JPanel userMaps = new JPanel();
+		
+		defaultMaps.setLayout(new GridLayout(2, 4));
+		for(int i = 0; i < 8; i++)
+		{
+			defaultMapsArr[i] = new JButton("DMap "  + i);
+			defaultMapsArr[i].addActionListener(this);
+			defaultMaps.add(defaultMapsArr[i]);
+		}
+		
+		userMaps.setLayout(new GridLayout(2, 4));
+		for(int i = 0; i < 8; i++)
+		{
+			userMapsArr[i] = new JButton("UMap "  + i);
+			userMapsArr[i].addActionListener(this);
+			userMaps.add(userMapsArr[i]);
+		}
+		
+		add(defaultMaps);
+		add(userMaps);
 	}	// end constructor(Dimension)
 	
 	public void actionPerformed(ActionEvent ae)
 	{
-		if(ae.getSource() == GO)
+		if(ae.getSource() == defaultMapsArr[0])
 		{
 			CoolPlatformer.changeScreen("GameScreen");
 		}
