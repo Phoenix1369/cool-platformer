@@ -15,9 +15,13 @@ class TitleScreen extends JPanel implements ActionListener
 	JButton start, editor, instruct;
 	TitleScreen(Dimension dim)
 	{
+		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		start = new JButton("Start Game");
 		instruct = new JButton("Instructions");
 		editor = new JButton("Level Editor");
+		start.setAlignmentX(Component.CENTER_ALIGNMENT);
+		instruct.setAlignmentX(Component.CENTER_ALIGNMENT);
+		editor.setAlignmentX(Component.CENTER_ALIGNMENT);
 		start.addActionListener(this);
 		instruct.addActionListener(this);
 		editor.addActionListener(this);
