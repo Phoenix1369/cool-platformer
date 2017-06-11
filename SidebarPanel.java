@@ -7,6 +7,7 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import java.io.*;
 
 public class SidebarPanel extends JPanel implements ActionListener
 {
@@ -105,6 +106,7 @@ public class SidebarPanel extends JPanel implements ActionListener
 		if(ae.getActionCommand().equals("Save"))
 		{	// Saves to File
 			jfc = new JFileChooser();
+			jfc.setCurrentDirectory(new File(System.getProperty("user.dir") + "/include/levels"));
 			switch(jfc.showSaveDialog(this))
 			{
 			case JFileChooser.APPROVE_OPTION:
@@ -117,6 +119,7 @@ public class SidebarPanel extends JPanel implements ActionListener
 		else if(ae.getActionCommand().equals("Load"))
 		{	// Loads from File
 			jfc = new JFileChooser();
+			jfc.setCurrentDirectory(new File(System.getProperty("user.dir") + "/include/levels"));
 			switch(jfc.showOpenDialog(this))
 			{
 			case JFileChooser.APPROVE_OPTION:
