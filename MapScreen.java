@@ -44,9 +44,50 @@ class MapScreen extends JPanel implements ActionListener
 	
 	public void actionPerformed(ActionEvent ae)
 	{
-		if(ae.getSource() == defaultMapsArr[0])
+		if(purpose.equals("Start"))
 		{
-			CoolPlatformer.changeScreen("GameScreen");
+			//char
+			String mapToPlay = "";
+			for(int i = 0; i < defaultMapsArr.length; i++)
+			{
+				if(ae.getSource() == defaultMapsArr[i])
+					mapToPlay = "D" + i + ".txt";
+			}
+			for(int i = 0; i < userMapsArr.length; i++)
+			{
+				if(ae.getSource() == userMapsArr[i])
+					mapToPlay = "U" + i + ".txt";
+			}
+			CoolPlatformer.changeScreen("GameScreen", mapToPlay);
+		}
+		else if(purpose.equals("Save"))
+		{
+			// Saves to File - PLACEHOLDER
+			/*
+			jfc = new JFileChooser();
+			jfc.setCurrentDirectory(new File(System.getProperty("user.dir") + "/include/levels"));
+			switch(jfc.showSaveDialog(this))
+			{
+			case JFileChooser.APPROVE_OPTION:
+				ES.saveToManager(jfc.getCurrentDirectory().toString(), jfc.getSelectedFile().getName());
+				break;
+			case JFileChooser.CANCEL_OPTION:
+				break;
+			}*/
+		}
+		else if(purpose.equals("Load"))
+		{
+			// Loads from File - PLACEHOLDER
+			/*jfc = new JFileChooser();
+			jfc.setCurrentDirectory(new File(System.getProperty("user.dir") + "/include/levels"));
+			switch(jfc.showOpenDialog(this))
+			{
+			case JFileChooser.APPROVE_OPTION:
+				ES.loadFromManager(jfc.getCurrentDirectory().toString(), jfc.getSelectedFile().getName());
+				break;
+			case JFileChooser.CANCEL_OPTION:
+				break;
+			}*/
 		}
 	}	// end method actionPerformed
 	
