@@ -54,7 +54,6 @@ public class CoolPlatformer
 		JP.add(menu[4], "InstructScreen");
 		JP.add(menu[5], "MapScreen");
 		
-		((GameScreen)menu[2]).init();
 		((CardLayout)JP.getLayout()).show(JP, "TitleScreen");
 		
 		JF.add(JP, BorderLayout.CENTER);
@@ -68,6 +67,15 @@ public class CoolPlatformer
 	{
 		CardLayout clayoutJP = (CardLayout)JP.getLayout();
 		clayoutJP.show(JP, screen);
+	}
+	
+	public static void changeScreen(String screen, String cmd)
+	{
+		if(screen.equals("MapScreen"))
+			((MapScreen)menu[5]).setPurpose(cmd);
+		else if(screen.equals("GameScreen"))
+			((GameScreen)menu[2]).init(cmd);
+		changeScreen(screen);
 	}
 	
 	public static void main(String[] args) 

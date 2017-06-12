@@ -75,9 +75,10 @@ class GameScreen extends JPanel implements ActionListener, Runnable
 			ene.freeze(yesOrNo);
 	}
 	
-	public void init()
+	public void init(String fileName)
 	{
 		gameScreen = new Thread(this);
+
 		// Hardcoded Enemies
 		enemies.add(new NormalEnemy(11 * Block.getLen(),  3 * Block.getLen())); // Left  Field
 		enemies.add(new NormalEnemy(21 * Block.getLen(),  5 * Block.getLen())); // Right Field
@@ -85,15 +86,10 @@ class GameScreen extends JPanel implements ActionListener, Runnable
 		// enemies.add(new NormalEnemy( 5 * Block.getLen(), 11 * Block.getLen())); // Solo Pocket
 
 		// Load level
-		updateMap();
+		StageManager.loadMap(System.getProperty("user.dir") + "/include/levels", fileName, blocks);
 
 		gameScreen.start();
 	}	// end method init
-	
-	public void updateMap()
-	{
-		StageManager.loadMap(blocks);
-	}
 
 	@Override // Interface: ActionListener
 	public void actionPerformed(ActionEvent ae)
