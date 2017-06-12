@@ -8,17 +8,9 @@ import java.awt.*;
 
 class Enemy extends Entity
 {
-	Enemy()
+	Enemy(double px, double py)
 	{
-		super();
-	}	// end constructor()
-
-	public void advance()
-	{
-	}	// end method advance
-
-	public void draw(Graphics g)
-	{
-	}	// end method draw
-
+		super(px, py);
+		this.M_SPD = 160.0 / GameScreen.FPS;
+	}	// end constructor(double, double)
 }	// end class Enemy
