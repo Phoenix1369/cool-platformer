@@ -14,6 +14,7 @@ class MapScreen extends JPanel implements ActionListener
 {
 	JButton[] defaultMapsArr = new JButton[8];
 	JButton[] userMapsArr = new JButton[8];
+	String purpose = "Start";
 	
 	MapScreen(Dimension dim)
 	{
@@ -48,4 +49,9 @@ class MapScreen extends JPanel implements ActionListener
 			CoolPlatformer.changeScreen("GameScreen");
 		}
 	}	// end method actionPerformed
+	
+	public void setPurpose(String purp)
+	{
+		purpose = purp;
+	}
 }	// end class MapScreen
