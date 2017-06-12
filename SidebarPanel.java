@@ -104,30 +104,12 @@ public class SidebarPanel extends JPanel implements ActionListener
 		}
 
 		if(ae.getActionCommand().equals("Save"))
-		{	// Saves to File
-			jfc = new JFileChooser();
-			jfc.setCurrentDirectory(new File(System.getProperty("user.dir") + "/include/levels"));
-			switch(jfc.showSaveDialog(this))
-			{
-			case JFileChooser.APPROVE_OPTION:
-				ES.saveToManager(jfc.getCurrentDirectory().toString(), jfc.getSelectedFile().getName());
-				break;
-			case JFileChooser.CANCEL_OPTION:
-				break;
-			}
+		{	
+			CoolPlatformer.changeScreen("MapScreen", "Save");
 		}
 		else if(ae.getActionCommand().equals("Load"))
-		{	// Loads from File
-			jfc = new JFileChooser();
-			jfc.setCurrentDirectory(new File(System.getProperty("user.dir") + "/include/levels"));
-			switch(jfc.showOpenDialog(this))
-			{
-			case JFileChooser.APPROVE_OPTION:
-				ES.loadFromManager(jfc.getCurrentDirectory().toString(), jfc.getSelectedFile().getName());
-				break;
-			case JFileChooser.CANCEL_OPTION:
-				break;
-			}
+		{	
+			CoolPlatformer.changeScreen("MapScreen", "Load");
 		}
 		else if(ae.getActionCommand().equals("Clear"))
 		{
