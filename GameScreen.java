@@ -81,7 +81,7 @@ class GameScreen extends JPanel implements ActionListener, Runnable, ComponentLi
 			ene.freeze(yesOrNo);
 	}
 	
-	public void init()
+	public void init(String fileName)
 	{
 		gameScreen = new Thread(this);
 		// enemies.add(new NormalEnemy(12 * Block.getLen(), 5 * Block.getLen()));
