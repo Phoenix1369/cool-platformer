@@ -54,7 +54,6 @@ public class CoolPlatformer
 		JP.add(menu[4], "InstructScreen");
 		JP.add(menu[5], "MapScreen");
 		
-		((GameScreen)menu[2]).init();
 		((CardLayout)JP.getLayout()).show(JP, "TitleScreen");
 		
 		JF.add(JP, BorderLayout.CENTER);
