@@ -2,12 +2,13 @@
 * name: Patrick Au, James Long
 * date: March 2017
 * code: ICS4U1
-* note: Cool Platformer
+* note: JPanel containing the sidebar for level editor tools
 *******/
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+
 import javax.swing.*;
-import java.io.*;
 
 public class SidebarPanel extends JPanel implements ActionListener
 {
@@ -22,7 +23,6 @@ public class SidebarPanel extends JPanel implements ActionListener
 	private JButton save;
 	private JButton load;
 	private JButton clear;
-	private JButton ret;
 	private JFileChooser jfc;
 
 	private int currField;
@@ -59,12 +59,6 @@ public class SidebarPanel extends JPanel implements ActionListener
 		clear.setAlignmentX(Component.CENTER_ALIGNMENT);
 		clear.addActionListener(this);
 		add(clear);
-		// "Return" Button
-		add(Box.createRigidArea(new Dimension(0, 10)));
-		ret = new JButton("Return");
-		ret.setAlignmentX(Component.CENTER_ALIGNMENT);
-		ret.addActionListener(this);
-		add(ret);
 		
 		add(Box.createRigidArea(new Dimension(0, 20)));
 		for(int i = 0; i < fieldList.length; i++)
@@ -114,10 +108,6 @@ public class SidebarPanel extends JPanel implements ActionListener
 		else if(ae.getActionCommand().equals("Clear"))
 		{
 			ES.clear();
-		}
-		else if(ae.getActionCommand().equals("Return"))
-		{
-			CoolPlatformer.changeScreen("TitleScreen");
 		}
 	}	// end method actionPerformed
 	

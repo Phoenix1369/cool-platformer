@@ -7,11 +7,12 @@
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+
 import javax.swing.*;
 
-class GameScreen extends JPanel implements ActionListener, Runnable, ComponentListener
+class GameScreen extends JPanel implements ActionListener, Runnable
 {
-	public static final int FPS = 30;
+	public static final int FPS = 40; // 30;
 	public static final int delay = 1000 / FPS;
 	private static final int edW = 1; // Edge Width around Screen
 	private static final int WIFW = JComponent.WHEN_IN_FOCUSED_WINDOW;
@@ -25,8 +26,6 @@ class GameScreen extends JPanel implements ActionListener, Runnable, ComponentLi
 	private static final String MOVE_RIGHT_R = "r.m_right";
 	private static final String DOWN_R = "r.m_down";
 
-	private static final String P_KEY = "p.p";
-
 	private static Block[][] blocks;
 	private static Thread gameScreen;
 	private static Timer timer;
@@ -37,8 +36,6 @@ class GameScreen extends JPanel implements ActionListener, Runnable, ComponentLi
 
 	GameScreen(Dimension dim)
 	{
-		addComponentListener(this);
-		
 		blocks = new Block[dim.height / Block.getLen() + edW*2][dim.width / Block.getLen() + edW*2];
 		for(int i = 0; i < blocks.length; ++i)
 			for(int j = 0; j < blocks[i].length; ++j) // Default Tiling
@@ -67,9 +64,6 @@ class GameScreen extends JPanel implements ActionListener, Runnable, ComponentLi
 		this.getInputMap(WIFW).put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0, true), MOVE_RIGHT_R);
 		this.getActionMap().put(MOVE_RIGHT_R, new SetKeyAction(Entity.RIGHT, false));
 
-		this.getInputMap(WIFW).put(KeyStroke.getKeyStroke(KeyEvent.VK_P, 0, false), P_KEY);
-		this.getActionMap().put(P_KEY, new ChangeScreenAction());
-
 		timer = new Timer(delay, this);
 	}	// end constructor()
 
@@ -84,10 +78,12 @@ class GameScreen extends JPanel implements ActionListener, Runnable, ComponentLi
 	public void init(String fileName)
 	{
 		gameScreen = new Thread(this);
-		
-		enemies.clear();
-		// enemies.add(new NormalEnemy(12 * Block.getLen(), 5 * Block.getLen()));
-		enemies.add(new NormalEnemy(22 * Block.getLen(), 5 * Block.getLen()));
+
+		// Hardcoded Enemies
+		enemies.add(new NormalEnemy(11 * Block.getLen(),  3 * Block.getLen())); // Left  Field
+		enemies.add(new NormalEnemy(21 * Block.getLen(),  5 * Block.getLen())); // Right Field
+		enemies.add(new NormalEnemy(16 * Block.getLen(), 16 * Block.getLen())); // Up    Field
+		// enemies.add(new NormalEnemy( 5 * Block.getLen(), 11 * Block.getLen())); // Solo Pocket
 
 		// Load level
 		StageManager.loadMap(System.getProperty("user.dir") + "/include/levels", fileName, blocks);
@@ -129,31 +125,11 @@ class GameScreen extends JPanel implements ActionListener, Runnable, ComponentLi
 		mainChar.draw(g);
 	}	// end method paintComponent
 
-	public void componentShown(ComponentEvent e)
-	{
-		freeze(false);
-	}
-	public void componentHidden(ComponentEvent e)
-	{
-		freeze(true);
-	}
-	public void componentResized(ComponentEvent e){   }
-	public void componentMoved(ComponentEvent e){   }
-	
 	@Override // Interface: Runnable
 	public void run()
 	{
 		timer.start();
 	}	// end method run
-	
-	class ChangeScreenAction extends AbstractAction
-	{		
-		@Override // Superclass: AbstractAction
-		public void actionPerformed(ActionEvent ae)
-		{
-			CoolPlatformer.changeScreen("PauseScreen");
-		}	// end method ActionPerformed
-	}	// end class ChangeScreenAction
 	
 	class SetKeyAction extends AbstractAction
 	{

@@ -9,7 +9,7 @@ import java.awt.*;
 class Entity
 {
 	private static final double EPS = 1E-9;
-	protected final double GRAVITY = 50.0 / GameScreen.FPS;
+	protected final double GRAVITY = 40.0 / GameScreen.FPS; // (50, fps=30)
 
 	protected static final int ADJ = 0; // Adjacent Block: Given [i][j], checks [i][j-1] or [i][j+1]
 	protected static final int LOW = 1; // Lower Block (stable ground): Given [i][j], checks[i+1][j-1] or [i+1][j+1]
@@ -20,9 +20,9 @@ class Entity
 	protected static final int LEFT = 3;
 	protected static final int bLen = Block.getLen();
 
-	protected final double J_SPD = 480.0 / GameScreen.FPS;
-	protected final double J_SPD_MIN = 240.0 / GameScreen.FPS;
-	protected final double M_SPD = 200.0 / GameScreen.FPS; // Normal: 120.0
+	protected final double J_SPD = 640.0 / GameScreen.FPS; // (480, fps=30)
+	protected final double J_SPD_MIN = 320.0 / GameScreen.FPS; // (240, fps=30)
+	protected double M_SPD;
 
 	protected static Graphics2D g2D;
 	protected static int[] posInt = new int[2];
@@ -32,6 +32,7 @@ class Entity
  	protected boolean[] keysPressed; //whether directional keys are pressed
 
 	protected boolean frozen; // False by default
+	protected boolean snapTo; // Snaps the User to the grid
 	protected int prevField = DOWN; // previous field the entity was in
 
 	protected Rectangle area;
@@ -64,48 +65,57 @@ class Entity
 
 	public boolean checkBlock(int dir)
 	{	// Determines if the player is standing on a Block
-		switch(dir)
-		{
-			case  DOWN:
-			return	(GameScreen.getBlocks((int)Math.floor(pos.Y / bLen) + 1, (int)Math.floor(pos.X / bLen)).getBlock() == 1) ||
-				(GameScreen.getBlocks((int)Math.floor(pos.Y / bLen) + 1, (int)Math.ceil (pos.X / bLen)).getBlock() == 1);
-			case    UP:
-			return	(GameScreen.getBlocks((int)Math.floor(pos.Y / bLen) - 1, (int)Math.floor(pos.X / bLen)).getBlock() == 1) ||
-				(GameScreen.getBlocks((int)Math.floor(pos.Y / bLen) - 1, (int)Math.ceil (pos.X / bLen)).getBlock() == 1);
-			case RIGHT:
-			return	(GameScreen.getBlocks((int)Math.floor(pos.Y / bLen), (int)Math.floor(pos.X / bLen) + 1).getBlock() == 1) ||
-				(GameScreen.getBlocks((int)Math.ceil (pos.Y / bLen), (int)Math.floor(pos.X / bLen) + 1).getBlock() == 1);
-			case  LEFT:
-			return	(GameScreen.getBlocks((int)Math.floor(pos.Y / bLen), (int)Math.floor(pos.X / bLen) - 1).getBlock() == 1) ||
-				(GameScreen.getBlocks((int)Math.ceil (pos.Y / bLen), (int)Math.floor(pos.X / bLen) - 1).getBlock() == 1);
-		}
-		return false;
+		return checkBlockL(dir) || checkBlockR(dir);
 	}	// end method checkBlock
 
-	public boolean checkBeyondL(int dir, int low)
-	{	// Determines if a block exists to their (RELATIVE) left (beyond)
-		// low=0: Check adjacent block; low=1: Check block below (stable ground)
+	public boolean checkBlockL(int dir)
+	{	// Determines if a block exists to its RELATIVE left (near)
 		switch(dir)
 		{
-			case    UP: return (GameScreen.getBlocks((int)Math.floor(pos.Y / bLen) - low, (int)Math.ceil (pos.X / bLen) + 1  ).getBlock() == 1);
-			case RIGHT: return (GameScreen.getBlocks((int)Math.ceil (pos.Y / bLen) + 1  , (int)Math.floor(pos.X / bLen) + low).getBlock() == 1);
-			case  DOWN: return (GameScreen.getBlocks((int)Math.floor(pos.Y / bLen) + low, (int)Math.floor(pos.X / bLen) - 1  ).getBlock() == 1);
-			case  LEFT: return (GameScreen.getBlocks((int)Math.floor(pos.Y / bLen) - 1  , (int)Math.floor(pos.X / bLen) - low).getBlock() == 1);
+			case    UP: return GameScreen.getBlocks((int)Math.ceil (pos.Y / bLen)-1, (int)Math.ceil (pos.X / bLen)  ).getBlock() == 1;
+			case RIGHT: return GameScreen.getBlocks((int)Math.ceil (pos.Y / bLen)  , (int)Math.floor(pos.X / bLen)+1).getBlock() == 1;
+			case  DOWN: return GameScreen.getBlocks((int)Math.floor(pos.Y / bLen)+1, (int)Math.floor(pos.X / bLen)  ).getBlock() == 1;
+			case  LEFT: return GameScreen.getBlocks((int)Math.floor(pos.Y / bLen)  , (int)Math.ceil (pos.X / bLen)-1).getBlock() == 1;
 		}
 		return false;
 	}	// end method checkBlockL
 
-	public boolean checkBeyondR(int dir, int low)
-	{	// Determines if a block exists to their (RELATIVE) right (beyond)
+	public boolean checkBlockR(int dir)
+	{	// Determines if a block exists to their (RELATIVE) right (near)
 		switch(dir)
 		{
-			case    UP: return (GameScreen.getBlocks((int)Math.floor(pos.Y / bLen) - low, (int)Math.floor(pos.X / bLen) - 1  ).getBlock() == 1);
-			case RIGHT: return (GameScreen.getBlocks((int)Math.floor(pos.Y / bLen) - 1  , (int)Math.floor(pos.X / bLen) + low).getBlock() == 1);
-			case  DOWN: return (GameScreen.getBlocks((int)Math.floor(pos.Y / bLen) + low, (int)Math.ceil (pos.X / bLen) + 1  ).getBlock() == 1);
-			case  LEFT: return (GameScreen.getBlocks((int)Math.ceil (pos.Y / bLen) + 1  , (int)Math.floor(pos.X / bLen) - low).getBlock() == 1);
+			case    UP: return GameScreen.getBlocks((int)Math.ceil (pos.Y / bLen)-1, (int)Math.floor(pos.X / bLen)  ).getBlock() == 1;
+			case RIGHT: return GameScreen.getBlocks((int)Math.floor(pos.Y / bLen)  , (int)Math.floor(pos.X / bLen)+1).getBlock() == 1;
+			case  DOWN: return GameScreen.getBlocks((int)Math.floor(pos.Y / bLen)+1, (int)Math.ceil (pos.X / bLen)  ).getBlock() == 1;
+			case  LEFT: return GameScreen.getBlocks((int)Math.ceil (pos.Y / bLen)  , (int)Math.ceil (pos.X / bLen)-1).getBlock() == 1;
 		}
 		return false;
 	}	// end method checkBlockR
+
+	public boolean checkFarL(int dir, int low)
+	{	// Checks if a block exists to the left (far)
+		// low=0: Check adjacent block; low=1: Check block below (stable ground)
+		switch(dir)
+		{
+			case    UP: return GameScreen.getBlocks((int)Math.floor(pos.Y / bLen)-low, (int)Math.floor(pos.X / bLen)+  1).getBlock() == 1;
+			case RIGHT: return GameScreen.getBlocks((int)Math.floor(pos.Y / bLen)+  1, (int)Math.ceil (pos.X / bLen)+low).getBlock() == 1;
+			case  DOWN: return GameScreen.getBlocks((int)Math.ceil (pos.Y / bLen)+low, (int)Math.ceil (pos.X / bLen)-  1).getBlock() == 1;
+			case  LEFT: return GameScreen.getBlocks((int)Math.ceil (pos.Y / bLen)-  1, (int)Math.floor(pos.X / bLen)-low).getBlock() == 1;
+		}
+		return false;
+	}	// end method checkFarL
+
+	public boolean checkFarR(int dir, int low)
+	{	// Checks if a block exists to the right (far)
+		switch(dir)
+		{
+			case    UP: return GameScreen.getBlocks((int)Math.floor(pos.Y / bLen)-low, (int)Math.ceil (pos.X / bLen)-  1).getBlock() == 1;
+			case RIGHT: return GameScreen.getBlocks((int)Math.ceil (pos.Y / bLen)-  1, (int)Math.ceil (pos.X / bLen)+low).getBlock() == 1;
+			case  DOWN: return GameScreen.getBlocks((int)Math.ceil (pos.Y / bLen)+low, (int)Math.floor(pos.X / bLen)+  1).getBlock() == 1;
+			case  LEFT: return GameScreen.getBlocks((int)Math.floor(pos.Y / bLen)+  1, (int)Math.floor(pos.X / bLen)-low).getBlock() == 1;
+		}
+		return false;
+	}	// end method checkFarR
 
 	public void draw(Graphics g)
 	{
@@ -127,7 +137,7 @@ class Entity
 
 	public boolean movingRel(int dir)
 	{	// Moving Relatively (Left / Right)
-		return keysPressedABS[dir]; // [(getField() - dir + 4) % 4];
+		return keysPressedABS[(getField() - dir + 4) % 4];
 	}	// end method getKeyRel
 
 	public final Vector2 getVel()
@@ -135,7 +145,7 @@ class Entity
 		return this.vel;
 	}	// end method getVel
 
-	public void move(final Vector2 disp)
+	public void move(Vector2 disp)
 	{
 		updateBounds();
 		if(acc.X != 0) //decelerate in the vertical direction if there is horizontal gravity
@@ -154,29 +164,17 @@ class Entity
 			disp.Y = Math.min(disp.Y, br.Y - (pos.Y + bLen));
 		else
 			disp.Y = Math.max(disp.Y, tl.Y - pos.Y);
+		if(	(Math.abs(this.acc.X) > EPS && Math.abs(this.vel.X) < EPS) ||
+			(Math.abs(this.acc.Y) > EPS && Math.abs(this.vel.Y) < EPS) )
+			snapTo = true;	// Velocity perpendicular to Acceleration
 		this.pos.add(disp);
 		pos.X = (Math.abs(Math.round(pos.X) - pos.X) < EPS) ? Math.round(pos.X) : pos.X; //Round to avoid floating point calculation errors
 		pos.Y = (Math.abs(Math.round(pos.Y) - pos.Y) < EPS) ? Math.round(pos.Y) : pos.Y;
-		if(acc.X != 0) //round to the nearest vertical block if there is horizontal gravity
-		{
-			if(pos.Y % Block.getLen() != 0)
-			{
-				if(pos.Y % Block.getLen() < M_SPD - EPS)
-					pos.Y = ((int)pos.Y / Block.getLen()) * Block.getLen();
-				if(pos.Y % Block.getLen() > Block.getLen() - M_SPD + EPS)
-					pos.Y = (((int)pos.Y / Block.getLen()) + 1) * Block.getLen();
-			}
-		}
-		
-		else if(acc.Y != 0) //round to the nearest horizontal block if there is vertical gravity
-		{
-			if(pos.X % Block.getLen() != 0)
-			{
-				if(pos.X % Block.getLen() < M_SPD - EPS)
-					pos.X = ((int)pos.X / Block.getLen()) * Block.getLen();
-				if(pos.X % Block.getLen() > Block.getLen() - M_SPD + EPS)
-					pos.X = (((int)pos.X / Block.getLen()) + 1) * Block.getLen();
-			}
+		if(snapTo)
+		{	// Rounds the User's position after changing Fields
+			pos.X = (int)Math.round(pos.X / M_SPD) * M_SPD;
+			pos.Y = (int)Math.round(pos.Y / M_SPD) * M_SPD;
+			snapTo = false;
 		}
 	}	// end method move
 
@@ -197,7 +195,7 @@ class Entity
 			else
 				keysPressed[indexToSet] = pressedDown;
 		}
-		if(this.getField() == DOWN) //Code specifically needed for down-fields
+		else if(this.getField() == DOWN) //Code specifically needed for down-fields
 		{
 			keysPressed[indexToSet] = pressedDown;
 		}
@@ -260,6 +258,7 @@ class Entity
 							keysPressed[2] = keysPressedABS[3]; keysPressed[3] = keysPressedABS[0]; break;
 			}
 			prevField = this.getField();
+			snapTo = true; // Snaps Entity to Grid
 		}
 		switch(this.getField())
 		{
@@ -272,8 +271,7 @@ class Entity
 
 	public void updateVectors() //move based on the keys currently being pressed
 	{
-		// 'keysPressed[UP]' doesn't work
-		if(keysPressedABS[(getField()+2) % 4] && checkBlock(getField()))
+		if( keysPressed[UP] && checkBlock(getField()))
 		{	// Jump Query - Block exists in Field Direction
 			switch(getField())
 			{
@@ -282,6 +280,7 @@ class Entity
 				case RIGHT: setVel(new Vector2(-J_SPD, 0.0)); break;
 				case  LEFT: setVel(new Vector2(+J_SPD, 0.0)); break;
 			}
+			// System.out.println("Jump: " + pos.X + " " + pos.Y);
 		}
 		/* 
 		else if(!keysPressed[UP]) //"cut" the jump if the button is released early
@@ -296,7 +295,7 @@ class Entity
 			{
 				case  DOWN:
 				case    UP: move(new Vector2(-1 * M_SPD, 0.0)); break;
-				case RIGHT: move(new Vector2(0.0, 1 * M_SPD)); break;
+				case RIGHT: move(new Vector2(0.0, +1 * M_SPD)); break;
 				case  LEFT: move(new Vector2(0.0, -1 * M_SPD)); break;
 			}
 		}
@@ -307,7 +306,7 @@ class Entity
 				case  DOWN:
 				case    UP: move(new Vector2(+1 * M_SPD, 0.0)); break;
 				case RIGHT: move(new Vector2(0.0, -1 * M_SPD)); break;
-				case  LEFT: move(new Vector2(0.0, 1 * M_SPD)); break;
+				case  LEFT: move(new Vector2(0.0, +1 * M_SPD)); break;
 			}
 		}
 	}	// end method updateVectors

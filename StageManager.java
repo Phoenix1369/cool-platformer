@@ -7,8 +7,8 @@
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
-// import java.nio.file.Path;
 import java.util.StringTokenizer;
+
 import javax.swing.*;
 
 class StageManager 
@@ -18,7 +18,7 @@ class StageManager
 	static StringTokenizer st;
 
 	static String lastDir  = new File("include", "levels").getPath();
-	static String lastFile = "default.txt";
+	static String lastFile = "fieldtest.txt"; // "default.txt";
 
 	public static String gets() throws IOException 
 	{
