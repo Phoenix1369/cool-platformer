@@ -10,8 +10,7 @@ class NormalEnemy extends Enemy
 {
 	NormalEnemy(double x, double y)
 	{
-		super();
-		this.pos = new Vector2(x, y);
+		super(x, y);
 	}	// end constructor(double,double)
 
 	public void advance()
@@ -19,30 +18,26 @@ class NormalEnemy extends Enemy
 		if(frozen) return;
 		// Directions are RELATIVE here ie. "R" in "Up" Field <--> "L" in "Down" (Normal) Field
 		// Stops at the edge of a cliff
+		updateField();
 		if(movingRel(RIGHT))
 		{
-			if(!checkBeyondR(getField(), LOW) || checkBeyondR(getField(), ADJ))
+			if(!checkFarR(getField(), LOW) || checkFarR(getField(), ADJ))
 				setKey((getField() - RIGHT + 4) % 4, false); // Releases "Right"
 		}
 		else if(movingRel(LEFT))
 		{
-			// System.out.println("LEFT");
-			if(!checkBeyondL(getField(), LOW) || checkBeyondL(getField(), ADJ))
+			if(!checkFarL(getField(), LOW) || checkFarL(getField(), ADJ))
 				setKey((getField() - LEFT + 4) % 4, false); // Releases "Left"
 		}
-		else if(checkBlock(getField()))
+		else if(checkBlock(getField()) && (checkFarL(getField(), LOW) || checkFarR(getField(), LOW)))
 		{	// Begin Moving
-			boolean moveL = !checkBeyondL(getField(), ADJ);
-			// System.out.println("checkBlock: " + ( (getField() - LEFT + 4) % 4 ) + " -> " + moveL);
+			boolean moveL = !checkFarL(getField(), ADJ) && checkFarL(getField(), LOW);
 			setKey((getField() - LEFT  + 4) % 4, moveL); // Toggles "Left"
 			setKey((getField() - RIGHT + 4) % 4, moveL ^ true); // Toggles "Right"
-			// System.out.println(keysPressedABS[(getField() - LEFT + 4) % 4] + " << ");
 		}
-		updateField();
 		updateVectors();
 		this.vel.add(this.acc);
 		move(this.vel);
-		// System.out.println(keysPressedABS[(getField() - LEFT + 4) % 4] + " << ");
 	}	// end method advance
 
 	@Override // Superclass: Entity
@@ -51,4 +46,13 @@ class NormalEnemy extends Enemy
 		g2D = (Graphics2D)g;
 		g2D.drawImage(Images.sprites[1], (int)Math.round(pos.X), (int)Math.round(pos.Y), Block.getLen(), Block.getLen(), null);
 	}	// end method draw
+
+	@Override // Superclass: Entity
+	public void updateField()
+	{	// For now, only Fields influence Acceleration, so hardcode
+		if(getField() != prevField)
+			for(int i = 0; i < 4; ++i)
+				setKey(i, false); // Release All
+		super.updateField();
+	}	// end method updateField
 }	// end class Entity
