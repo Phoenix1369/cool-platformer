@@ -32,7 +32,7 @@ class StageManager
 		loadMap(new File(lastDir).getPath(), lastFile, blockArr);
 	}	// end method loadMap
 
-	public static void loadMap(final String dir, final String file, final Block[][] blockArr)
+	public static void loadMap(final String dir, final String file, Block[][] blockArr)
 	{	// Load level
 		try
 		{
