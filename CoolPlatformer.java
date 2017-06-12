@@ -69,6 +69,15 @@ public class CoolPlatformer
 		clayoutJP.show(JP, screen);
 	}
 	
+	public static void changeScreen(String screen, String cmd)
+	{
+		if(screen.equals("MapScreen"))
+			((MapScreen)menu[5]).setPurpose(cmd);
+		else if(screen.equals("GameScreen"))
+			((GameScreen)menu[2]).init(cmd);
+		changeScreen(screen);
+	}
+	
 	public static void main(String[] args) 
 	{
 		new CoolPlatformer();
