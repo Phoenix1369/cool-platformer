@@ -90,15 +90,10 @@ class GameScreen extends JPanel implements ActionListener, Runnable, ComponentLi
 		enemies.add(new NormalEnemy(22 * Block.getLen(), 5 * Block.getLen()));
 
 		// Load level
-		updateMap();
+		StageManager.loadMap(System.getProperty("user.dir") + "/include/levels", fileName, blocks);
 
 		gameScreen.start();
 	}	// end method init
-	
-	public void updateMap()
-	{
-		StageManager.loadMap(blocks);
-	}
 
 	@Override // Interface: ActionListener
 	public void actionPerformed(ActionEvent ae)
