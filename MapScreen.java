@@ -10,7 +10,7 @@ import java.io.*;
 import java.util.StringTokenizer;
 import javax.swing.*;
 
-class MapScreen extends JPanel implements ActionListener
+class MapScreen extends JPanel implements ActionListener, ComponentListener
 {
 	JButton[] defaultMapsArr = new JButton[8];
 	JButton[] userMapsArr = new JButton[8];
@@ -18,6 +18,8 @@ class MapScreen extends JPanel implements ActionListener
 	
 	MapScreen(Dimension dim)
 	{
+		addComponentListener(this);
+		
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		JPanel defaultMaps = new JPanel();
 		JPanel userMaps = new JPanel();
@@ -95,4 +97,24 @@ class MapScreen extends JPanel implements ActionListener
 	{
 		purpose = purp;
 	}
+	
+	public void componentShown(ComponentEvent e)
+	{
+		if(purpose.equals("Save"))
+		{
+			for(int i = 0; i < defaultMapsArr.length; i++)
+			{
+				defaultMapsArr[i].setEnabled(false);
+			}
+		}
+	}
+	public void componentHidden(ComponentEvent e)
+	{
+		for(int i = 0; i < defaultMapsArr.length; i++)
+		{
+			defaultMapsArr[i].setEnabled(true);
+		}
+	}
+	public void componentResized(ComponentEvent e){   }
+	public void componentMoved(ComponentEvent e){   }
 }	// end class MapScreen
