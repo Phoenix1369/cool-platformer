@@ -29,7 +29,8 @@ class Player extends Entity
 	public void draw(Graphics g)
 	{	// Hardcode image for Demo
 		g2D = (Graphics2D)g;
-		// g2D.fillRect((int)tl.X, (int)tl.Y, (int)(br.X - tl.X), (int)(br.Y - tl.Y));
-		g2D.drawImage(Images.sprites[0], (int)Math.round(pos.X), (int)Math.round(pos.Y), Block.getLen(), Block.getLen(), null);
+		// g2D.fillRect((int)tl.X, (int)tl.Y, (int)(br.X - tl.X), (int)(br.Y - tl.Y)); // Bounding Box
+		g2D.drawImage(Images.sprites[0][ getField() ][ movingRel(LEFT)?0:1 ],
+			(int)Math.round(pos.X), (int)Math.round(pos.Y), Block.getLen(), Block.getLen(), null);
 	}	// end method draw
 }	// end class
