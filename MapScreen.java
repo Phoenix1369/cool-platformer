@@ -24,10 +24,18 @@ class MapScreen extends JPanel implements ActionListener, ComponentListener
 		ES = editor;
 		
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		
+		JLabel prompt = new JLabel("Please select a map:", JLabel.CENTER);
+		prompt.setAlignmentX(Component.CENTER_ALIGNMENT);
+		JLabel defaultLabel = new JLabel("Default Maps:", JLabel.CENTER);
+		defaultLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		JLabel userLabel = new JLabel("User Maps:", JLabel.CENTER);
+		userLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		
 		JPanel defaultMaps = new JPanel();
 		JPanel userMaps = new JPanel();
 		
-		defaultMaps.setLayout(new GridLayout(2, 4));
+		defaultMaps.setLayout(new GridLayout(2, 4, 5, 5));
 		for(int i = 0; i < 8; i++)
 		{
 			defaultMapsArr[i] = new JButton("DMap "  + i);
@@ -35,15 +43,22 @@ class MapScreen extends JPanel implements ActionListener, ComponentListener
 			defaultMaps.add(defaultMapsArr[i]);
 		}
 		
-		userMaps.setLayout(new GridLayout(2, 4));
+		userMaps.setLayout(new GridLayout(2, 4, 5, 5));
 		for(int i = 0; i < 8; i++)
 		{
 			userMapsArr[i] = new JButton("UMap "  + i);
 			userMapsArr[i].addActionListener(this);
 			userMaps.add(userMapsArr[i]);
 		}
-		
+		add(Box.createRigidArea(new Dimension(0, 20)));
+		add(prompt);
+		add(Box.createRigidArea(new Dimension(0, 20)));
+		add(defaultLabel);
+		add(Box.createRigidArea(new Dimension(0, 5)));
 		add(defaultMaps);
+		add(Box.createRigidArea(new Dimension(0, 20)));
+		add(userLabel);
+		add(Box.createRigidArea(new Dimension(0, 5)));
 		add(userMaps);
 	}	// end constructor(Dimension)
 	
