@@ -48,6 +48,7 @@ class GameScreen extends JPanel implements ActionListener, Runnable, ComponentLi
 		for(int i = 0; i < blocks.length; ++i)
 			for(int j = 0; j < blocks[i].length; ++j) // Default Tiling
 				blocks[i][j] = new Block((j-edW) * Block.getLen(), (i-edW) * Block.getLen(), Entity.DOWN, 0);
+		dlen = new Dimension(blocks[0].length, blocks.length);
 
 		mainChar = new Player();
 		enemies = new ArrayList<Enemy>();
