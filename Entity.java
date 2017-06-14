@@ -132,7 +132,8 @@ class Entity
 
 	public int getField()
 	{	// Returns the current Field of the Entity
-		return GameScreen.getBlocks((int)Math.floor(pos.Y / bLen + 0.5), (int)Math.floor(pos.X / bLen + 0.5)).getField();
+		Dimension d = getIdx();
+		return GameScreen.getBlocks(d.height, d.width).getField();
 	}	// end method getField
 
 	public Dimension getIdx()
@@ -206,13 +207,9 @@ class Entity
 				keysPressed[indexToSet] = pressedDown;
 		}
 		else if(this.getField() == DOWN) //Code specifically needed for down-fields
-		{
 			keysPressed[indexToSet] = pressedDown;
-		}
-		else
-		{
-			keysPressed[(indexToSet + getField() + 4) % 4] = pressedDown; //Shift key input for left/right fields
-		}
+		else	// Shift key input for left / right fields
+			keysPressed[(indexToSet + getField() + 4) % 4] = pressedDown;
 	}	// end method setKey
 
 	public void setVel(final Vector2 vel)
@@ -284,9 +281,9 @@ class Entity
 		}
 	}	// end method updateField
 
-	public void updateVectors() //move based on the keys currently being pressed
+	public void updateVectors() // move based on the keys currently being pressed
 	{
-		if( keysPressed[UP] && checkBlock(getField()))
+		if(keysPressed[UP] && checkBlock(getField()))
 		{	// Jump Query - Block exists in Field Direction
 			switch(getField())
 			{
@@ -295,7 +292,6 @@ class Entity
 				case RIGHT: setVel(new Vector2(-J_SPD, 0.0)); break;
 				case  LEFT: setVel(new Vector2(+J_SPD, 0.0)); break;
 			}
-			// System.out.println("Jump: " + pos.X + " " + pos.Y);
 		}
 		/* 
 		else if(!keysPressed[UP]) //"cut" the jump if the button is released early
