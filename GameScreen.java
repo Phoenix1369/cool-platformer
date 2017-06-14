@@ -89,18 +89,24 @@ class GameScreen extends JPanel implements ActionListener, Runnable, ComponentLi
 
 		enemies.clear();
 		
-		// Hardcoded Enemies
-		enemies.add(new NormalEnemy(11 * Block.getLen(),  3 * Block.getLen())); // Left  Field
-		enemies.add(new NormalEnemy(21 * Block.getLen(),  5 * Block.getLen())); // Right Field
-		enemies.add(new NormalEnemy(16 * Block.getLen(), 16 * Block.getLen())); // Up    Field
-		// enemies.add(new NormalEnemy( 5 * Block.getLen(), 11 * Block.getLen())); // Solo Pocket
-
 		// Load level
 		StageManager.loadMap(System.getProperty("user.dir") + "/include/levels", fileName, blocks);
 		goalPos = StageManager.getGoalPos(System.getProperty("user.dir") + "/include/levels", fileName, blocks);
-		goalPos.X *= Block.getLen();
-		goalPos.Y *= Block.getLen();
 		gameScreen.start();
+		
+		// Replace Enemy blocks with Enemies
+		for(int i = 0; i < blocks.length; ++i)
+		{
+			for(int j = 0; j < blocks[i].length; ++j)
+			{
+				if(blocks[i][j].getBlock() == Block.ENEMY1 || blocks[i][j].getBlock() == Block.ENEMY2)
+				{
+					blocks[i][j].setBlock(0); //default tile - air
+					enemies.add(new NormalEnemy(j * Block.getLen(),  i * Block.getLen()));
+				}
+			}
+		}					
+		
 	}	// end method init
 
 	@Override // Interface: ActionListener
