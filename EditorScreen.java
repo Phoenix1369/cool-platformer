@@ -135,7 +135,11 @@ class EditorScreen extends JPanel implements MouseListener, MouseMotionListener,
 			if(SwingUtilities.isLeftMouseButton(e)) 
 			{
 				if(SP.getCurrTool().equals("Draw"))
+				{
+					if(SP.getCurrBlock() == Block.GOAL || SP.getCurrBlock() == Block.PLAYER)
+						removeAllPrev(SP.getCurrBlock());
 					selectedBlock.setBlock(SP.getCurrBlock()); //only type of block that can be drawn
+				}
 				else if(SP.getCurrTool().equals("Erase"))
 					selectedBlock.setBlock(Block.AIR); //default block: air
 			}
@@ -155,7 +159,11 @@ class EditorScreen extends JPanel implements MouseListener, MouseMotionListener,
 		if(SwingUtilities.isLeftMouseButton(e)) 
 		{
 			if(SP.getCurrTool().equals("Draw"))
+			{
+				if(SP.getCurrBlock() == Block.GOAL || SP.getCurrBlock() == Block.PLAYER)
+					removeAllPrev(SP.getCurrBlock());
 				selectedBlock.setBlock(SP.getCurrBlock()); //only type of block that can be drawn
+			}
 			else if(SP.getCurrTool().equals("Erase"))
 				selectedBlock.setBlock(Block.AIR); //default block: air
 			else if(SP.getCurrTool().equals("Fill"))
@@ -172,6 +180,19 @@ class EditorScreen extends JPanel implements MouseListener, MouseMotionListener,
 		}
 		repaint();
 	}	
+	
+	public void removeAllPrev(int blockType)
+	{
+		for(int i = 0; i < blocks.length; ++i)
+		{
+			for(int j = 0; j < blocks[i].length; ++j)
+			{
+				if(blocks[i][j].getBlock() == blockType)
+					blocks[i][j].setBlock(Block.AIR); //default block: air
+			}
+		}
+	}
+	
 	public void mousePressed( MouseEvent e ){   }
 	public void mouseExited( MouseEvent e ){   }
 	public void mouseEntered( MouseEvent e ){   }
