@@ -175,4 +175,9 @@ public class SidebarPanel extends JPanel implements ActionListener
 	{
 		return currField;
 	}
+	
+	public int getCurrBlock()
+	{
+		return currBlock;
+	}
 }	// end class Sidebar

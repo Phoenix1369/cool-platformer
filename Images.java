@@ -42,13 +42,13 @@ class Images
 					mirror(sprites[i][(Entity.DOWN+j) % 4], k, sprites[i][(Entity.DOWN+j-1) % 4][k], Block.getLen(), Block.getLen(), ROT);
 		}
 		// Loads Tiles
-		tiles = new BufferedImage[3][2];
+		tiles = new BufferedImage[6][2];
 		temImg = ImageIO.read(new File(imgDir, "tiles.png"));
 		for(int i = 0; i < tiles.length; ++i)
 			for(int j = 0; j < tiles[i].length; ++j)
 				loadSubimage(tiles[i], j, j * Block.getLen(), i * Block.getLen(), Block.getLen(), Block.getLen());
 		// Tints the Tiles
-		tint = new BufferedImage[3][2][4];
+		tint = new BufferedImage[6][2][4];
 		for(int i = 0; i < tint.length; ++i)
 			for(int j = 0; j < tint[i].length; ++j)
 				for(int k = 0; k < tint[i][j].length; ++k) // Iterate on Colours

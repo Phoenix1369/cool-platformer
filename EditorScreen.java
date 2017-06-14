@@ -79,6 +79,7 @@ class EditorScreen extends JPanel implements MouseListener, MouseMotionListener,
 	public void floodFill(int y, int x, boolean fillBlock, int type, int typeToReplace)
 	{
 		if(type == typeToReplace) return; //no need to fill if you're currently on the same block you want to fill it with
+		if(fillBlock && (type == Block.PLAYER || type == Block.GOAL)) return; //can't flood fill unique entities
 		if(x >= 1 && x < blocks[0].length - 1 && y >= 1 && y < blocks.length - 1)
 		{
 			if(fillBlock) //if the flood fill is for blocks
@@ -134,9 +135,9 @@ class EditorScreen extends JPanel implements MouseListener, MouseMotionListener,
 			if(SwingUtilities.isLeftMouseButton(e)) 
 			{
 				if(SP.getCurrTool().equals("Draw"))
-					selectedBlock.setBlock(1); //only type of block that can be drawn
+					selectedBlock.setBlock(SP.getCurrBlock()); //only type of block that can be drawn
 				else if(SP.getCurrTool().equals("Erase"))
-					selectedBlock.setBlock(0); //default block: air
+					selectedBlock.setBlock(Block.AIR); //default block: air
 			}
 			if(SwingUtilities.isRightMouseButton(e))
 			{
@@ -154,11 +155,11 @@ class EditorScreen extends JPanel implements MouseListener, MouseMotionListener,
 		if(SwingUtilities.isLeftMouseButton(e)) 
 		{
 			if(SP.getCurrTool().equals("Draw"))
-				selectedBlock.setBlock(1); //only type of block that can be drawn
+				selectedBlock.setBlock(SP.getCurrBlock()); //only type of block that can be drawn
 			else if(SP.getCurrTool().equals("Erase"))
-				selectedBlock.setBlock(0); //default block: air
+				selectedBlock.setBlock(Block.AIR); //default block: air
 			else if(SP.getCurrTool().equals("Fill"))
-				floodFill(e.getY() / Block.getLen() + edW, e.getX() / Block.getLen() + edW, true, 1, selectedBlock.getBlock());
+				floodFill(e.getY() / Block.getLen() + edW, e.getX() / Block.getLen() + edW, true, SP.getCurrBlock(), selectedBlock.getBlock());
 		}
 		if(SwingUtilities.isRightMouseButton(e))
 		{
