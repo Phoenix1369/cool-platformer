@@ -15,10 +15,13 @@ class MapScreen extends JPanel implements ActionListener, ComponentListener
 	JButton[] defaultMapsArr = new JButton[8];
 	JButton[] userMapsArr = new JButton[8];
 	String purpose = "Start";
+	EditorScreen ES;
 	
-	MapScreen(Dimension dim)
+	MapScreen(Dimension dim, EditorScreen editor)
 	{
 		addComponentListener(this);
+		
+		ES = editor;
 		
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		JPanel defaultMaps = new JPanel();

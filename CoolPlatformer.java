@@ -45,7 +45,7 @@ public class CoolPlatformer
 		menu[2] = new GameScreen(size);
 		menu[3] = new PauseScreen(size);
 		menu[4] = new InstructScreen(size);
-		menu[5] = new MapScreen(size);
+		menu[5] = new MapScreen(size, (EditorScreen)menu[1]);
 		
 		JP.add(menu[0], "TitleScreen");
 		JP.add(menu[1], "EditorScreen");
