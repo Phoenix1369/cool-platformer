@@ -32,14 +32,19 @@ public class SidebarPanel extends JPanel implements ActionListener
 	{
 		super();
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		
+		JPanel toolsPanel = new JPanel(new GridLayout(4, 1, 0, 5));
+		toolsPanel.add(new JLabel("Current Tool:", JLabel.CENTER));
 		for(int i = 0; i < tools.length; i++)
 		{
-			add(Box.createRigidArea(new Dimension(0, 10)));
 			tools[i] = new JButton(toolNames[i]);
 			tools[i].setAlignmentX(Component.CENTER_ALIGNMENT);
+			tools[i].setMinimumSize(new Dimension(getWidth() - 10, 50));
 			tools[i].addActionListener(this);
-			add(tools[i]);
+			toolsPanel.add(tools[i]);
 		}
+		add(toolsPanel);
+		
 		tools[0].setEnabled(false);
 		currTool = "Draw";
 		// "Save" Button
