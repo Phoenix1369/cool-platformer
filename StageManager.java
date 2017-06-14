@@ -95,7 +95,7 @@ class StageManager
 				{
 					if(blockArr[i][j].getBlock() == Block.GOAL)
 					{
-						return new Vector2(j-1, i-1);
+						return new Vector2((j-1) * Block.getLen(), (i-1) * Block.getLen());
 					}
 				}
 			}
