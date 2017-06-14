@@ -34,6 +34,7 @@ class GameScreen extends JPanel implements ActionListener, Runnable, ComponentLi
 	// Entity Objects
 	private static Player mainChar;
 	private static ArrayList<Enemy> enemies;
+	private static Vector2 goalPos;
 
 	GameScreen(Dimension dim)
 	{
@@ -96,6 +97,9 @@ class GameScreen extends JPanel implements ActionListener, Runnable, ComponentLi
 
 		// Load level
 		StageManager.loadMap(System.getProperty("user.dir") + "/include/levels", fileName, blocks);
+		goalPos = StageManager.getGoalPos(System.getProperty("user.dir") + "/include/levels", fileName, blocks);
+		goalPos.X *= Block.getLen();
+		goalPos.Y *= Block.getLen();
 
 		gameScreen.start();
 	}	// end method init

@@ -82,5 +82,29 @@ class StageManager
 		{
 			e.printStackTrace();
 		}
-	}	
+	}
+	
+	public static Vector2 getGoalPos(final String dir, final String file, final Block[][] blockArr)
+	{
+		try
+		{
+			in = new BufferedReader(new FileReader(new File(dir, file)));
+			for(int i = 0; i < blockArr.length; i++)
+			{
+				for(int j = 0; j < blockArr[i].length; j++)
+				{
+					if(blockArr[i][j].getBlock() == Block.GOAL)
+					{
+						return new Vector2(i, j);
+					}
+				}
+			}
+			in.close();
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		return new Vector2(-1, -1);
+	}
 }	// end class StageManager
