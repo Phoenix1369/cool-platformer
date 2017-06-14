@@ -39,13 +39,15 @@ public class CoolPlatformer
 			e.printStackTrace();
 		}	// end catch
 
-		menu = new JPanel[6]; // Number of Menu Screens
+		menu = new JPanel[8]; // Number of Menu Screens
 		menu[0] = new TitleScreen(size);
 		menu[1] = new EditorScreen(size);
 		menu[2] = new GameScreen(size);
 		menu[3] = new PauseScreen(size);
 		menu[4] = new InstructScreen(size);
 		menu[5] = new MapScreen(size, (EditorScreen)menu[1]);
+		menu[6] = new WinScreen(size);
+		menu[7] = new LoseScreen(size);
 		
 		JP.add(menu[0], "TitleScreen");
 		JP.add(menu[1], "EditorScreen");
@@ -53,6 +55,8 @@ public class CoolPlatformer
 		JP.add(menu[3], "PauseScreen");
 		JP.add(menu[4], "InstructScreen");
 		JP.add(menu[5], "MapScreen");
+		JP.add(menu[6], "WinScreen");
+		JP.add(menu[7], "LoseScreen");
 		
 		((CardLayout)JP.getLayout()).show(JP, "TitleScreen");
 		
