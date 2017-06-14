@@ -10,6 +10,10 @@ class Block extends Rectangle
 {
 	public static final int AIR   = 0;
 	public static final int EARTH = 1;
+	public static final int GOAL = 2;
+	public static final int ENEMY1 = 3;
+	public static final int ENEMY2 = 4;
+	public static final int PLAYER = 5;
 
 	private static final int LEN = 20;
 
