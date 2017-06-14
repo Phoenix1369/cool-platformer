@@ -79,7 +79,7 @@ class EditorScreen extends JPanel implements MouseListener, MouseMotionListener,
 	public void floodFill(int y, int x, boolean fillBlock, int type, int typeToReplace)
 	{
 		if(type == typeToReplace) return; //no need to fill if you're currently on the same block you want to fill it with
-		if(x >= 0 && x < blocks[0].length && y >= 0 && y < blocks.length)
+		if(x >= 1 && x < blocks[0].length - 1 && y >= 1 && y < blocks.length - 1)
 		{
 			if(fillBlock) //if the flood fill is for blocks
 			{
