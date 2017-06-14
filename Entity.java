@@ -144,6 +144,11 @@ class Entity
 	{
 		return this.vel;
 	}	// end method getVel
+	
+	public final Vector2 getPos()
+	{
+		return this.pos;
+	}	// end method getPos
 
 	public void move(Vector2 disp)
 	{
