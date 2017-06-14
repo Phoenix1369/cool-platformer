@@ -12,7 +12,7 @@ import javax.swing.*;
 
 class GameScreen extends JPanel implements ActionListener, Runnable, ComponentListener
 {
-	public static final int FPS = 40; // 30;
+	public static final int FPS = 40; // 20;
 	public static final int delay = 1000 / FPS;
 	private static final int edW = 1; // Edge Width around Screen
 	private static final int WIFW = JComponent.WHEN_IN_FOCUSED_WINDOW;
@@ -31,8 +31,6 @@ class GameScreen extends JPanel implements ActionListener, Runnable, ComponentLi
 	private static Thread gameScreen;
 	private static Timer timer;
 
-	private static int[][] dist; // Distance Array
-
 	// Entity Objects
 	private static Player mainChar;
 	private static ArrayList<Enemy> enemies;
@@ -45,7 +43,6 @@ class GameScreen extends JPanel implements ActionListener, Runnable, ComponentLi
 		for(int i = 0; i < blocks.length; ++i)
 			for(int j = 0; j < blocks[i].length; ++j) // Default Tiling
 				blocks[i][j] = new Block((j-edW) * Block.getLen(), (i-edW) * Block.getLen(), Entity.DOWN, 0);
-		dist = new int[blocks.length][blocks[0].length];
 
 		mainChar = new Player();
 		enemies = new ArrayList<Enemy>();
@@ -99,7 +96,6 @@ class GameScreen extends JPanel implements ActionListener, Runnable, ComponentLi
 
 		// Load level
 		StageManager.loadMap(System.getProperty("user.dir") + "/include/levels", fileName, blocks);
-		StageManager.computePaths(dist, blocks); // Computes distances to Main Player
 
 		gameScreen.start();
 	}	// end method init
