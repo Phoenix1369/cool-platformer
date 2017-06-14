@@ -145,7 +145,11 @@ public class SidebarPanel extends JPanel implements ActionListener
 
 		if(ae.getActionCommand().equals("Save"))
 		{	
-			CoolPlatformer.changeScreen("MapScreen", "Save");
+			if(ES.hasAllReqs())
+				CoolPlatformer.changeScreen("MapScreen", "Save");
+			else
+				JOptionPane.showMessageDialog(new JFrame(), "A player object (pink block) AND a goal object (flag) have to be placed before saving.",
+												"Warning", JOptionPane.WARNING_MESSAGE);
 		}
 		else if(ae.getActionCommand().equals("Load"))
 		{	
