@@ -85,6 +85,8 @@ class GameScreen extends JPanel implements ActionListener, Runnable, ComponentLi
 	{
 		gameScreen = new Thread(this);
 
+		enemies.clear();
+		
 		// Hardcoded Enemies
 		enemies.add(new NormalEnemy(11 * Block.getLen(),  3 * Block.getLen())); // Left  Field
 		enemies.add(new NormalEnemy(21 * Block.getLen(),  5 * Block.getLen())); // Right Field
