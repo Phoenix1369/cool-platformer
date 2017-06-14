@@ -103,21 +103,17 @@ class GameScreen extends JPanel implements ActionListener, Runnable, ComponentLi
 			for(int j = 0; j < blocks[i].length; ++j)
 			{
 				if(blocks[i][j].getBlock() == Block.ENEMY1)
-				{
-					blocks[i][j].setBlock(0); //default tile - air
 					enemies.add(new NormalEnemy(j * Block.getLen(),  i * Block.getLen()));
-				}
-				if(blocks[i][j].getBlock() == Block.ENEMY2) //needs to be replaced with second type of enemy
+				else if(blocks[i][j].getBlock() == Block.ENEMY2)
+					enemies.add(new HomingEnemy(j * Block.getLen(),  i * Block.getLen()));
+				else if(blocks[i][j].getBlock() == Block.PLAYER)
 				{
-					blocks[i][j].setBlock(0); //default tile - air
-					enemies.add(new NormalEnemy(j * Block.getLen(),  i * Block.getLen()));
-				}
-				if(blocks[i][j].getBlock() == Block.PLAYER)
-				{
-					blocks[i][j].setBlock(0); //default tile - air
 					mainChar.setPos(new Vector2((j-1) * Block.getLen(),  (i-1) * Block.getLen()));
 					mainChar.setVel(new Vector2());
 				}
+				else	// Not an Enemy
+					continue;
+				blocks[i][j].setBlock(Block.AIR);
 			}
 		}					
 		
