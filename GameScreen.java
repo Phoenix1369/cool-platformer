@@ -31,6 +31,8 @@ class GameScreen extends JPanel implements ActionListener, Runnable, ComponentLi
 	private static Thread gameScreen;
 	private static Timer timer;
 
+	private static int[][] dist; // Distance Array
+
 	// Entity Objects
 	private static Player mainChar;
 	private static ArrayList<Enemy> enemies;
@@ -43,6 +45,8 @@ class GameScreen extends JPanel implements ActionListener, Runnable, ComponentLi
 		for(int i = 0; i < blocks.length; ++i)
 			for(int j = 0; j < blocks[i].length; ++j) // Default Tiling
 				blocks[i][j] = new Block((j-edW) * Block.getLen(), (i-edW) * Block.getLen(), Entity.DOWN, 0);
+		dist = new int[blocks.length][blocks[0].length];
+
 		mainChar = new Player();
 		enemies = new ArrayList<Enemy>();
 
@@ -79,7 +83,7 @@ class GameScreen extends JPanel implements ActionListener, Runnable, ComponentLi
 		mainChar.freeze(yesOrNo);
 		for(Enemy ene: enemies)
 			ene.freeze(yesOrNo);
-	}
+	}	// end method freeze
 	
 	public void init(String fileName)
 	{
@@ -95,6 +99,7 @@ class GameScreen extends JPanel implements ActionListener, Runnable, ComponentLi
 
 		// Load level
 		StageManager.loadMap(System.getProperty("user.dir") + "/include/levels", fileName, blocks);
+		StageManager.computePaths(dist, blocks); // Computes distances to Main Player
 
 		gameScreen.start();
 	}	// end method init
