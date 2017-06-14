@@ -193,6 +193,22 @@ class EditorScreen extends JPanel implements MouseListener, MouseMotionListener,
 		}
 	}
 	
+	public boolean hasAllReqs()
+	{
+		boolean gl = false, pl = false;
+		for(int i = 0; i < blocks.length; ++i)
+		{
+			for(int j = 0; j < blocks[i].length; ++j)
+			{
+				if(blocks[i][j].getBlock() == Block.GOAL)
+					gl = true;
+				else if(blocks[i][j].getBlock() == Block.PLAYER)
+					pl = true;
+			}
+		}
+		return (gl && pl);
+	}
+	
 	public void mousePressed( MouseEvent e ){   }
 	public void mouseExited( MouseEvent e ){   }
 	public void mouseEntered( MouseEvent e ){   }
