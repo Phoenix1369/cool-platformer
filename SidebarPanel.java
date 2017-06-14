@@ -22,13 +22,15 @@ public class SidebarPanel extends JPanel implements ActionListener
 	
 	private JButton[] blockList = new JButton[5];
 	private String[] blockListNames = {"B_GROUND", "B_GOAL", "B_ENEMY1", "B_ENEMY2", "B_PLAYER"};
-	private ImageIcon[] blockListIcons = {};
-	
+	private ImageIcon[] blockListIcons = {new ImageIcon(Images.tiles[1][0]), new ImageIcon(Images.tiles[2][0]),
+											new ImageIcon(Images.sprites[1][2][0]), new ImageIcon(Images.sprites[2][2][0]),
+											new ImageIcon(Images.sprites[0][2][0])};
 	private JButton[] fieldList = new JButton[3];
 	private String[] fieldListNames = {"F_UP", "F_RIGHT", "F_LEFT"};
-	
-	
-
+	private ImageIcon[] fieldListIcons = {new ImageIcon(Images.tint[0][0][0]), new ImageIcon(Images.tint[0][0][1]),
+											new ImageIcon(Images.tint[0][0][3])};
+	private String[] fieldListDisp = {"^", ">", "<"};
+											
 	private JButton save;
 	private JButton load;
 	private JButton clear;
@@ -66,7 +68,7 @@ public class SidebarPanel extends JPanel implements ActionListener
 		//brushesPanelL.add(new JButton(new ImageIcon(Images.tiles[1][0])));
 		for(int i = 0; i < blockList.length; i++)
 		{
-			blockList[i] = new JButton();
+			blockList[i] = new JButton(blockListIcons[i]);
 			blockList[i].setActionCommand(blockListNames[i]);
 			blockList[i].addActionListener(this);
 			brushesPanelL.add(blockList[i]);
@@ -74,7 +76,9 @@ public class SidebarPanel extends JPanel implements ActionListener
 		
 		for(int i = 0; i < fieldList.length; i++)
 		{
-			fieldList[i] = new JButton();
+			fieldList[i] = new JButton(fieldListDisp[i], fieldListIcons[i]);
+			fieldList[i].setHorizontalTextPosition(JButton.CENTER);
+			fieldList[i].setVerticalTextPosition(JButton.CENTER);
 			fieldList[i].setActionCommand(fieldListNames[i]);
 			fieldList[i].addActionListener(this);
 			brushesPanelR.add(fieldList[i]);

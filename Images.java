@@ -48,7 +48,7 @@ class Images
 			for(int j = 0; j < tiles[i].length; ++j)
 				loadSubimage(tiles[i], j, j * Block.getLen(), i * Block.getLen(), Block.getLen(), Block.getLen());
 		// Tints the Tiles
-		tint = new BufferedImage[2][2][4];
+		tint = new BufferedImage[3][2][4];
 		for(int i = 0; i < tint.length; ++i)
 			for(int j = 0; j < tint[i].length; ++j)
 				for(int k = 0; k < tint[i][j].length; ++k) // Iterate on Colours
