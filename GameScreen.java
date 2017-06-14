@@ -35,6 +35,8 @@ class GameScreen extends JPanel implements ActionListener, Runnable, ComponentLi
 	private static Player mainChar;
 	private static ArrayList<Enemy> enemies;
 	private static Vector2 goalPos;
+	
+	private static boolean winLose;
 
 	GameScreen(Dimension dim)
 	{
@@ -87,6 +89,7 @@ class GameScreen extends JPanel implements ActionListener, Runnable, ComponentLi
 	{
 		gameScreen = new Thread(this);
 
+		winLose = false;
 		enemies.clear();
 		
 		// Load level
@@ -99,10 +102,21 @@ class GameScreen extends JPanel implements ActionListener, Runnable, ComponentLi
 		{
 			for(int j = 0; j < blocks[i].length; ++j)
 			{
-				if(blocks[i][j].getBlock() == Block.ENEMY1 || blocks[i][j].getBlock() == Block.ENEMY2)
+				if(blocks[i][j].getBlock() == Block.ENEMY1)
 				{
 					blocks[i][j].setBlock(0); //default tile - air
 					enemies.add(new NormalEnemy(j * Block.getLen(),  i * Block.getLen()));
+				}
+				if(blocks[i][j].getBlock() == Block.ENEMY2) //needs to be replaced with second type of enemy
+				{
+					blocks[i][j].setBlock(0); //default tile - air
+					enemies.add(new NormalEnemy(j * Block.getLen(),  i * Block.getLen()));
+				}
+				if(blocks[i][j].getBlock() == Block.PLAYER)
+				{
+					blocks[i][j].setBlock(0); //default tile - air
+					mainChar.setPos(new Vector2((j-1) * Block.getLen(),  (i-1) * Block.getLen()));
+					mainChar.setVel(new Vector2());
 				}
 			}
 		}					
@@ -116,11 +130,21 @@ class GameScreen extends JPanel implements ActionListener, Runnable, ComponentLi
 		for(Enemy ene: enemies)
 			ene.advance();
 		this.repaint();
-		if(intersects(mainChar.getPos(), goalPos)) System.out.println("You win");
+		if(intersects(mainChar.getPos(), goalPos) && !winLose)
+		{
+			winLose = true;
+			CoolPlatformer.changeScreen("WinScreen");
+		}
 		else
 		{
 			for(Enemy ene: enemies)
-				if(intersects(mainChar.getPos(), ene.getPos())) System.out.println("You lost");
+			{
+				if(intersects(mainChar.getPos(), ene.getPos()) && !winLose) 
+				{
+					winLose = true;
+					CoolPlatformer.changeScreen("LoseScreen");
+				}
+			}
 		}
 	}	// end method actionPerformed
 	
