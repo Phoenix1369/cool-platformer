@@ -214,6 +214,11 @@ class Entity
 	{
 		this.vel = vel;
 	}	// end method setVel
+	
+	public void setPos(final Vector2 pos)
+	{
+		this.pos = pos;
+	}	// end method setPos
 
 	public void updateBounds()
 	{
