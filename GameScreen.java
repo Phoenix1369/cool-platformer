@@ -84,7 +84,9 @@ class GameScreen extends JPanel implements ActionListener, Runnable, ComponentLi
 		for(Enemy ene: enemies)
 			ene.freeze(yesOrNo);
 	}	// end method freeze
-	
+
+	public static final Dimension getDlen() { return dlen; } // end method getDlen
+
 	public void init(String fileName)
 	{
 		gameScreen = new Thread(this);
@@ -148,6 +150,8 @@ class GameScreen extends JPanel implements ActionListener, Runnable, ComponentLi
 	{
 		return blocks[y+edW][x+edW];
 	}	// end method getBlocks
+
+	public static Player getP() { return mainChar; } // end method getP
 
 	@Override // Superclass: JPanel
 	public void paintComponent(Graphics g)
