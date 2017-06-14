@@ -12,7 +12,7 @@ class Player extends Entity
 	Player()
 	{
 		super(bLen*2, bLen*11);
-		this.M_SPD = 200.0 / GameScreen.FPS; // Normal: 120.0 was 150, 180
+		this.M_SPD = 200.0 / GameScreen.FPS; // Was 200
 	}	// end constructor()
 
 	@Override // Superclass: Entity
