@@ -15,7 +15,6 @@ import javax.imageio.ImageIO;
 class TitleScreen extends JPanel implements ActionListener
 {
 	JButton start, editor, instruct;
-	Dimension RA = new Dimension(0, 10);
 	TitleScreen(Dimension dim)
 	{
 		setLayout(new BorderLayout());
