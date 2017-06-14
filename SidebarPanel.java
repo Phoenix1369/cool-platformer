@@ -17,6 +17,9 @@ public class SidebarPanel extends JPanel implements ActionListener
 	private String[] toolNames = {"Draw", "Erase", "Fill"};
 	private String currTool;
 	
+	private JButton[] actions = new JButton[4];
+	private String[] actionNames = {"Save", "Load", "Return", "Clear"};
+	
 	private JButton[] fieldList = new JButton[4];
 	private String[] fieldListNames = {"Up", "Right", "Down", "Left"};
 
@@ -32,46 +35,31 @@ public class SidebarPanel extends JPanel implements ActionListener
 	{
 		super();
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		
-		JPanel toolsPanel = new JPanel(new GridLayout(4, 1, 0, 5));
+		//Tools
+		JPanel toolsPanel = new JPanel(new GridLayout(4, 1, 5, 5));
 		toolsPanel.add(new JLabel("Current Tool:", JLabel.CENTER));
 		for(int i = 0; i < tools.length; i++)
 		{
 			tools[i] = new JButton(toolNames[i]);
 			tools[i].setAlignmentX(Component.CENTER_ALIGNMENT);
-			tools[i].setMinimumSize(new Dimension(getWidth() - 10, 50));
 			tools[i].addActionListener(this);
 			toolsPanel.add(tools[i]);
 		}
 		add(toolsPanel);
-		
 		tools[0].setEnabled(false);
 		currTool = "Draw";
-		// "Save" Button
-		add(Box.createRigidArea(new Dimension(0, 30)));
-		save = new JButton("Save");
-		save.setAlignmentX(Component.CENTER_ALIGNMENT);
-		save.addActionListener(this);
-		add(save);
-		// "Load" Button
-		add(Box.createRigidArea(new Dimension(0, 10)));
-		load = new JButton("Load");
-		load.setAlignmentX(Component.CENTER_ALIGNMENT);
-		load.addActionListener(this);
-		add(load);
-		// "Clear" Button
-		add(Box.createRigidArea(new Dimension(0, 10)));
-		clear = new JButton("Clear");
-		clear.setAlignmentX(Component.CENTER_ALIGNMENT);
-		clear.addActionListener(this);
-		add(clear);
-		// "Return" Button
-		add(Box.createRigidArea(new Dimension(0, 10)));
-		ret = new JButton("Return");
-		ret.setAlignmentX(Component.CENTER_ALIGNMENT);
-		ret.addActionListener(this);
-		add(ret);
-		
+		//Actions
+		JPanel actionsPanel = new JPanel(new GridLayout(5, 1, 0, 5));
+		actionsPanel.add(new JLabel("Available Actions:", JLabel.CENTER));
+		for(int i = 0; i < actions.length; i++)
+		{
+			actions[i] = new JButton(actionNames[i]);
+			actions[i].setAlignmentX(Component.CENTER_ALIGNMENT);
+			actions[i].addActionListener(this);
+			actionsPanel.add(actions[i]);
+		}
+		add(actionsPanel);
+		//Brushes
 		add(Box.createRigidArea(new Dimension(0, 20)));
 		for(int i = 0; i < fieldList.length; i++)
 		{
