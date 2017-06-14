@@ -31,7 +31,7 @@ class Images
 
 	public static void loadAll() throws IOException
 	{	// Loads Sprites
-		sprites = new BufferedImage[2][4][2];
+		sprites = new BufferedImage[3][4][2];
 		temImg = ImageIO.read(new File(imgDir, "sprites.png"));
 		for(int i = 0; i < sprites.length; ++i)
 		{
@@ -42,7 +42,7 @@ class Images
 					mirror(sprites[i][(Entity.DOWN+j) % 4], k, sprites[i][(Entity.DOWN+j-1) % 4][k], Block.getLen(), Block.getLen(), ROT);
 		}
 		// Loads Tiles
-		tiles = new BufferedImage[2][2];
+		tiles = new BufferedImage[3][2];
 		temImg = ImageIO.read(new File(imgDir, "tiles.png"));
 		for(int i = 0; i < tiles.length; ++i)
 			for(int j = 0; j < tiles[i].length; ++j)

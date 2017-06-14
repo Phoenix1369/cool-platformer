@@ -22,6 +22,7 @@ public class SidebarPanel extends JPanel implements ActionListener
 	
 	private JButton[] blockList = new JButton[5];
 	private String[] blockListNames = {"B_GROUND", "B_GOAL", "B_ENEMY1", "B_ENEMY2", "B_PLAYER"};
+	private ImageIcon[] blockListIcons = {};
 	
 	private JButton[] fieldList = new JButton[3];
 	private String[] fieldListNames = {"F_UP", "F_RIGHT", "F_LEFT"};
