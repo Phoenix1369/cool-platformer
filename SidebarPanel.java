@@ -38,6 +38,7 @@ public class SidebarPanel extends JPanel implements ActionListener
 	private JFileChooser jfc;
 
 	private int currField;
+	private int currBlock;
 	
 	public SidebarPanel()
 	{
@@ -68,14 +69,18 @@ public class SidebarPanel extends JPanel implements ActionListener
 		for(int i = 0; i < blockList.length; i++)
 		{
 			blockList[i] = new JButton(blockListIcons[i]);
+			blockList[i].setDisabledIcon(blockListIcons[i]);
 			blockList[i].setActionCommand(blockListNames[i]);
 			blockList[i].addActionListener(this);
 			brushesPanelL.add(blockList[i]);
 		}
+		blockList[0].setEnabled(false);
+		currBlock = 1;
 		
 		for(int i = 0; i < fieldList.length; i++)
 		{
 			fieldList[i] = new JButton(fieldListDisp[i], fieldListIcons[i]);
+			fieldList[i].setDisabledIcon(fieldListIcons[i]);
 			fieldList[i].setHorizontalTextPosition(JButton.CENTER);
 			fieldList[i].setVerticalTextPosition(JButton.CENTER);
 			fieldList[i].setActionCommand(fieldListNames[i]);
@@ -84,6 +89,7 @@ public class SidebarPanel extends JPanel implements ActionListener
 		}
 		fieldList[0].setEnabled(false);
 		currField = 0;
+		
 		brushesPanel.add(brushesPanelL);
 		brushesPanel.add(brushesPanelR);
 		add(brushesPanel);
@@ -122,6 +128,17 @@ public class SidebarPanel extends JPanel implements ActionListener
 					btn.setEnabled(true);
 				fieldList[i].setEnabled(false);
 				currField = i; //cheap trick that will need to be fixed with proper constants
+			}
+		}
+		
+		for(int i = 0; i < blockListNames.length; i++) //only one block can be active at a time
+		{
+			if(ae.getActionCommand().equals(blockListNames[i]))
+			{
+				for(JButton btn : blockList)
+					btn.setEnabled(true);
+				blockList[i].setEnabled(false);
+				currBlock = i; //cheap trick that doesn't even work, fix later
 			}
 		}
 
