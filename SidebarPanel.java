@@ -21,7 +21,7 @@ public class SidebarPanel extends JPanel implements ActionListener
 	private String[] actionNames = {"Save", "Load", "Return", "Clear"};
 	
 	private JButton[] fieldList = new JButton[4];
-	private String[] fieldListNames = {"Up", "Right", "Down", "Left"};
+	private String[] fieldListNames = {"^", ">", "v", "<"};
 
 	private JButton save;
 	private JButton load;
@@ -48,6 +48,30 @@ public class SidebarPanel extends JPanel implements ActionListener
 		add(toolsPanel);
 		tools[0].setEnabled(false);
 		currTool = "Draw";
+		
+		//Brushes
+		JPanel brushesPanel = new JPanel(new GridLayout(1, 2, 5, 5));
+		JPanel brushesPanelL = new JPanel(new GridLayout(3, 1, 0, 5));
+		JPanel brushesPanelR = new JPanel(new GridLayout(5, 1, 0, 5));
+		
+		brushesPanelL.add(new JLabel("LMB", JLabel.CENTER));
+		brushesPanelR.add(new JLabel("RMB", JLabel.CENTER));
+		
+		brushesPanelL.add(new JButton("0"));
+		brushesPanelL.add(new JButton("1"));
+		for(int i = 0; i < fieldList.length; i++)
+		{
+			fieldList[i] = new JButton(fieldListNames[i]);
+			fieldList[i].setAlignmentX(Component.CENTER_ALIGNMENT);
+			fieldList[i].addActionListener(this);
+			brushesPanelR.add(fieldList[i]);
+		}
+		fieldList[0].setEnabled(false);
+		currField = 0;
+		brushesPanel.add(brushesPanelL);
+		brushesPanel.add(brushesPanelR);
+		add(brushesPanel);
+		
 		//Actions
 		JPanel actionsPanel = new JPanel(new GridLayout(5, 1, 0, 5));
 		actionsPanel.add(new JLabel("Available Actions:", JLabel.CENTER));
@@ -59,18 +83,6 @@ public class SidebarPanel extends JPanel implements ActionListener
 			actionsPanel.add(actions[i]);
 		}
 		add(actionsPanel);
-		//Brushes
-		add(Box.createRigidArea(new Dimension(0, 20)));
-		for(int i = 0; i < fieldList.length; i++)
-		{
-			add(Box.createRigidArea(new Dimension(0, 10)));
-			fieldList[i] = new JButton(fieldListNames[i]);
-			fieldList[i].setAlignmentX(Component.CENTER_ALIGNMENT);
-			fieldList[i].addActionListener(this);
-			add(fieldList[i]);
-		}
-		fieldList[0].setEnabled(false);
-		currField = 0;
 	}	// end constructor()
 	
 	public void actionPerformed(ActionEvent ae)
