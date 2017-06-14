@@ -20,8 +20,13 @@ public class SidebarPanel extends JPanel implements ActionListener
 	private JButton[] actions = new JButton[4];
 	private String[] actionNames = {"Save", "Load", "Return", "Clear"};
 	
-	private JButton[] fieldList = new JButton[4];
-	private String[] fieldListNames = {"^", ">", "v", "<"};
+	private JButton[] blockList = new JButton[5];
+	private String[] blockListNames = {"B_GROUND", "B_GOAL", "B_ENEMY1", "B_ENEMY2", "B_PLAYER"};
+	
+	private JButton[] fieldList = new JButton[3];
+	private String[] fieldListNames = {"F_UP", "F_RIGHT", "F_LEFT"};
+	
+	
 
 	private JButton save;
 	private JButton load;
@@ -57,12 +62,19 @@ public class SidebarPanel extends JPanel implements ActionListener
 		brushesPanelL.add(new JLabel("LMB", JLabel.CENTER));
 		brushesPanelR.add(new JLabel("RMB", JLabel.CENTER));
 		
-		brushesPanelL.add(new JButton(new ImageIcon(Images.tiles[1][0])));
-		brushesPanelL.add(new JButton("1"));
+		//brushesPanelL.add(new JButton(new ImageIcon(Images.tiles[1][0])));
+		for(int i = 0; i < blockList.length; i++)
+		{
+			blockList[i] = new JButton();
+			blockList[i].setActionCommand(blockListNames[i]);
+			blockList[i].addActionListener(this);
+			brushesPanelL.add(blockList[i]);
+		}
+		
 		for(int i = 0; i < fieldList.length; i++)
 		{
-			fieldList[i] = new JButton(fieldListNames[i]);
-			fieldList[i].setAlignmentX(Component.CENTER_ALIGNMENT);
+			fieldList[i] = new JButton();
+			fieldList[i].setActionCommand(fieldListNames[i]);
 			fieldList[i].addActionListener(this);
 			brushesPanelR.add(fieldList[i]);
 		}
