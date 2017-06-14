@@ -64,18 +64,14 @@ class MapScreen extends JPanel implements ActionListener, ComponentListener
 		}
 		else if(purpose.equals("Save"))
 		{
-			// Saves to File - PLACEHOLDER
-			/*
-			jfc = new JFileChooser();
-			jfc.setCurrentDirectory(new File(System.getProperty("user.dir") + "/include/levels"));
-			switch(jfc.showSaveDialog(this))
+			String mapToSave = "";
+			for(int i = 0; i < userMapsArr.length; i++)
 			{
-			case JFileChooser.APPROVE_OPTION:
-				ES.saveToManager(jfc.getCurrentDirectory().toString(), jfc.getSelectedFile().getName());
-				break;
-			case JFileChooser.CANCEL_OPTION:
-				break;
-			}*/
+				if(ae.getSource() == userMapsArr[i])
+					mapToSave = "U" + i + ".txt";
+			}
+			ES.saveToManager(System.getProperty("user.dir") + "/include/levels", mapToSave);
+
 		}
 		else if(purpose.equals("Load"))
 		{
