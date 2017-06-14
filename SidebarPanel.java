@@ -57,7 +57,7 @@ public class SidebarPanel extends JPanel implements ActionListener
 		brushesPanelL.add(new JLabel("LMB", JLabel.CENTER));
 		brushesPanelR.add(new JLabel("RMB", JLabel.CENTER));
 		
-		brushesPanelL.add(new JButton("0"));
+		brushesPanelL.add(new JButton(new ImageIcon(Images.tiles[1][0])));
 		brushesPanelL.add(new JButton("1"));
 		for(int i = 0; i < fieldList.length; i++)
 		{
