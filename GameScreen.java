@@ -31,6 +31,8 @@ class GameScreen extends JPanel implements ActionListener, Runnable, ComponentLi
 	private static Thread gameScreen;
 	private static Timer timer;
 
+	// Dimensions
+	private static Dimension dlen;
 	// Entity Objects
 	private static Player mainChar;
 	private static ArrayList<Enemy> enemies;
