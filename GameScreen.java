@@ -110,7 +110,12 @@ class GameScreen extends JPanel implements ActionListener, Runnable, ComponentLi
 		for(Enemy ene: enemies)
 			ene.advance();
 		this.repaint();
-		intersects(mainChar.getPos(), goalPos); //win if true
+		if(intersects(mainChar.getPos(), goalPos)) System.out.println("You win");
+		else
+		{
+			for(Enemy ene: enemies)
+				if(intersects(mainChar.getPos(), ene.getPos())) System.out.println("You lost");
+		}
 	}	// end method actionPerformed
 	
 	public static Block getBlocks(int y, int x)
