@@ -47,7 +47,7 @@ class TitleScreen extends JPanel implements ActionListener
 	{
 		if(ae.getSource() == start)
 		{
-			CoolPlatformer.changeScreen("MapScreen");
+			CoolPlatformer.changeScreen("MapScreen", "Start");
 		}
 		if(ae.getSource() == instruct)
 		{
