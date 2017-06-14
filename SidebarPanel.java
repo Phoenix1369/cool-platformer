@@ -51,8 +51,8 @@ public class SidebarPanel extends JPanel implements ActionListener
 		
 		//Brushes
 		JPanel brushesPanel = new JPanel(new GridLayout(1, 2, 5, 5));
-		JPanel brushesPanelL = new JPanel(new GridLayout(3, 1, 0, 5));
-		JPanel brushesPanelR = new JPanel(new GridLayout(5, 1, 0, 5));
+		JPanel brushesPanelL = new JPanel(new GridLayout(6, 1, 0, 5));
+		JPanel brushesPanelR = new JPanel(new GridLayout(6, 1, 0, 5));
 		
 		brushesPanelL.add(new JLabel("LMB", JLabel.CENTER));
 		brushesPanelR.add(new JLabel("RMB", JLabel.CENTER));
