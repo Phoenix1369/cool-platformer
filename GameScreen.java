@@ -108,7 +108,7 @@ class GameScreen extends JPanel implements ActionListener, Runnable, ComponentLi
 			ene.advance();
 		this.repaint();
 	}	// end method actionPerformed
-
+	
 	public static Block getBlocks(int y, int x)
 	{
 		return blocks[y+edW][x+edW];

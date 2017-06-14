@@ -127,7 +127,8 @@ public class SidebarPanel extends JPanel implements ActionListener
 				for(JButton btn : fieldList)
 					btn.setEnabled(true);
 				fieldList[i].setEnabled(false);
-				currField = i; //cheap trick that will need to be fixed with proper constants
+				if(fieldListNames[i].equals("F_LEFT")) currField = 3;
+				else currField = i;
 			}
 		}
 		
@@ -138,7 +139,7 @@ public class SidebarPanel extends JPanel implements ActionListener
 				for(JButton btn : blockList)
 					btn.setEnabled(true);
 				blockList[i].setEnabled(false);
-				currBlock = i; //cheap trick that doesn't even work, fix later
+				currBlock = i + 1;
 			}
 		}
 
