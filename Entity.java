@@ -135,6 +135,11 @@ class Entity
 		return GameScreen.getBlocks((int)Math.floor(pos.Y / bLen + 0.5), (int)Math.floor(pos.X / bLen + 0.5)).getField();
 	}	// end method getField
 
+	public Dimension getIdx()
+	{	// Returns the current array index of the centre pixel
+		return new Dimension((int)Math.floor(pos.X / bLen + 0.5), (int)Math.floor(pos.Y / bLen + 0.5));
+	}	// end method getIdx
+
 	public boolean movingRel(int dir)
 	{	// Moving Relatively (Left / Right)
 		return keysPressedABS[(getField() - dir + 4) % 4];
@@ -144,7 +149,7 @@ class Entity
 	{
 		return this.vel;
 	}	// end method getVel
-	
+
 	public final Vector2 getPos()
 	{
 		return this.pos;
