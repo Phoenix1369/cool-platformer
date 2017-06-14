@@ -100,7 +100,6 @@ class GameScreen extends JPanel implements ActionListener, Runnable, ComponentLi
 		goalPos = StageManager.getGoalPos(System.getProperty("user.dir") + "/include/levels", fileName, blocks);
 		goalPos.X *= Block.getLen();
 		goalPos.Y *= Block.getLen();
-
 		gameScreen.start();
 	}	// end method init
 
@@ -111,6 +110,7 @@ class GameScreen extends JPanel implements ActionListener, Runnable, ComponentLi
 		for(Enemy ene: enemies)
 			ene.advance();
 		this.repaint();
+		intersects(mainChar.getPos(), goalPos); //win if true
 	}	// end method actionPerformed
 	
 	public static Block getBlocks(int y, int x)
@@ -138,6 +138,12 @@ class GameScreen extends JPanel implements ActionListener, Runnable, ComponentLi
 		mainChar.draw(g);
 	}	// end method paintComponent
 
+	public boolean intersects(Vector2 a, Vector2 b)
+	{
+		int bLen = Block.getLen();
+		return (a.X < b.X + bLen && b.X < a.X + bLen && a.Y < b.Y + bLen && b.Y < a.Y + bLen);
+	}
+	
 	public void componentShown(ComponentEvent e)
 	{
 		freeze(false);
