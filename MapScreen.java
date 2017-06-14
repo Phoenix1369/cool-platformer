@@ -74,6 +74,7 @@ class MapScreen extends JPanel implements ActionListener, ComponentListener
 					mapToSave = "U" + i + ".txt";
 			}
 			ES.saveToManager(System.getProperty("user.dir") + "/include/levels", mapToSave);
+			CoolPlatformer.changeScreen("TitleScreen");
 		}
 		else if(purpose.equals("Load"))
 		{
@@ -89,6 +90,7 @@ class MapScreen extends JPanel implements ActionListener, ComponentListener
 					mapToLoad = "U" + i + ".txt";
 			}
 			ES.loadFromManager(System.getProperty("user.dir") + "/include/levels", mapToLoad);
+			CoolPlatformer.changeScreen("EditorScreen");
 		}
 	}	// end method actionPerformed
 	
