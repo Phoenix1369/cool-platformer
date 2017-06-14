@@ -77,7 +77,6 @@ class StageManager
 				out.newLine();
 			}
 			out.close();
-			System.out.println("Saved");
 		}
 		catch(Exception e)
 		{
