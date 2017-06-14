@@ -58,4 +58,4 @@ class NormalEnemy extends Enemy
 				setKey(i, false); // Release All
 		super.updateField();
 	}	// end method updateField
-}	// end class Entity
+}	// end class NormalEnemy
