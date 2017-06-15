@@ -2,7 +2,7 @@
 * name: Patrick Au, James Long
 * date: March 2017
 * code: ICS4U1
-* note: Editor Screen
+* note: Editor Screen for the level editor
 *******/
 import java.awt.*;
 import java.awt.event.*;
@@ -22,7 +22,7 @@ class EditorScreen extends JPanel implements MouseListener, MouseMotionListener,
 	public static final Dimension size = new Dimension(800, 600);
 	public static final Dimension sizeSidebar = new Dimension((size.width+offX) / 10, size.height+offY);
 	
-	EditorScreen(Dimension dim)
+	EditorScreen()
 	{
 		addComponentListener(this);
 		
@@ -31,10 +31,10 @@ class EditorScreen extends JPanel implements MouseListener, MouseMotionListener,
 		addMouseListener(this);
 		addMouseMotionListener(this);
 		blocks = new Block[dim.height / Block.getLen() + edW*2][dim.width / Block.getLen() + edW*2];
-		initBlocks();
+		initBlocks(); // Set up a new set of blocks to edit
 		
 		sidebar = new JFrame();
-		sidebar.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); //prevent sidebar from being closed
+		sidebar.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); // Prevent sidebar from being closed
 		sidebar.setResizable(false);
 		sidebar.setPreferredSize(sizeSidebar);
 		SP = new SidebarPanel();
@@ -50,13 +50,13 @@ class EditorScreen extends JPanel implements MouseListener, MouseMotionListener,
 			for(int j = 0; j < blocks[i].length; ++j) // Default Tiling
 				blocks[i][j] = new Block((j-edW) * Block.getLen(), (i-edW) * Block.getLen(), Entity.DOWN, 0);
 
-		//initialize a border of walls around the board
-		for(int i = 0; i < blocks.length; i++) //vertical walls
+		// Initialize a border of walls around the board
+		for(int i = 0; i < blocks.length; i++) // Vertical walls
 		{
 			blocks[i][0].setBlock(1);
 			blocks[i][blocks[0].length - 1].setBlock(1);
 		}
-		for(int i = 0; i < blocks[0].length; i++) //horizontal walls
+		for(int i = 0; i < blocks[0].length; i++) // Horizontal walls
 		{
 			blocks[0][i].setBlock(1);
 			blocks[blocks.length - 1][i].setBlock(1);
@@ -78,17 +78,17 @@ class EditorScreen extends JPanel implements MouseListener, MouseMotionListener,
 	
 	public void floodFill(int y, int x, boolean fillBlock, int type, int typeToReplace)
 	{
-		if(type == typeToReplace) return; //no need to fill if you're currently on the same block you want to fill it with
-		if(fillBlock && (type == Block.PLAYER || type == Block.GOAL)) return; //can't flood fill unique entities
+		if(type == typeToReplace) return; // No need to fill if you're currently on the same block you want to fill it with
+		if(fillBlock && (type == Block.PLAYER || type == Block.GOAL)) return; // Can't flood fill unique entities
 		if(x >= 1 && x < blocks[0].length - 1 && y >= 1 && y < blocks.length - 1)
 		{
-			if(fillBlock) //if the flood fill is for blocks
+			if(fillBlock) // If the flood fill is for blocks
 			{
 				if(blocks[y][x].getBlock() == typeToReplace)
 					blocks[y][x].setBlock(type);
 				else return;
 			}
-			if(!fillBlock) //if the flood fill is for fields
+			if(!fillBlock) // If the flood fill is for fields
 			{
 				if(blocks[y][x].getField() == typeToReplace)
 					blocks[y][x].setField(type);
@@ -129,7 +129,7 @@ class EditorScreen extends JPanel implements MouseListener, MouseMotionListener,
 	public void mouseDragged(MouseEvent e) 
 	{
 		if(e.getX() > 0 && e.getX() < (blocks[0].length - edW*2) * Block.getLen()
-			&& e.getY() > 0 && e.getY() < (blocks.length - edW*2) * Block.getLen()) //if the mouse is within the bounds of the screen
+			&& e.getY() > 0 && e.getY() < (blocks.length - edW*2) * Block.getLen()) // If the mouse is within the bounds of the screen
 		{
 			Block selectedBlock = blocks[e.getY() / Block.getLen() + edW][e.getX() / Block.getLen() + edW];
 			if(SwingUtilities.isLeftMouseButton(e)) 
@@ -138,7 +138,7 @@ class EditorScreen extends JPanel implements MouseListener, MouseMotionListener,
 				{
 					if(SP.getCurrBlock() == Block.GOAL || SP.getCurrBlock() == Block.PLAYER)
 						removeAllPrev(SP.getCurrBlock());
-					selectedBlock.setBlock(SP.getCurrBlock()); //only type of block that can be drawn
+					selectedBlock.setBlock(SP.getCurrBlock()); // The selected block to be drawn
 				}
 				else if(SP.getCurrTool().equals("Erase"))
 					selectedBlock.setBlock(Block.AIR); //default block: air
@@ -146,7 +146,7 @@ class EditorScreen extends JPanel implements MouseListener, MouseMotionListener,
 			if(SwingUtilities.isRightMouseButton(e))
 			{
 				if(SP.getCurrTool().equals("Draw"))
-					selectedBlock.setField(SP.getCurrField()); //the selected field to be drawn
+					selectedBlock.setField(SP.getCurrField()); // The selected field to be drawn
 				else if(SP.getCurrTool().equals("Erase"))
 					selectedBlock.setField(2); //default field: down
 			}
@@ -162,7 +162,7 @@ class EditorScreen extends JPanel implements MouseListener, MouseMotionListener,
 			{
 				if(SP.getCurrBlock() == Block.GOAL || SP.getCurrBlock() == Block.PLAYER)
 					removeAllPrev(SP.getCurrBlock());
-				selectedBlock.setBlock(SP.getCurrBlock()); //only type of block that can be drawn
+				selectedBlock.setBlock(SP.getCurrBlock()); // The selected block to be drawn
 			}
 			else if(SP.getCurrTool().equals("Erase"))
 				selectedBlock.setBlock(Block.AIR); //default block: air
@@ -172,7 +172,7 @@ class EditorScreen extends JPanel implements MouseListener, MouseMotionListener,
 		if(SwingUtilities.isRightMouseButton(e))
 		{
 			if(SP.getCurrTool().equals("Draw"))
-				selectedBlock.setField(SP.getCurrField()); //the selected field to be drawn
+				selectedBlock.setField(SP.getCurrField()); // The selected field to be drawn
 			else if(SP.getCurrTool().equals("Erase"))
 				selectedBlock.setField(2); //default field: down
 			else if(SP.getCurrTool().equals("Fill"))
@@ -181,7 +181,7 @@ class EditorScreen extends JPanel implements MouseListener, MouseMotionListener,
 		repaint();
 	}	
 	
-	public void removeAllPrev(int blockType)
+	public void removeAllPrev(int blockType) // Remove all instances of a block
 	{
 		for(int i = 0; i < blocks.length; ++i)
 		{
@@ -193,7 +193,7 @@ class EditorScreen extends JPanel implements MouseListener, MouseMotionListener,
 		}
 	}
 	
-	public boolean hasAllReqs()
+	public boolean hasAllReqs() // Ensure a player and goal exist in the level
 	{
 		boolean gl = false, pl = false;
 		for(int i = 0; i < blocks.length; ++i)
