@@ -2,8 +2,9 @@
 * name: Patrick Au, James Long
 * date: March 2017
 * code: ICS4U1
-* note: Cool Platformer
+* note: Cool Platformer main class, manages different game screens with a CardLayout
 *******/
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -14,11 +15,11 @@ public class CoolPlatformer
 	private static final int offX = 6;
 	private static final int offY = 29;
 
-	public static final Dimension size = new Dimension(800, 600);
+	public static final Dimension size = new Dimension(800, 600); // Size of Game Screen
 	public static final Dimension sizeJF = new Dimension(size.width+offX, size.height+offY);
-	public static JFrame JF;
-	public static JPanel JP;
-	public static JPanel[] menu;
+	public static JFrame JF; // Main JFrame
+	public static JPanel JP; // Main JPanel
+	public static JPanel[] menu; // All menu panels
 
 	public CoolPlatformer() 
 	{
@@ -45,7 +46,7 @@ public class CoolPlatformer
 		menu[2] = new GameScreen(size);
 		menu[3] = new PauseScreen(size);
 		menu[4] = new InstructScreen(size);
-		menu[5] = new MapScreen(size, (EditorScreen)menu[1]);
+		menu[5] = new MapScreen(size, (EditorScreen)menu[1]); // This screen must be passed as an argument
 		menu[6] = new WinScreen(size);
 		menu[7] = new LoseScreen(size);
 		
@@ -70,10 +71,10 @@ public class CoolPlatformer
 	public static void changeScreen(String screen)
 	{
 		CardLayout clayoutJP = (CardLayout)JP.getLayout();
-		clayoutJP.show(JP, screen);
+		clayoutJP.show(JP, screen); // Change the visible card in the layout
 	}
 	
-	public static void changeScreen(String screen, String cmd)
+	public static void changeScreen(String screen, String cmd) // Overloaded changeScreen with a String command
 	{
 		if(screen.equals("MapScreen"))
 			((MapScreen)menu[5]).setPurpose(cmd);
