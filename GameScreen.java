@@ -78,21 +78,20 @@ class GameScreen extends JPanel implements ActionListener, ComponentListener, Ru
 		this.getInputMap(WIFW).put(KeyStroke.getKeyStroke(KeyEvent.VK_P, 0, false), P_KEY);
 		this.getActionMap().put(P_KEY, new ChangeScreenAction());
 
-		timer = new Timer(delay, this);
+		// timer = new Timer(delay, this);
 	}	// end constructor()
 
 	public void init(String fileName)
 	{
 		gameScreen = new Thread(this);
+		timer = new Timer(delay, this);
 
-		frozen = false;
-		winLose = false;
+		frozen = winLose = false;
 		enemies.clear();
 
 		// Load level
 		StageManager.loadMap(System.getProperty("user.dir") + "/include/levels", fileName, blocks);
 		goalB = StageManager.getGoal(blocks);
-		gameScreen.start();
 
 		// Replace Enemy blocks with Enemies
 		for(int i = 0; i < blocks.length; ++i)
@@ -114,6 +113,7 @@ class GameScreen extends JPanel implements ActionListener, ComponentListener, Ru
 			}
 		}					
 		mainChar.releaseAll(); // Reset keystrokes
+		gameScreen.start();
 	}	// end method init
 
 	@Override // Interface: ActionListener
@@ -125,6 +125,9 @@ class GameScreen extends JPanel implements ActionListener, ComponentListener, Ru
 			{
 				winLose = true;
 				CoolPlatformer.changeScreen("WinScreen");
+				gameScreen.interrupt();
+				timer.stop();
+				return;
 			}
 			else
 			{
@@ -133,7 +136,9 @@ class GameScreen extends JPanel implements ActionListener, ComponentListener, Ru
 					{
 						winLose = true;
 						CoolPlatformer.changeScreen("LoseScreen");
-						break;
+						gameScreen.interrupt();
+						timer.stop();
+						return;
 					}
 			}
 		}
