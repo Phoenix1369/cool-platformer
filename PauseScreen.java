@@ -50,8 +50,6 @@ class PauseScreen extends JPanel implements ActionListener
 		if(ae.getSource() == title)
 		{
 			CoolPlatformer.changeScreen("TitleScreen");
-			GameScreen.gameScreen.interrupt();
-			GameScreen.timer.stop();
 		}
 	}	// end method actionPerformed
 }	// end class PauseScreen
