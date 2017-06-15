@@ -12,7 +12,7 @@ import javax.swing.*;
 
 class GameScreen extends JPanel implements ActionListener, ComponentListener, Runnable
 {
-	public static final int FPS = 40; // 20;
+	public static final int FPS = 40;
 	public static final int delay = 1000 / FPS;
 	public static final int edW = 1; // Edge Width around Screen
 	private static final int WIFW = JComponent.WHEN_IN_FOCUSED_WINDOW;
@@ -119,9 +119,12 @@ class GameScreen extends JPanel implements ActionListener, ComponentListener, Ru
 	@Override // Interface: ActionListener
 	public void actionPerformed(ActionEvent ae)
 	{
-		mainChar.advance();
-		for(Enemy ene: enemies)
-			ene.advance();
+		if(!frozen)
+		{	// Actions of Entity objects
+			mainChar.advance();
+			for(Enemy ene: enemies)
+				ene.advance();
+		}
 		this.repaint();
 		if(intersects(mainChar.getPos(), goalPos) && !winLose)
 		{
@@ -158,8 +161,6 @@ class GameScreen extends JPanel implements ActionListener, ComponentListener, Ru
 	}	// end method getBlocks
 
 	public static final Dimension getDlen() { return dlen; } // end method getDlen
-
-	public static Player getP() { return mainChar; } // end method getP
 
 	public boolean intersects(Vector2 a, Vector2 b)
 	{

@@ -17,9 +17,7 @@ class HomingEnemy extends Enemy
 	}	// end constructor(double,double)
 
 	public void advance()
-	{
-		if(GameScreen.frozen) return;
-		// Directions are RELATIVE here ie. "R" in "Up" Field <--> "L" in "Down" (Normal) Field
+	{	// Directions are RELATIVE here ie. "R" in "Up" Field <--> "L" in "Down" (Normal) Field
 		updateField();
 		idx = getIdx(); // Current Array Index Position
 		if(!vx)
