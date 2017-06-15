@@ -16,10 +16,10 @@ class Images
 {	// Loads Image Sets
 	public static BufferedImage[][][] sprites;
 	public static BufferedImage[][] tiles;
-	public static BufferedImage[][][] tint; // tint[i][j][k]: tiles[i][j] tintBG[k]
+	public static BufferedImage[] tint;
 	public static final Color[] tintBG = {
 		new Color(255,   0,   0, 100), new Color(255, 255, 0, 100),
-		new Color(255, 255, 255,   0), new Color(  0, 255, 0, 100)
+		new Color(165, 255, 255, 100), new Color(  0, 255, 0, 100)
 	};
 	public static final String imgDir = new File("include", "demo").getPath();
 	public static final int PIX = 4; // RGBA Channels(4)
@@ -47,20 +47,15 @@ class Images
 		for(int i = 0; i < tiles.length; ++i)
 			for(int j = 0; j < tiles[i].length; ++j)
 				loadSubimage(tiles[i], j, j * Block.getLen(), i * Block.getLen(), Block.getLen(), Block.getLen());
-		// Tints the Tiles
-		tint = new BufferedImage[6][2][4];
+		tint = new BufferedImage[4];
 		for(int i = 0; i < tint.length; ++i)
-			for(int j = 0; j < tint[i].length; ++j)
-				for(int k = 0; k < tint[i][j].length; ++k) // Iterate on Colours
-				{
-					tint[i][j][k] = new BufferedImage(tiles[i][j].getWidth(), tiles[i][j].getHeight(), BufferedImage.TYPE_INT_ARGB);
-					g2D = tint[i][j][k].createGraphics();
-					g2D.drawImage(tiles[i][j], 0, 0, null);
-					g2D.setComposite(AlphaComposite.SrcAtop); // Composes (src in des) onto destination
-					g2D.setColor(tintBG[k]); // Opacity: 100 / 255
-					g2D.fillRect(0, 0, tint[i][j][k].getWidth(), tint[i][j][k].getHeight());
-					g2D.dispose();
-				}
+		{
+			tint[i] = new BufferedImage(Block.getLen(), Block.getLen(), BufferedImage.TYPE_INT_ARGB);
+			g2D = tint[i].createGraphics();
+			g2D.setColor(tintBG[i]); // Opacity: 100 / 255
+			g2D.fillRect(0, 0, tint[i].getWidth(), tint[i].getHeight());
+			g2D.dispose();
+		}
 	}	// end method loadAll
 
 	private static void loadSubimage(BufferedImage[] bi, int idx, int x, int y, int w, int h)
