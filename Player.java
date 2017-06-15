@@ -11,17 +11,16 @@ class Player extends Entity
 {
 	Player()
 	{
-		super(bLen*2, bLen*11);
-		this.M_SPD = 200.0 / GameScreen.FPS; // Was 200
+		super(lenB*2, lenB*11);
+		this.M_SPD = 200.0 / GameScreen.FPS;
 	}	// end constructor()
 
 	@Override // Superclass: Entity
 	public void advance()
 	{
-		if(frozen) return; // Skips Action if Frozen
+		if(GameScreen.frozen) return; // Skips Action if Frozen
 		updateField();
 		updateVectors();
-		this.vel.add(this.acc);
 		move(this.vel);
 	}	// end method advance
 
@@ -29,8 +28,6 @@ class Player extends Entity
 	public void draw(Graphics g)
 	{	// Hardcode image for Demo
 		g2D = (Graphics2D)g;
-		// g2D.fillRect((int)tl.X, (int)tl.Y, (int)(br.X - tl.X), (int)(br.Y - tl.Y)); // Bounding Box
-		g2D.drawImage(Images.sprites[0][ getField() ][ movingRel(LEFT)?0:1 ],
-			(int)Math.round(pos.X), (int)Math.round(pos.Y), Block.getLen(), Block.getLen(), null);
+		g2D.drawImage(Images.sprites[0][ getField() ][ movingRel(LEFT)?0:1 ], this.x, this.y, lenB, lenB, null);
 	}	// end method draw
-}	// end class
+}	// end class Player
