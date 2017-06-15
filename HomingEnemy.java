@@ -50,7 +50,7 @@ class HomingEnemy extends Enemy
 	public void draw(Graphics g)
 	{
 		g2D = (Graphics2D)g;
-		g2D.drawImage(Images.sprites[2][ DOWN ][ movingRel(LEFT)?0:1 ], this.x, this.y, lenB, lenB, null);
+		g2D.drawImage(Images.sprites[2][ DOWN ][ keysPressed[LEFT]?0:1 ], this.x, this.y, lenB, lenB, null);
 	}	// end method draw
 
 	@Override // Superclass: Entity
