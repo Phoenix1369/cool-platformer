@@ -38,7 +38,7 @@ class GameScreen extends JPanel implements ActionListener, ComponentListener, Ru
 	private static ArrayList<Enemy> enemies;
 	private static Vector2 goalPos;
 
-	public static boolean frozen; // Frozen gamestate
+	private static boolean frozen; // Frozen gamestate
 	private static boolean winLose;
 
 	GameScreen(Dimension dim)
@@ -113,7 +113,8 @@ class GameScreen extends JPanel implements ActionListener, ComponentListener, Ru
 				blocks[i][j].setBlock(Block.AIR);
 			}
 		}					
-		
+		// Reset Keys
+		mainChar.releaseAll();
 	}	// end method init
 
 	@Override // Interface: ActionListener
