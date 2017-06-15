@@ -35,13 +35,16 @@ class Block extends Rectangle
 		g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 	
 		// Draws the Block in layers
-		g2D.drawImage(Images.tint[ this.type[0] ], this.x, this.y, this.width, this.height, null); // Field
+		if(this.type[1] != EARTH)
+			g2D.drawImage(Images.tint[ this.type[0] ], this.x, this.y, this.width, this.height, null); // Field
 		g2D.drawImage(Images.tiles[AIR][1], this.x, this.y, this.width, this.height, null); // Gridlines
 		
 		g2D.drawImage(Images.tiles[ this.type[1] ][0], this.x, this.y, this.width, this.height, null);
 
 		if(!above || (this.type[1] != EARTH)) // Draws grass only on topmost earth block
-			g2D.drawImage(Images.tiles[ this.type[1] ][1], this.x, this.y, this.width, this.height, null);		
+			g2D.drawImage(Images.tiles[ this.type[1] ][1], this.x, this.y, this.width, this.height, null);	
+		if((this.type[1] == EARTH) && (this.type[0] != Entity.DOWN))
+			g2D.drawImage(Images.tint[ this.type[0] ], this.x, this.y, this.width, this.height, null); // Field
 	}	// end method draw
 
 	public int getBlock()
