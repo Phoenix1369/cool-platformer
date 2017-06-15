@@ -36,9 +36,9 @@ class HomingEnemy extends Enemy
 		updateField();
 		idx = getIdx(); // Current Array Index Position
 		if(++bfsDelay >= delayLim)
-		{	// BFS every second
+		{	// Don't BFS every single tick
 			bfs();
-			bfsDelay = 0; // (int)-1E9;
+			bfsDelay = 0;
 		}
 		if(!vx)
 		{	// Reset X
@@ -55,7 +55,7 @@ class HomingEnemy extends Enemy
 			nxt = new Dimension(idx.width+moves[k][0], idx.height+moves[k][1]);
 			if(invalid(nxt)) continue;
 			if(grid[nxt.height][nxt.width] <= grid[idx.height][idx.width])
-				setKey(k, true);
+				setKey(k, true); // Picks tile closer to Player
 		}
 		if(keysPressed[UP] && keysPressed[DOWN])
 			setKey((grid[idx.height-1][idx.width] < grid[idx.height+1][idx.width]) ? DOWN  :   UP, false);
@@ -75,8 +75,7 @@ class HomingEnemy extends Enemy
 		Dimension src = GameScreen.getP().getIdx();
 		grid[src.height][src.width] = 0;
 		Q.add(src);
-		boolean run = true;
-		while(!Q.isEmpty() && run)
+		while(!Q.isEmpty())
 		{
 			cur = Q.poll();
 			for(int k = 0; k < 4; ++k)
@@ -84,7 +83,7 @@ class HomingEnemy extends Enemy
 				nxt = new Dimension(cur.width+moves[k][0], cur.height+moves[k][1]);
 				if(invalid(nxt)) continue;
 				if(grid[nxt.height][nxt.width] > grid[cur.height][cur.width]+1)
-				{	// Found a path
+				{	// Compute distance to new tile
 					grid[nxt.height][nxt.width] = grid[cur.height][cur.width] + 1;
 					Q.offer(nxt);
 				}
@@ -94,16 +93,16 @@ class HomingEnemy extends Enemy
 
 	@Override // Superclass: Entity
 	public void draw(Graphics g)
-	{	// Hardcode image for Demo
+	{
 		g2D = (Graphics2D)g;
 		g2D.drawImage(Images.sprites[2][ DOWN ][ movingRel(LEFT)?0:1 ], this.x, this.y, lenB, lenB, null);
 	}	// end method draw
 
 	public boolean invalid(final Dimension d)
-	{
+	{	// Dimension goes out of bounds, or wall block
 		return	(d.width < 0) || (d.width >= GameScreen.getDlen().width-GameScreen.edW) ||
-				(d.height < 0) || (d.height >= GameScreen.getDlen().height-GameScreen.edW) ||
-				(GameScreen.getBlocks(d.height, d.width).getBlock() == Block.EARTH);
+			(d.height < 0) || (d.height >= GameScreen.getDlen().height-GameScreen.edW) ||
+			(GameScreen.getBlocks(d.height, d.width).getBlock() == Block.EARTH);
 	}	// end method invalid
 
 	@Override // Superclass: Entity
