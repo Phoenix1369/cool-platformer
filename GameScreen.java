@@ -181,7 +181,7 @@ class GameScreen extends JPanel implements ActionListener, ComponentListener, Ru
 		// Draws Blocks
 		for(int i = edW; i < blocks.length-edW; ++i)
 			for(int j = edW; j < blocks[i].length-edW; ++j)
-				blocks[i][j].draw(g, blocks[i-1][j].getBlock() == Block.EARTH);
+				blocks[i][j].draw(g, blocks[i-1][j].getBlock() == Block.EARTH, false);
 
 		// Draws Enemies
 		for(Enemy ene: enemies)
