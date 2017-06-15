@@ -39,8 +39,32 @@ class HomingEnemy extends Enemy
 		}
 		if(keysPressed[UP] && keysPressed[DOWN])
 			setKey((Player.getG()[idx.height-1][idx.width] < Player.getG()[idx.height+1][idx.width]) ? DOWN  :   UP, false);
+		else if(!keysPressed[UP] && !keysPressed[DOWN])
+		{
+			int lo = (int)Math.floor(pos.Y / lenB);
+			int hi = (int)Math.ceil (pos.Y / lenB);
+			if(lo != hi)
+			{	// Prevents getting stuck
+				if(Player.getG()[lo][idx.width] <= Player.getG()[hi][idx.width])
+					setKey(UP, true);
+				else
+					setKey(DOWN, true);
+			}
+		}
 		if(keysPressed[RIGHT] && keysPressed[LEFT])
 			setKey((Player.getG()[idx.height][idx.width-1] < Player.getG()[idx.height][idx.width+1]) ? RIGHT : LEFT, false);
+		else if(!keysPressed[RIGHT] && !keysPressed[LEFT])
+		{
+			int lo = (int)Math.floor(pos.X / lenB);
+			int hi = (int)Math.ceil (pos.X / lenB);
+			if(lo != hi)
+			{	// Prevents getting stuck
+				if(Player.getG()[idx.height][lo] <= Player.getG()[idx.height][hi])
+					setKey(LEFT, true);
+				else
+					setKey(RIGHT, true);
+			}
+		}
 		vx = vy = false;
 		updateVectors();
 		move(this.vel);
