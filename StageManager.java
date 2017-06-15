@@ -2,7 +2,7 @@
 * name: Patrick Au, James Long
 * date: March 2017
 * code: ICS4U1
-* note: Stage Loader Class
+* note: Stage Loader and Saver Class
 *******/
 import java.awt.*;
 import java.awt.event.*;
@@ -84,7 +84,7 @@ class StageManager
 		}
 	}
 	
-	public static Vector2 getGoalPos(final String dir, final String file, final Block[][] blockArr)
+	public static Vector2 getGoalPos(final String dir, final String file, final Block[][] blockArr) // Return the coordinates of the goal
 	{
 		try
 		{
