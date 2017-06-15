@@ -49,18 +49,7 @@ class EditorScreen extends JPanel implements MouseListener, MouseMotionListener,
 		for(int i = 0; i < blocks.length; ++i)
 			for(int j = 0; j < blocks[i].length; ++j) // Default Tiling
 				blocks[i][j] = new Block((j-edW) * Block.getLen(), (i-edW) * Block.getLen(), Entity.DOWN, 0);
-
-		// Initialize a border of walls around the board
-		for(int i = 0; i < blocks.length; i++) // Vertical walls
-		{
-			blocks[i][0].setBlock(1);
-			blocks[i][blocks[0].length - 1].setBlock(1);
-		}
-		for(int i = 0; i < blocks[0].length; i++) // Horizontal walls
-		{
-			blocks[0][i].setBlock(1);
-			blocks[blocks.length - 1][i].setBlock(1);
-		}
+		loadFromManager(System.getProperty("user.dir") + "/include/levels", "blank.txt");
 	}	// end method initBlocks
 	
 	public void paintComponent(Graphics g)
@@ -73,7 +62,7 @@ class EditorScreen extends JPanel implements MouseListener, MouseMotionListener,
 		// Draws Blocks
 		for(int i = edW; i < blocks.length-edW; ++i)
 			for(int j = edW; j < blocks[i].length-edW; ++j)
-				blocks[i][j].draw(g, blocks[i-1][j].getBlock()==1);
+				blocks[i][j].draw(g, blocks[i-1][j].getBlock() == Block.EARTH);
 	}	// end method paintComponent
 	
 	public void floodFill(int y, int x, boolean fillBlock, int type, int typeToReplace)
@@ -191,7 +180,7 @@ class EditorScreen extends JPanel implements MouseListener, MouseMotionListener,
 					blocks[i][j].setBlock(Block.AIR); //default block: air
 			}
 		}
-	}
+	}	// end method removeAllPrev
 	
 	public boolean hasAllReqs() // Ensure a player and goal exist in the level
 	{
@@ -207,7 +196,7 @@ class EditorScreen extends JPanel implements MouseListener, MouseMotionListener,
 			}
 		}
 		return (gl && pl);
-	}
+	}	// end method hasAllReqs
 	
 	public void mousePressed( MouseEvent e ){   }
 	public void mouseExited( MouseEvent e ){   }
