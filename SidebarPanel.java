@@ -13,19 +13,20 @@ import javax.swing.*;
 public class SidebarPanel extends JPanel implements ActionListener
 {
 	private EditorScreen ES;
-	private JButton[] tools = new JButton[3];
+	private JButton[] tools = new JButton[3]; // Available tools
 	private String[] toolNames = {"Draw", "Erase", "Fill"};
 	private String currTool;
 	
-	private JButton[] actions = new JButton[4];
+	private JButton[] actions = new JButton[4]; // Available actions
 	private String[] actionNames = {"Save", "Load", "Return", "Clear"};
 	
-	private JButton[] blockList = new JButton[5];
+	private JButton[] blockList = new JButton[5]; // Block brushes
 	private String[] blockListNames = {"B_GROUND", "B_GOAL", "B_ENEMY1", "B_ENEMY2", "B_PLAYER"};
 	private ImageIcon[] blockListIcons = {new ImageIcon(Images.tiles[1][0]), new ImageIcon(Images.tiles[2][0]),
 											new ImageIcon(Images.sprites[1][2][0]), new ImageIcon(Images.sprites[2][2][0]),
 											new ImageIcon(Images.sprites[0][2][0])};
-	private JButton[] fieldList = new JButton[3];
+											
+	private JButton[] fieldList = new JButton[3]; // Field brushes
 	private String[] fieldListNames = {"F_UP", "F_RIGHT", "F_LEFT"};
 	private ImageIcon[] fieldListIcons = {new ImageIcon(Images.tint[0][0][0]), new ImageIcon(Images.tint[0][0][1]),
 											new ImageIcon(Images.tint[0][0][3])};
@@ -35,7 +36,6 @@ public class SidebarPanel extends JPanel implements ActionListener
 	private JButton load;
 	private JButton clear;
 	private JButton ret;
-	private JFileChooser jfc;
 
 	private int currField;
 	private int currBlock;
@@ -55,7 +55,7 @@ public class SidebarPanel extends JPanel implements ActionListener
 			toolsPanel.add(tools[i]);
 		}
 		add(toolsPanel);
-		tools[0].setEnabled(false);
+		tools[0].setEnabled(false); // The first tool is in use by default
 		currTool = "Draw";
 		
 		//Brushes
@@ -63,8 +63,8 @@ public class SidebarPanel extends JPanel implements ActionListener
 		JPanel brushesPanelL = new JPanel(new GridLayout(6, 1, 0, 5));
 		JPanel brushesPanelR = new JPanel(new GridLayout(6, 1, 0, 5));
 		
-		brushesPanelL.add(new JLabel("LMB", JLabel.CENTER));
-		brushesPanelR.add(new JLabel("RMB", JLabel.CENTER));
+		brushesPanelL.add(new JLabel("LMB", JLabel.CENTER)); // Left Mouse Button
+		brushesPanelR.add(new JLabel("RMB", JLabel.CENTER)); // Right Mouse Button
 		
 		for(int i = 0; i < blockList.length; i++)
 		{
@@ -74,7 +74,7 @@ public class SidebarPanel extends JPanel implements ActionListener
 			blockList[i].addActionListener(this);
 			brushesPanelL.add(blockList[i]);
 		}
-		blockList[0].setEnabled(false);
+		blockList[0].setEnabled(false); // The first block is in use by default
 		currBlock = 1;
 		
 		for(int i = 0; i < fieldList.length; i++)
@@ -87,7 +87,7 @@ public class SidebarPanel extends JPanel implements ActionListener
 			fieldList[i].addActionListener(this);
 			brushesPanelR.add(fieldList[i]);
 		}
-		fieldList[0].setEnabled(false);
+		fieldList[0].setEnabled(false); // The first field is in use by default
 		currField = 0;
 		
 		brushesPanel.add(brushesPanelL);
@@ -145,7 +145,7 @@ public class SidebarPanel extends JPanel implements ActionListener
 
 		if(ae.getActionCommand().equals("Save"))
 		{	
-			if(ES.hasAllReqs())
+			if(ES.hasAllReqs()) // Ensure the map contains a player and a goal
 				CoolPlatformer.changeScreen("MapScreen", "Save");
 			else
 				JOptionPane.showMessageDialog(new JFrame(), "A player object (pink block) AND a goal object (flag) have to be placed before saving.",
