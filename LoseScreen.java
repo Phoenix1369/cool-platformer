@@ -2,7 +2,7 @@
 * name: Patrick Au, James Long
 * date: March 2017
 * code: ICS4U1
-* note: Win Screen
+* note: Lose condition JPanel
 *******/
 import java.awt.*;
 import java.awt.event.*;
@@ -15,11 +15,11 @@ import javax.imageio.ImageIO;
 class LoseScreen extends JPanel implements ActionListener
 {
 	JButton title;
-	LoseScreen(Dimension dim)
+	LoseScreen()
 	{
 		setLayout(new BorderLayout());
 		
-		try
+		try // Add image
 		{
 			BufferedImage insImage = ImageIO.read(new File(System.getProperty("user.dir") + "/include/demo/loseImage.png"));
 			JLabel insGraphic = new JLabel(new ImageIcon(insImage));
