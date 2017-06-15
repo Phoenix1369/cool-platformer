@@ -227,6 +227,8 @@ class Entity extends Rectangle
 	public void setPos(final Vector2 pos)
 	{
 		this.pos = pos;
+		this.x = (int)Math.round(this.pos.X)-edW*lenB;
+		this.y = (int)Math.round(this.pos.Y)-edW*lenB;
 	}	// end method setPos
 
 	public void updateBounds()
