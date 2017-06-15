@@ -17,7 +17,7 @@ class MapScreen extends JPanel implements ActionListener, ComponentListener
 	String purpose = "Start";
 	EditorScreen ES;
 	
-	MapScreen(Dimension dim, EditorScreen editor)
+	MapScreen(EditorScreen editor)
 	{
 		addComponentListener(this);
 		
@@ -38,7 +38,7 @@ class MapScreen extends JPanel implements ActionListener, ComponentListener
 		defaultMaps.setLayout(new GridLayout(2, 4, 5, 5));
 		for(int i = 0; i < 8; i++)
 		{
-			defaultMapsArr[i] = new JButton("DMap "  + i);
+			defaultMapsArr[i] = new JButton("Def Map "  + i);
 			defaultMapsArr[i].addActionListener(this);
 			defaultMaps.add(defaultMapsArr[i]);
 		}
@@ -46,7 +46,7 @@ class MapScreen extends JPanel implements ActionListener, ComponentListener
 		userMaps.setLayout(new GridLayout(2, 4, 5, 5));
 		for(int i = 0; i < 8; i++)
 		{
-			userMapsArr[i] = new JButton("UMap "  + i);
+			userMapsArr[i] = new JButton("User Map "  + i);
 			userMapsArr[i].addActionListener(this);
 			userMaps.add(userMapsArr[i]);
 		}
@@ -60,13 +60,12 @@ class MapScreen extends JPanel implements ActionListener, ComponentListener
 		add(userLabel);
 		add(Box.createRigidArea(new Dimension(0, 5)));
 		add(userMaps);
-	}	// end constructor(Dimension)
+	}	// end constructor(EditorScreen)
 	
 	public void actionPerformed(ActionEvent ae)
 	{
-		if(purpose.equals("Start"))
+		if(purpose.equals("Start")) //Find which map to start playing
 		{
-			//char
 			String mapToPlay = "";
 			for(int i = 0; i < defaultMapsArr.length; i++)
 			{
@@ -80,9 +79,9 @@ class MapScreen extends JPanel implements ActionListener, ComponentListener
 			}
 			CoolPlatformer.changeScreen("GameScreen", mapToPlay);
 		}
-		else if(purpose.equals("Save"))
+		else if(purpose.equals("Save")) // Find which location to save to
 		{
-			String mapToSave = "";
+			String mapToSave = ""; 
 			for(int i = 0; i < userMapsArr.length; i++)
 			{
 				if(ae.getSource() == userMapsArr[i])
@@ -91,7 +90,7 @@ class MapScreen extends JPanel implements ActionListener, ComponentListener
 			ES.saveToManager(System.getProperty("user.dir") + "/include/levels", mapToSave);
 			CoolPlatformer.changeScreen("TitleScreen");
 		}
-		else if(purpose.equals("Load"))
+		else if(purpose.equals("Load")) // Find which location to load from
 		{
 			String mapToLoad = "";
 			for(int i = 0; i < defaultMapsArr.length; i++)
@@ -120,7 +119,7 @@ class MapScreen extends JPanel implements ActionListener, ComponentListener
 		{
 			for(int i = 0; i < defaultMapsArr.length; i++)
 			{
-				defaultMapsArr[i].setEnabled(false);
+				defaultMapsArr[i].setEnabled(false); // Cannot save to a default map
 			}
 		}
 	}
