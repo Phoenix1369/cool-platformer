@@ -8,9 +8,9 @@ import java.awt.*;
 
 class Block extends Rectangle
 {
-	public static final int AIR   = 0;
-	public static final int EARTH = 1;
-	public static final int GOAL = 2;
+	public static final int AIR    = 0;
+	public static final int EARTH  = 1;
+	public static final int GOAL   = 2;
 	public static final int ENEMY1 = 3;
 	public static final int ENEMY2 = 4;
 	public static final int PLAYER = 5;
@@ -29,14 +29,19 @@ class Block extends Rectangle
 		this.type[1] = block;
 	}	// end constructor()
 
-	public void draw(Graphics g, boolean above)
+	public void draw(Graphics g, boolean above, boolean lvledit)
 	{
 		g2D = (Graphics2D)g;
 		g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		// Block Layers
-		g2D.drawImage(Images.tint[ this.type[1] ][0][ this.type[0] ], this.x, this.y, this.width, this.height, null);		
-		if(!above || (this.type[1] != EARTH)) // Draws grass on topmost earth block
-			g2D.drawImage(Images.tint[ this.type[1] ][1][ this.type[0] ], this.x, this.y, this.width, this.height, null);		
+	
+		// Draws the Block in layers
+		g2D.drawImage(Images.tint[ this.type[0] ], this.x, this.y, this.width, this.height, null); // Field
+		g2D.drawImage(Images.tiles[AIR][1], this.x, this.y, this.width, this.height, null); // Gridlines
+		
+		g2D.drawImage(Images.tiles[ this.type[1] ][0], this.x, this.y, this.width, this.height, null);
+
+		if(!above || (this.type[1] != EARTH)) // Draws grass only on topmost earth block
+			g2D.drawImage(Images.tiles[ this.type[1] ][1], this.x, this.y, this.width, this.height, null);		
 	}	// end method draw
 
 	public int getBlock()
