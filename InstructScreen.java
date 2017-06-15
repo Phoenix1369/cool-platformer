@@ -15,11 +15,11 @@ import javax.imageio.ImageIO;
 class InstructScreen extends JPanel implements ActionListener
 {
 	JButton resume;
-	InstructScreen(Dimension dim)
+	InstructScreen()
 	{
 		setLayout(new BorderLayout());
 		
-		try
+		try // Display image
 		{
 			BufferedImage insImage = ImageIO.read(new File(System.getProperty("user.dir") + "/include/demo/instructImage.png"));
 			JLabel insGraphic = new JLabel(new ImageIcon(insImage));
@@ -33,7 +33,7 @@ class InstructScreen extends JPanel implements ActionListener
 		resume = new JButton("Return");
 		resume.addActionListener(this);
 		add(resume, BorderLayout.SOUTH);
-	}	// end constructor(Dimension)
+	}	// end constructor()
 	
 	public void actionPerformed(ActionEvent ae)
 	{
