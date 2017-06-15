@@ -62,7 +62,7 @@ class EditorScreen extends JPanel implements MouseListener, MouseMotionListener,
 		// Draws Blocks
 		for(int i = edW; i < blocks.length-edW; ++i)
 			for(int j = edW; j < blocks[i].length-edW; ++j)
-				blocks[i][j].draw(g, blocks[i-1][j].getBlock() == Block.EARTH);
+				blocks[i][j].draw(g, blocks[i-1][j].getBlock() == Block.EARTH, true);
 	}	// end method paintComponent
 	
 	public void floodFill(int y, int x, boolean fillBlock, int type, int typeToReplace)
