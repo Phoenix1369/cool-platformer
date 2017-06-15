@@ -15,11 +15,11 @@ import javax.imageio.ImageIO;
 class PauseScreen extends JPanel implements ActionListener
 {
 	JButton resume, title;
-	PauseScreen(Dimension dim)
+	PauseScreen()
 	{
 		setLayout(new BorderLayout());
 		
-		try
+		try // Display image
 		{
 			BufferedImage pauseImage = ImageIO.read(new File(System.getProperty("user.dir") + "/include/demo/pauseImage.png"));
 			JLabel pauseGraphic = new JLabel(new ImageIcon(pauseImage));
@@ -39,7 +39,7 @@ class PauseScreen extends JPanel implements ActionListener
 		btnPanel.add(resume);
 		btnPanel.add(title);
 		add(btnPanel, BorderLayout.SOUTH);
-	}	// end constructor(Dimension)
+	}	// end constructor()
 	
 	public void actionPerformed(ActionEvent ae)
 	{
