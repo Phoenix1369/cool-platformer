@@ -18,6 +18,7 @@ class Player extends Entity
 	private ArrayDeque<Dimension> Q;
 
 	public static int[][] grid;
+	private boolean facing; // Direction Player faces
 	private int bfsDelay;
 
 	Player()
@@ -34,15 +35,21 @@ class Player extends Entity
 	@Override // Superclass: Entity
 	public void advance()
 	{
-		if(GameScreen.frozen) return; // Skips Action if Frozen
 		updateField();
 		if(++bfsDelay >= delayLim)
 		{	// Don't BFS every single tick
 			bfs();
 			bfsDelay = 0;
 		}
+		double pxOld = pos.X;
 		updateVectors();
 		move(this.vel);
+		double diff = pos.X - pxOld;
+		// Remembers which direction it faces
+		if(diff > EPS)
+			facing = false;
+		else if(diff < -EPS)
+			facing = true;
 	}	// end method advance
 
 	public void bfs()
@@ -74,7 +81,7 @@ class Player extends Entity
 	public void draw(Graphics g)
 	{	// Hardcode image for Demo
 		g2D = (Graphics2D)g;
-		g2D.drawImage(Images.sprites[0][ getField() ][ movingRel(LEFT)?0:1 ], this.x, this.y, lenB, lenB, null);
+		g2D.drawImage(Images.sprites[0][ getField() ][ facing?0:1 ], this.x, this.y, lenB, lenB, null);
 	}	// end method draw
 
 	public static final int[][] getG() { return grid; } // end method getG
