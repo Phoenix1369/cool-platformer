@@ -119,6 +119,24 @@ class GameScreen extends JPanel implements ActionListener, ComponentListener, Ru
 	@Override // Interface: ActionListener
 	public void actionPerformed(ActionEvent ae)
 	{
+		if(!winLose)
+		{	// Win Condition checking
+			if(mainChar.intersects(goalB))
+			{
+				winLose = true;
+				CoolPlatformer.changeScreen("WinScreen");
+			}
+			else
+			{
+				for(Enemy ene: enemies)
+					if(mainChar.intersects(ene)) 
+					{
+						winLose = true;
+						CoolPlatformer.changeScreen("LoseScreen");
+						break;
+					}
+			}
+		}
 		if(!frozen)
 		{	// Actions of Entity objects
 			mainChar.advance();
@@ -126,24 +144,6 @@ class GameScreen extends JPanel implements ActionListener, ComponentListener, Ru
 				ene.advance();
 		}
 		this.repaint();
-
-		// Win Condition checking
-		if(winLose) return;
-		if(mainChar.intersects(goalB))
-		{
-			winLose = true;
-			CoolPlatformer.changeScreen("WinScreen");
-		}
-		else
-		{
-			for(Enemy ene: enemies)
-				if(mainChar.intersects(ene)) 
-				{
-					winLose = true;
-					CoolPlatformer.changeScreen("LoseScreen");
-					break;
-				}
-		}
 	}	// end method actionPerformed
 
 	public void componentHidden(ComponentEvent e)
