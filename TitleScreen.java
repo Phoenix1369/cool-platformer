@@ -15,11 +15,11 @@ import javax.imageio.ImageIO;
 class TitleScreen extends JPanel implements ActionListener
 {
 	JButton start, editor, instruct;
-	TitleScreen(Dimension dim)
+	TitleScreen()
 	{
 		setLayout(new BorderLayout());
 		
-		try
+		try // Add image
 		{
 			BufferedImage titleImage = ImageIO.read(new File(System.getProperty("user.dir") + "/include/demo/titleImage.png"));
 			JLabel titleGraphic = new JLabel(new ImageIcon(titleImage));
@@ -41,7 +41,7 @@ class TitleScreen extends JPanel implements ActionListener
 		btnPanel.add(instruct);
 		btnPanel.add(editor);
 		add(btnPanel, BorderLayout.SOUTH);
-	}	// end constructor(Dimension)
+	}	// end constructor()
 	
 	public void actionPerformed(ActionEvent ae)
 	{
@@ -58,4 +58,4 @@ class TitleScreen extends JPanel implements ActionListener
 			CoolPlatformer.changeScreen("EditorScreen");
 		}
 	}	// end method actionPerformed
-}	// end class EditorScreen
+}	// end class TitleScreen

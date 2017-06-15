@@ -33,7 +33,7 @@ class LoseScreen extends JPanel implements ActionListener
 		title = new JButton("Back to Title");
 		title.addActionListener(this);
 		add(title, BorderLayout.SOUTH);
-	}	// end constructor(Dimension)
+	}	// end constructor()
 	
 	public void actionPerformed(ActionEvent ae)
 	{
