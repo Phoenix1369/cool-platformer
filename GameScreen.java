@@ -28,8 +28,8 @@ class GameScreen extends JPanel implements ActionListener, ComponentListener, Ru
 	private static final String P_KEY = "p.p";
 
 	private static Block[][] blocks;
-	private static Thread gameScreen;
-	private static Timer timer;
+	public static Thread gameScreen;
+	public static Timer timer;
 
 	private static Block goalB;
 	// Dimensions
@@ -77,8 +77,6 @@ class GameScreen extends JPanel implements ActionListener, ComponentListener, Ru
 
 		this.getInputMap(WIFW).put(KeyStroke.getKeyStroke(KeyEvent.VK_P, 0, false), P_KEY);
 		this.getActionMap().put(P_KEY, new ChangeScreenAction());
-
-		// timer = new Timer(delay, this);
 	}	// end constructor()
 
 	public void init(String fileName)
@@ -86,7 +84,8 @@ class GameScreen extends JPanel implements ActionListener, ComponentListener, Ru
 		gameScreen = new Thread(this);
 		timer = new Timer(delay, this);
 
-		frozen = winLose = false;
+		frozen = true;
+		winLose = false;
 		enemies.clear();
 
 		// Load level
