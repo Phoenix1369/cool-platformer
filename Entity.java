@@ -6,7 +6,7 @@
 *******/
 import java.awt.*;
 
-class Entity
+class Entity extends Rectangle
 {
 	private static final double EPS = 1E-9;
 	protected final double GRAVITY = 40.0 / GameScreen.FPS; // (50, fps=30)
@@ -18,7 +18,9 @@ class Entity
 	protected static final int RIGHT = 1;
 	protected static final int DOWN = 2;
 	protected static final int LEFT = 3;
-	protected static final int bLen = Block.getLen();
+
+	protected static final int edW = GameScreen.edW;
+	protected static final int lenB = Block.getLen();
 
 	protected final double J_SPD = 640.0 / GameScreen.FPS; // (480, fps=30)
 	protected final double J_SPD_MIN = 320.0 / GameScreen.FPS; // (240, fps=30)
@@ -31,11 +33,10 @@ class Entity
 	protected boolean[] keysPressedABS; //absolute keypress values
  	protected boolean[] keysPressed; //whether directional keys are pressed
 
-	protected boolean frozen; // False by default
-	protected boolean snapTo; // Snaps the User to the grid
+	protected boolean snapTo; // Snaps to the grid
+	protected boolean vx, vy; // Whether the Entity has moved in x/y directions
 	protected int prevField = DOWN; // previous field the entity was in
 
-	protected Rectangle area;
 	protected Vector2 acc;
 	protected Vector2 pos;
 	protected Vector2 vel;
@@ -46,17 +47,18 @@ class Entity
 
 	Entity()
 	{
-		this(bLen, bLen);
+		this(lenB, lenB);
 	}	// end constructor()
 
 	Entity(double px, double py)
 	{
+		super((int)Math.round(px)-edW*lenB, (int)Math.round(py)-edW*lenB, lenB, lenB);
 		this.acc = new Vector2();
 		this.pos = new Vector2(px, py);
 		this.vel = new Vector2();
-		this.area= new Rectangle((int)Math.round(pos.X), (int)Math.round(pos.Y), Block.getLen(), Block.getLen());
 		keysPressed    = new boolean[4];
 		keysPressedABS = new boolean[4];
+		snapTo = vx = vy = false;
 	}	// end constructor(double,double)
 
 	public void advance()
@@ -72,10 +74,10 @@ class Entity
 	{	// Determines if a block exists to its RELATIVE left (near)
 		switch(dir)
 		{
-			case    UP: return GameScreen.getBlocks((int)Math.ceil (pos.Y / bLen)-1, (int)Math.ceil (pos.X / bLen)  ).getBlock() == 1;
-			case RIGHT: return GameScreen.getBlocks((int)Math.ceil (pos.Y / bLen)  , (int)Math.floor(pos.X / bLen)+1).getBlock() == 1;
-			case  DOWN: return GameScreen.getBlocks((int)Math.floor(pos.Y / bLen)+1, (int)Math.floor(pos.X / bLen)  ).getBlock() == 1;
-			case  LEFT: return GameScreen.getBlocks((int)Math.floor(pos.Y / bLen)  , (int)Math.ceil (pos.X / bLen)-1).getBlock() == 1;
+			case    UP: return GameScreen.getBlocks((int)Math.ceil (pos.Y / lenB)-1, (int)Math.ceil (pos.X / lenB)  ).getBlock() == 1;
+			case RIGHT: return GameScreen.getBlocks((int)Math.ceil (pos.Y / lenB)  , (int)Math.floor(pos.X / lenB)+1).getBlock() == 1;
+			case  DOWN: return GameScreen.getBlocks((int)Math.floor(pos.Y / lenB)+1, (int)Math.floor(pos.X / lenB)  ).getBlock() == 1;
+			case  LEFT: return GameScreen.getBlocks((int)Math.floor(pos.Y / lenB)  , (int)Math.ceil (pos.X / lenB)-1).getBlock() == 1;
 		}
 		return false;
 	}	// end method checkBlockL
@@ -84,10 +86,10 @@ class Entity
 	{	// Determines if a block exists to their (RELATIVE) right (near)
 		switch(dir)
 		{
-			case    UP: return GameScreen.getBlocks((int)Math.ceil (pos.Y / bLen)-1, (int)Math.floor(pos.X / bLen)  ).getBlock() == 1;
-			case RIGHT: return GameScreen.getBlocks((int)Math.floor(pos.Y / bLen)  , (int)Math.floor(pos.X / bLen)+1).getBlock() == 1;
-			case  DOWN: return GameScreen.getBlocks((int)Math.floor(pos.Y / bLen)+1, (int)Math.ceil (pos.X / bLen)  ).getBlock() == 1;
-			case  LEFT: return GameScreen.getBlocks((int)Math.ceil (pos.Y / bLen)  , (int)Math.ceil (pos.X / bLen)-1).getBlock() == 1;
+			case    UP: return GameScreen.getBlocks((int)Math.ceil (pos.Y / lenB)-1, (int)Math.floor(pos.X / lenB)  ).getBlock() == 1;
+			case RIGHT: return GameScreen.getBlocks((int)Math.floor(pos.Y / lenB)  , (int)Math.floor(pos.X / lenB)+1).getBlock() == 1;
+			case  DOWN: return GameScreen.getBlocks((int)Math.floor(pos.Y / lenB)+1, (int)Math.ceil (pos.X / lenB)  ).getBlock() == 1;
+			case  LEFT: return GameScreen.getBlocks((int)Math.ceil (pos.Y / lenB)  , (int)Math.ceil (pos.X / lenB)-1).getBlock() == 1;
 		}
 		return false;
 	}	// end method checkBlockR
@@ -97,10 +99,10 @@ class Entity
 		// low=0: Check adjacent block; low=1: Check block below (stable ground)
 		switch(dir)
 		{
-			case    UP: return GameScreen.getBlocks((int)Math.floor(pos.Y / bLen)-low, (int)Math.floor(pos.X / bLen)+  1).getBlock() == 1;
-			case RIGHT: return GameScreen.getBlocks((int)Math.floor(pos.Y / bLen)+  1, (int)Math.ceil (pos.X / bLen)+low).getBlock() == 1;
-			case  DOWN: return GameScreen.getBlocks((int)Math.ceil (pos.Y / bLen)+low, (int)Math.ceil (pos.X / bLen)-  1).getBlock() == 1;
-			case  LEFT: return GameScreen.getBlocks((int)Math.ceil (pos.Y / bLen)-  1, (int)Math.floor(pos.X / bLen)-low).getBlock() == 1;
+			case    UP: return GameScreen.getBlocks((int)Math.floor(pos.Y / lenB)-low, (int)Math.floor(pos.X / lenB)+  1).getBlock() == 1;
+			case RIGHT: return GameScreen.getBlocks((int)Math.floor(pos.Y / lenB)+  1, (int)Math.ceil (pos.X / lenB)+low).getBlock() == 1;
+			case  DOWN: return GameScreen.getBlocks((int)Math.ceil (pos.Y / lenB)+low, (int)Math.ceil (pos.X / lenB)-  1).getBlock() == 1;
+			case  LEFT: return GameScreen.getBlocks((int)Math.ceil (pos.Y / lenB)-  1, (int)Math.floor(pos.X / lenB)-low).getBlock() == 1;
 		}
 		return false;
 	}	// end method checkFarL
@@ -109,10 +111,10 @@ class Entity
 	{	// Checks if a block exists to the right (far)
 		switch(dir)
 		{
-			case    UP: return GameScreen.getBlocks((int)Math.floor(pos.Y / bLen)-low, (int)Math.ceil (pos.X / bLen)-  1).getBlock() == 1;
-			case RIGHT: return GameScreen.getBlocks((int)Math.ceil (pos.Y / bLen)-  1, (int)Math.ceil (pos.X / bLen)+low).getBlock() == 1;
-			case  DOWN: return GameScreen.getBlocks((int)Math.ceil (pos.Y / bLen)+low, (int)Math.floor(pos.X / bLen)+  1).getBlock() == 1;
-			case  LEFT: return GameScreen.getBlocks((int)Math.floor(pos.Y / bLen)+  1, (int)Math.floor(pos.X / bLen)-low).getBlock() == 1;
+			case    UP: return GameScreen.getBlocks((int)Math.floor(pos.Y / lenB)-low, (int)Math.ceil (pos.X / lenB)-  1).getBlock() == 1;
+			case RIGHT: return GameScreen.getBlocks((int)Math.ceil (pos.Y / lenB)-  1, (int)Math.ceil (pos.X / lenB)+low).getBlock() == 1;
+			case  DOWN: return GameScreen.getBlocks((int)Math.ceil (pos.Y / lenB)+low, (int)Math.floor(pos.X / lenB)+  1).getBlock() == 1;
+			case  LEFT: return GameScreen.getBlocks((int)Math.floor(pos.Y / lenB)+  1, (int)Math.floor(pos.X / lenB)-low).getBlock() == 1;
 		}
 		return false;
 	}	// end method checkFarR
@@ -120,15 +122,6 @@ class Entity
 	public void draw(Graphics g)
 	{
 	}	// end method draw
-
-	public void freeze(boolean yesOrNo)
-	{
-		frozen = yesOrNo;
-		if(!frozen) return;
-		// Clears movement if frozen
-		for(int i = 0; i < keysPressedABS.length; i++)
-			setKey(i, false);
-	}
 
 	public int getField()
 	{	// Returns the current Field of the Entity
@@ -138,13 +131,8 @@ class Entity
 
 	public Dimension getIdx()
 	{	// Returns the current array index of the centre pixel
-		return new Dimension((int)Math.floor(pos.X / bLen + 0.5), (int)Math.floor(pos.Y / bLen + 0.5));
+		return new Dimension((int)Math.floor(pos.X / lenB + 0.5), (int)Math.floor(pos.Y / lenB + 0.5));
 	}	// end method getIdx
-
-	public boolean movingRel(int dir)
-	{	// Moving Relatively (Left / Right)
-		return keysPressedABS[(getField() - dir + 4) % 4];
-	}	// end method getKeyRel
 
 	public final Vector2 getVel()
 	{
@@ -168,26 +156,39 @@ class Entity
 			vel.X = Math.signum(vel.X) * Math.max(Math.abs(vel.X) - GRAVITY, 0.0);
 		}
 		if(disp.X > 0)
-			disp.X = Math.min(disp.X, br.X - (pos.X + bLen));
+			disp.X = Math.min(disp.X, br.X - (pos.X + lenB));
 		else
 			disp.X = Math.max(disp.X, tl.X - pos.X);
 		if(disp.Y > 0)
-			disp.Y = Math.min(disp.Y, br.Y - (pos.Y + bLen));
+			disp.Y = Math.min(disp.Y, br.Y - (pos.Y + lenB));
 		else
 			disp.Y = Math.max(disp.Y, tl.Y - pos.Y);
 		if(	(Math.abs(this.acc.X) > EPS && Math.abs(this.vel.X) < EPS) ||
 			(Math.abs(this.acc.Y) > EPS && Math.abs(this.vel.Y) < EPS) )
 			snapTo = true;	// Velocity perpendicular to Acceleration
+
 		this.pos.add(disp);
-		pos.X = (Math.abs(Math.round(pos.X) - pos.X) < EPS) ? Math.round(pos.X) : pos.X; //Round to avoid floating point calculation errors
+		if(Math.abs(disp.X) > EPS) vx = true;
+		if(Math.abs(disp.Y) > EPS) vy = true;
+		// Round to avoid floating point calculation errors
+		pos.X = (Math.abs(Math.round(pos.X) - pos.X) < EPS) ? Math.round(pos.X) : pos.X;
 		pos.Y = (Math.abs(Math.round(pos.Y) - pos.Y) < EPS) ? Math.round(pos.Y) : pos.Y;
+
 		if(snapTo)
 		{	// Rounds the User's position after changing Fields
 			pos.X = (int)Math.round(pos.X / M_SPD) * M_SPD;
 			pos.Y = (int)Math.round(pos.Y / M_SPD) * M_SPD;
 			snapTo = false;
 		}
+
+		this.x = (int)Math.round(pos.X)-edW*lenB;
+		this.y = (int)Math.round(pos.Y)-edW*lenB;
 	}	// end method move
+
+	public boolean movingRel(int dir)
+	{	// Moving Relatively (Left / Right)
+		return keysPressedABS[(getField() - dir + 4) % 4];
+	}	// end method movingRel
 
 	public void setAcc(final Vector2 acc)
 	{
@@ -226,32 +227,32 @@ class Entity
 	{
 		for(int i = 0; i < boundsFlags.length; i++)
 			boundsFlags[i] = false;
-		tl.X = bLen * Math.floor(pos.X / bLen); //Top Left coordinates of the smallest bounding box for the Player
-		tl.Y = bLen * Math.floor(pos.Y / bLen);
-		br.X = bLen * Math.ceil((pos.X + bLen) / bLen); //Bottom Right coordinates of the smallest bounding box for the Player
-		br.Y = bLen * Math.ceil((pos.Y + bLen) / bLen);
-		for(int i = (int)(tl.X/bLen); i < (int)(br.X/bLen); i++) //check along the X-axis
+		tl.X = lenB * Math.floor(pos.X / lenB); //Top Left coordinates of the smallest bounding box for the Player
+		tl.Y = lenB * Math.floor(pos.Y / lenB);
+		br.X = lenB * Math.ceil((pos.X + lenB) / lenB); //Bottom Right coordinates of the smallest bounding box for the Player
+		br.Y = lenB * Math.ceil((pos.Y + lenB) / lenB);
+		for(int i = (int)(tl.X/lenB); i < (int)(br.X/lenB); i++) //check along the X-axis
 		{
-			if(GameScreen.getBlocks((int)tl.Y/bLen-1, i).getBlock() == 1)
+			if(GameScreen.getBlocks((int)tl.Y/lenB-1, i).getBlock() == Block.EARTH)
 				boundsFlags[0] = true; //if a collision exists above the bounding box
-			if(GameScreen.getBlocks((int)br.Y/bLen, i).getBlock() == 1)
+			if(GameScreen.getBlocks((int)br.Y/lenB, i).getBlock() == Block.EARTH)
 				boundsFlags[1] = true; //if a collision exists below the bounding box
 		}
-		for(int i = (int)(tl.Y/bLen); i < (int)(br.Y/bLen); i++) //check along the Y-axis
+		for(int i = (int)(tl.Y/lenB); i < (int)(br.Y/lenB); i++) //check along the Y-axis
 		{
-			if(GameScreen.getBlocks(i, (int)tl.X/bLen-1).getBlock() == 1)
+			if(GameScreen.getBlocks(i, (int)tl.X/lenB-1).getBlock() == Block.EARTH)
 				boundsFlags[2] = true; //if a collision exists to the left of the bounding box
-			if(GameScreen.getBlocks(i, (int)br.X/bLen).getBlock() == 1)
+			if(GameScreen.getBlocks(i, (int)br.X/lenB).getBlock() == Block.EARTH)
 				boundsFlags[3] = true; //if a collision exists to the right of the bounding box
 		}
 		if(!boundsFlags[0]) //Expand bounding box out one block if there is no collision detected in that direction
-			tl.Y = tl.Y - bLen;
+			tl.Y = tl.Y - lenB;
 		if(!boundsFlags[1])
-			br.Y = br.Y + bLen;
+			br.Y = br.Y + lenB;
 		if(!boundsFlags[2])
-			tl.X = tl.X - bLen;
+			tl.X = tl.X - lenB;
 		if(!boundsFlags[3])
-			br.X = br.X + bLen;
+			br.X = br.X + lenB;
 	}	// end method updateBounds
 
 	public void updateField()
@@ -293,13 +294,6 @@ class Entity
 				case  LEFT: setVel(new Vector2(+J_SPD, 0.0)); break;
 			}
 		}
-		/* 
-		else if(!keysPressed[UP]) //"cut" the jump if the button is released early
-		{
-			if(vel.Y < -1 * J_SPD_MIN)
-				vel.Y = (-1 * J_SPD_MIN);
-		} */
-
 		if(keysPressed[LEFT])
 		{
 			switch(getField())
@@ -320,5 +314,6 @@ class Entity
 				case  LEFT: move(new Vector2(0.0, +1 * M_SPD)); break;
 			}
 		}
+		this.vel.add(this.acc);
 	}	// end method updateVectors
 }	// end class Entity
