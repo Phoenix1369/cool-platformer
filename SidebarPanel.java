@@ -26,11 +26,11 @@ public class SidebarPanel extends JPanel implements ActionListener
 											new ImageIcon(Images.sprites[1][2][0]), new ImageIcon(Images.sprites[2][2][0]),
 											new ImageIcon(Images.sprites[0][2][0])};
 											
-	private JButton[] fieldList = new JButton[3]; // Field brushes
-	private String[] fieldListNames = {"F_UP", "F_RIGHT", "F_LEFT"};
-	private ImageIcon[] fieldListIcons = {new ImageIcon(Images.tint[0][0][0]), new ImageIcon(Images.tint[0][0][1]),
-											new ImageIcon(Images.tint[0][0][3])};
-	private String[] fieldListDisp = {"^", ">", "<"};
+	private JButton[] fieldList = new JButton[4]; // Field brushes
+	private String[] fieldListNames = {"F_UP", "F_RIGHT", "F_DOWN", "F_LEFT"};
+	private ImageIcon[] fieldListIcons;
+
+	private String[] fieldListDisp = {"^", ">", "v", "<"};
 											
 	private JButton save;
 	private JButton load;
@@ -77,6 +77,10 @@ public class SidebarPanel extends JPanel implements ActionListener
 		blockList[0].setEnabled(false); // The first block is in use by default
 		currBlock = 1;
 		
+		fieldListIcons = new ImageIcon[4];
+		for(int i = 0; i < fieldListIcons.length; ++i)
+			fieldListIcons[i] = new ImageIcon(Images.tint[i]); // Colour-coded Field selection
+
 		for(int i = 0; i < fieldList.length; i++)
 		{
 			fieldList[i] = new JButton(fieldListDisp[i], fieldListIcons[i]);
@@ -89,7 +93,7 @@ public class SidebarPanel extends JPanel implements ActionListener
 		}
 		fieldList[0].setEnabled(false); // The first field is in use by default
 		currField = 0;
-		
+
 		brushesPanel.add(brushesPanelL);
 		brushesPanel.add(brushesPanelR);
 		add(brushesPanel);
@@ -127,8 +131,7 @@ public class SidebarPanel extends JPanel implements ActionListener
 				for(JButton btn : fieldList)
 					btn.setEnabled(true);
 				fieldList[i].setEnabled(false);
-				if(fieldListNames[i].equals("F_LEFT")) currField = 3;
-				else currField = i;
+				currField = i;
 			}
 		}
 		
