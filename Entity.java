@@ -8,8 +8,8 @@ import java.awt.*;
 
 class Entity extends Rectangle
 {
-	private static final double EPS = 1E-9;
-	protected final double GRAVITY = 40.0 / GameScreen.FPS; // (50, fps=30)
+	protected static final double EPS = 1E-9;
+	protected final double GRAVITY = 40.0 / GameScreen.FPS;
 
 	protected static final int ADJ = 0; // Adjacent Block: Given [i][j], checks [i][j-1] or [i][j+1]
 	protected static final int LOW = 1; // Lower Block (stable ground): Given [i][j], checks[i+1][j-1] or [i+1][j+1]
@@ -22,8 +22,8 @@ class Entity extends Rectangle
 	protected static final int edW = GameScreen.edW;
 	protected static final int lenB = Block.getLen();
 
-	protected final double J_SPD = 640.0 / GameScreen.FPS; // (480, fps=30)
-	protected final double J_SPD_MIN = 320.0 / GameScreen.FPS; // (240, fps=30)
+	protected final double J_SPD = 640.0 / GameScreen.FPS;
+	protected final double J_SPD_MIN = 320.0 / GameScreen.FPS;
 	protected double M_SPD;
 
 	protected static Graphics2D g2D;
@@ -189,6 +189,12 @@ class Entity extends Rectangle
 	{	// Moving Relatively (Left / Right)
 		return keysPressedABS[(getField() - dir + 4) % 4];
 	}	// end method movingRel
+
+	public void releaseAll()
+	{
+		for(int k = 0; k < 4; ++k)
+			setKey(k, false);
+	}	// end method releaseAll
 
 	public void setAcc(final Vector2 acc)
 	{
