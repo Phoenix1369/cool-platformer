@@ -38,7 +38,7 @@ class MapScreen extends JPanel implements ActionListener, ComponentListener
 		defaultMaps.setLayout(new GridLayout(2, 4, 5, 5));
 		for(int i = 0; i < 8; i++)
 		{
-			defaultMapsArr[i] = new JButton("Def Map "  + i);
+			defaultMapsArr[i] = new JButton("Default Map "  + i);
 			defaultMapsArr[i].addActionListener(this);
 			defaultMaps.add(defaultMapsArr[i]);
 		}
