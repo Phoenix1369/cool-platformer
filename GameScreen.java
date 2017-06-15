@@ -77,12 +77,13 @@ class GameScreen extends JPanel implements ActionListener, ComponentListener, Ru
 
 		this.getInputMap(WIFW).put(KeyStroke.getKeyStroke(KeyEvent.VK_P, 0, false), P_KEY);
 		this.getActionMap().put(P_KEY, new ChangeScreenAction());
+
+		timer = new Timer(delay, this);
 	}	// end constructor()
 
 	public void init(String fileName)
 	{
 		gameScreen = new Thread(this);
-		timer = new Timer(delay, this);
 
 		frozen = true;
 		winLose = false;
@@ -124,8 +125,6 @@ class GameScreen extends JPanel implements ActionListener, ComponentListener, Ru
 			{
 				winLose = true;
 				CoolPlatformer.changeScreen("WinScreen");
-				gameScreen.interrupt();
-				timer.stop();
 				return;
 			}
 			else
@@ -135,8 +134,6 @@ class GameScreen extends JPanel implements ActionListener, ComponentListener, Ru
 					{
 						winLose = true;
 						CoolPlatformer.changeScreen("LoseScreen");
-						gameScreen.interrupt();
-						timer.stop();
 						return;
 					}
 			}
@@ -197,7 +194,7 @@ class GameScreen extends JPanel implements ActionListener, ComponentListener, Ru
 	@Override // Interface: Runnable
 	public void run()
 	{
-		timer.start();
+		timer.restart();
 	}	// end method run
 
 	class ChangeScreenAction extends AbstractAction
