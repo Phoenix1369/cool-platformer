@@ -31,12 +31,12 @@ class GameScreen extends JPanel implements ActionListener, ComponentListener, Ru
 	private static Thread gameScreen;
 	private static Timer timer;
 
+	private static Block goalB;
 	// Dimensions
 	private static Dimension dlen;
 	// Entity Objects
 	private static Player mainChar;
 	private static ArrayList<Enemy> enemies;
-	private static Vector2 goalPos;
 
 	private static boolean frozen; // Frozen gamestate
 	private static boolean winLose;
@@ -91,7 +91,7 @@ class GameScreen extends JPanel implements ActionListener, ComponentListener, Ru
 
 		// Load level
 		StageManager.loadMap(System.getProperty("user.dir") + "/include/levels", fileName, blocks);
-		goalPos = StageManager.getGoalPos(System.getProperty("user.dir") + "/include/levels", fileName, blocks);
+		goalB = StageManager.getGoal(blocks);
 		gameScreen.start();
 
 		// Replace Enemy blocks with Enemies
@@ -113,8 +113,7 @@ class GameScreen extends JPanel implements ActionListener, ComponentListener, Ru
 				blocks[i][j].setBlock(Block.AIR);
 			}
 		}					
-		// Reset Keys
-		mainChar.releaseAll();
+		mainChar.releaseAll(); // Reset keystrokes
 	}	// end method init
 
 	@Override // Interface: ActionListener
@@ -127,7 +126,10 @@ class GameScreen extends JPanel implements ActionListener, ComponentListener, Ru
 				ene.advance();
 		}
 		this.repaint();
-		if(intersects(mainChar.getPos(), goalPos) && !winLose)
+
+		// Win Condition checking
+		if(winLose) return;
+		if(mainChar.intersects(goalB))
 		{
 			winLose = true;
 			CoolPlatformer.changeScreen("WinScreen");
@@ -135,13 +137,12 @@ class GameScreen extends JPanel implements ActionListener, ComponentListener, Ru
 		else
 		{
 			for(Enemy ene: enemies)
-			{
-				if(intersects(mainChar.getPos(), ene.getPos()) && !winLose) 
+				if(mainChar.intersects(ene)) 
 				{
 					winLose = true;
 					CoolPlatformer.changeScreen("LoseScreen");
+					break;
 				}
-			}
 		}
 	}	// end method actionPerformed
 
