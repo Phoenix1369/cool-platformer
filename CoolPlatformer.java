@@ -41,14 +41,14 @@ public class CoolPlatformer
 		}	// end catch
 
 		menu = new JPanel[8]; // Number of Menu Screens
-		menu[0] = new TitleScreen(size);
-		menu[1] = new EditorScreen(size);
+		menu[0] = new TitleScreen();
+		menu[1] = new EditorScreen();
 		menu[2] = new GameScreen(size);
-		menu[3] = new PauseScreen(size);
-		menu[4] = new InstructScreen(size);
-		menu[5] = new MapScreen(size, (EditorScreen)menu[1]); // This screen must be passed as an argument
-		menu[6] = new WinScreen(size);
-		menu[7] = new LoseScreen(size);
+		menu[3] = new PauseScreen();
+		menu[4] = new InstructScreen();
+		menu[5] = new MapScreen((EditorScreen)menu[1]); // This screen must be passed as an argument
+		menu[6] = new WinScreen();
+		menu[7] = new LoseScreen();
 		
 		JP.add(menu[0], "TitleScreen");
 		JP.add(menu[1], "EditorScreen");
