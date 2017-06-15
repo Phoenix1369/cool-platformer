@@ -18,14 +18,14 @@ class StageManager
 	static StringTokenizer st;
 
 	static String lastDir  = new File("include", "levels").getPath();
-	static String lastFile = "fieldtest.txt"; // "default.txt";
+	static String lastFile = "blank.txt";
 
 	public static String gets() throws IOException 
 	{
 		while(st==null || !st.hasMoreTokens())
 			st = new StringTokenizer(in.readLine().trim());
 		return st.nextToken();
-	}
+	}	// end method gets
 
 	public static void loadMap(Block[][] blockArr)
 	{
@@ -84,27 +84,12 @@ class StageManager
 		}
 	}
 	
-	public static Vector2 getGoalPos(final String dir, final String file, final Block[][] blockArr) // Return the coordinates of the goal
+	public static Block getGoal(final Block[][] blockArr)
 	{
-		try
-		{
-			in = new BufferedReader(new FileReader(new File(dir, file)));
-			for(int i = 0; i < blockArr.length; i++)
-			{
-				for(int j = 0; j < blockArr[i].length; j++)
-				{
-					if(blockArr[i][j].getBlock() == Block.GOAL)
-					{
-						return new Vector2((j-1) * Block.getLen(), (i-1) * Block.getLen());
-					}
-				}
-			}
-			in.close();
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-		}
-		return new Vector2(-1, -1);
-	}
+		for(int i = 0; i < blockArr.length; i++)
+			for(int j = 0; j < blockArr[i].length; j++)
+				if(blockArr[i][j].getBlock() == Block.GOAL)
+					return blockArr[i][j];
+		return null;
+	}	// end method getGoal
 }	// end class StageManager
