@@ -8,10 +8,8 @@ You are a block trying to get to a flag. Along the way, there will be spooky gho
 Use the arrow keys to move your block around, and hit "P" in the middle of a stage to pause the game. Avoid enemies, and get to the flag. Gravity fields, shown by differently coloured tints, will alter the direction of gravity within the field. There are more instructions in-game, so do your best!
 
 # Screenshots
-Imgame Screenshots:
 ![Ingame Screenshots](screenshots/123.png)
 
-Adobe Toolbar-Inspired Level Editor:
 ![Level Editor](screenshots/leveleditor.png)
 
 ## Miscellaneous
