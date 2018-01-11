@@ -10,7 +10,7 @@ Use the arrow keys to move your block around, and hit "P" in the middle of a sta
 # Screenshots
 ![Ingame Screenshots](screenshots/123.png)
 
-![Level Editor](screenshots/leveleditor.png)
+![Level Editor](screenshots/leveleditorver2.png)
 
 ## Miscellaneous
 Concept Art:
